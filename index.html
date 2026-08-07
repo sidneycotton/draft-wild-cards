@@ -147,7 +147,7 @@
   }
   .hero-card .card {
     height: 100%;
-    pointer-events: none; /* Let the hero-card parent handle clicks */
+    pointer-events: none;
   }
   .hero-card:hover .ring {
     box-shadow:inset 0 0 0 2px var(--hero-color, var(--gold)), 0 0 18px var(--hero-color, rgba(244,197,66,.4));
@@ -455,7 +455,7 @@
     position: relative;
   }
   .modal-content .card { width: 220px; font-size: 1.1em; pointer-events: none; }
-  .modal-content .card .ability-text { white-space: normal; overflow: visible; display: none; } /* hide truncated text in modal preview */
+  .modal-content .card .ability-text { white-space: normal; overflow: visible; display: none; }
   .inspect-details h3 { font-family: 'Anton', sans-serif; font-size: 32px; color: var(--gold); margin-bottom: 8px;}
   .inspect-details p { color: var(--text); font-size: 17px; line-height: 1.5; margin-bottom: 8px; font-family: 'Barlow', sans-serif;}
 
@@ -636,7 +636,10 @@
     <p class="center" style="color:var(--muted);">Use this to build the deck in-game.</p>
     <div class="export-strip" id="export-strip"></div>
     <div class="export-box" id="export-box"></div>
-    <div class="center">
+    
+    <!-- UPDATED BUTTONS -->
+    <div class="center" style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
+      <button class="btn" id="copy-btn" onclick="copyList()">Copy List</button>
       <button class="btn secondary" onclick="location.reload()">New Draft</button>
     </div>
   </section>
@@ -1206,6 +1209,31 @@ function showExport(){
   });
 
   show("screen-export");
+}
+
+function copyList() {
+  // Rebuild the list text without HTML tags for a clean paste
+  let lines = [`SEED: ${state.seed}`, `HERO: ${state.hero.name}`, ""];
+  state.picked.forEach(c => {
+    lines.push(`${c.name} - ${c.themeLabel}${c.shiny ? ' ✦ SHINY' : ''} (${c.rarity})`);
+  });
+  
+  const textToCopy = lines.join("\n");
+  
+  // Use the Clipboard API to copy the text
+  navigator.clipboard.writeText(textToCopy).then(() => {
+    const copyBtn = document.getElementById("copy-btn");
+    const originalText = copyBtn.textContent;
+    
+    // Briefly change button text to confirm it worked
+    copyBtn.textContent = "Copied!";
+    setTimeout(() => {
+      copyBtn.textContent = originalText;
+    }, 2000);
+  }).catch(err => {
+    console.error("Failed to copy text: ", err);
+    alert("Could not copy to clipboard. Please select the text and copy manually.");
+  });
 }
 
 /* =========================================================
