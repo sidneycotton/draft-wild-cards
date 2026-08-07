@@ -471,9 +471,10 @@
     scrollbar-width:thin;
   }
   .export-strip .mini-card{
-    flex:0 0 auto; width:64px; border-radius:8px; overflow:hidden; border:2px solid var(--line); background:#0a1018;
+    flex:0 0 auto; width:64px; border-radius:8px; overflow:hidden; border:2px solid var(--line); background:#0a1018; display:flex; flex-direction:column;
   }
-  .export-strip .mini-card img{width:100%; aspect-ratio:3/4; object-fit:cover; display:block; background:#000;}
+  .export-strip .mini-card img{width:100%; aspect-ratio:3/4; object-fit:cover; display:block; background:#000; flex:1;}
+  .export-strip .mini-card .mini-name{font-size:10px; text-align:center; padding:3px 2px; background:#04140c; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
   .export-strip .mini-card.r-rare{border-color:var(--rare);}
   .export-strip .mini-card.r-epic{border-color:var(--epic);}
   .export-strip .mini-card.r-legendary{border-color:var(--legendary);}
@@ -507,7 +508,7 @@
 
 <header>
   <h1>Wild Cards</h1>
-  <p>Pack Draft Simulator - 4 Sealed Packs</p>
+  <p>Pack Draft Simulator - 6 Sealed Packs</p>
 </header>
 
 <div class="wrap">
@@ -515,8 +516,8 @@
   <!-- INTRO SCREEN -->
   <section id="screen-intro" class="screen active">
     <div class="intro-body">
-      <h2 style="font-size:28px;">Open 4 packs. Build a 12-card deck.</h2>
-      <p>You'll open 4 packs of 5 cards each, pick a Hero from 3 options, and build a 12-card deck from what you pull.</p>
+      <h2 style="font-size:28px;">Open 6 packs. Build a 12-card deck.</h2>
+      <p>You'll open 6 packs of 5 cards each, pick a Hero from 3 options, and build a 12-card deck from what you pull.</p>
       
       <div style="margin: 24px 0;">
         <input type="text" id="draft-seed-input" placeholder="Enter Draft Seed (Optional)" style="padding: 12px 14px; border-radius: 6px; border: 1px solid var(--line); background: var(--bg2); color: var(--text); font-family: 'Barlow', sans-serif; font-size: 16px; width: 100%; max-width: 280px; text-align: center; text-transform: uppercase;">
@@ -547,8 +548,9 @@
       <button class="btn" id="anarchy-open1-btn" onclick="anarchyOpen(1)">Open 1 Pack (10,000)</button>
       <button class="btn pink" id="anarchy-open10-btn" onclick="anarchyOpen(10)">Open 10 Packs (100,000)</button>
     </div>
-    <div class="center">
+    <div class="center" style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
       <button class="btn secondary" onclick="showAnarchyCollection()">View Collection</button>
+      <button class="btn secondary" onclick="show('screen-intro')">Back to Draft</button>
     </div>
 
     <div class="screen-flash" id="anarchy-screen-flash"></div>
@@ -589,7 +591,7 @@
         <div class="hc-name" id="hero-chip-name"></div>
       </div>
     </div>
-    <div class="pack-status" id="pack-status">Pack 1 of 4</div>
+    <div class="pack-status" id="pack-status">Pack 1 of 6</div>
     <div class="pack-deck" id="pack-deck">
       <div class="pack-stage" id="pack-stage" onclick="openPack()">
         <div class="burst" id="pack-burst"></div>
@@ -647,6 +649,7 @@
     <div id="inspect-card-wrap"></div>
     <div class="inspect-details">
        <h3 id="inspect-name"></h3>
+       <p id="inspect-collection" style="color: var(--teal); font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;"></p>
        <p id="inspect-stats"></p>
        <p id="inspect-ability"></p>
     </div>
@@ -833,6 +836,7 @@ function buildCardHTML(c) {
         <div class="name">${c.name}</div>
         <div class="theme">${c.themeLabel}</div>
         <div class="rarity">${c.rarity}</div>
+        ${c.shiny ? '<div class="shiny-tag">BONUS SHINY CARD</div>' : ''}
         <div class="ability-text">${c.ability}</div>
       </div>
     </div>`;
@@ -847,6 +851,9 @@ function openInspect(c, deckBuilderMode) {
   
   document.getElementById("inspect-card-wrap").innerHTML = buildCardHTML(c);
   document.getElementById("inspect-name").textContent = c.name;
+  
+  const collectionText = c.collection ? `Collection: ${c.collection}` : "";
+  document.getElementById("inspect-collection").textContent = collectionText;
   
   document.getElementById("inspect-stats").innerHTML = c.rarity === 'hero' 
     ? `<b>Power:</b> ${c.power}` 
@@ -963,7 +970,7 @@ function weightedPick(tierA, tierB, pctA, excludeIds){
 
 function pullPack(){
   const slots = [
-    ["legendary","epic",75],
+    ["legendary","epic",50],
     ["epic","rare",75],
     ["rare","common",75],
     ["common","rare",75],
@@ -1005,7 +1012,7 @@ function resetPackVisual(){
 }
 
 function updatePackStatus(){
-  document.getElementById("pack-status").textContent = `Pack ${state.currentPack+1} of 4`;
+  document.getElementById("pack-status").textContent = `Pack ${state.currentPack+1} of 6`;
 }
 
 function bestRarityInPack(pulled){
@@ -1062,7 +1069,7 @@ function openPack(){
     renderReveal(pulled);
 
     document.getElementById("pack-next-wrap").style.display = "block";
-    document.getElementById("pack-next-btn").textContent = state.currentPack < 3 ? "Next Pack" : "Go to Deckbuilder";
+    document.getElementById("pack-next-btn").textContent = state.currentPack < 5 ? "Next Pack" : "Go to Deckbuilder";
   }, 480);
 }
 
@@ -1083,7 +1090,7 @@ function renderReveal(pulled){
 
 function nextPackOrBuild(){
   state.currentPack++;
-  if(state.currentPack < 4){
+  if(state.currentPack < 6){
     document.getElementById("reveal-grid").innerHTML = "";
     document.getElementById("reveal-controls").style.display = "none";
     document.getElementById("pack-next-wrap").style.display = "none";
@@ -1194,7 +1201,7 @@ function showExport(){
   stripCards.forEach(c=>{
     const el = document.createElement("div");
     el.className = `mini-card${c.rarity && c.rarity!=='hero' ? ' r-'+c.rarity : ''}${c.shiny?' shiny':''}`;
-    el.innerHTML = `<img src="${c.image}" title="${c.name}">`;
+    el.innerHTML = `<img src="${c.image}" title="${c.name}"><div class="mini-name">${c.name}</div>`;
     strip.appendChild(el);
   });
 
@@ -1207,7 +1214,6 @@ function showExport(){
 
 const ANARCHY_ODDS = [
   {rarity:"legendary", chance:0.035},
-  {rarity:"fusion",    chance:0.07},
   {rarity:"epic",      chance:0.125},
   {rarity:"rare",      chance:0.60},
   {rarity:"common",    chance:0.97}
