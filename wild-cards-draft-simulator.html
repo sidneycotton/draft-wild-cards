@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wild Cards - Pack Draft</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600;700;800&display=swap');
+
+  :root{
+    --bg:#050912;
+    --bg2:#0a1420;
+    --panel:#0e1626;
+    --line:#1c2c42;
+    --green:#39ff8f;
+    --green2:#0be07a;
+    --pink:#ff2e6a;
+    --gold:#f4c542;
+    --silver:#c9d3de;
+    --teal:#2ee6c8;
+    --text:#f1f5f4;
+    --muted:#93a5ac;
+    --common:#8b95a8;
+    --rare:#3ab0ff;
+    --epic:#c355f0;
+    --legendary:#f0a83a;
+    --fusion:#ff5fa8;
+    --hero:#39ff8f;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse at top, #0e2a22 0%, var(--bg) 55%);
+    color:var(--text);
+    font-family:'Barlow', sans-serif;
+    min-height:100vh;
+    padding-bottom:80px;
+    position:relative;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image:radial-gradient(rgba(57,255,143,0.07) 1px, transparent 1px);
+    background-size:6px 6px;
+    pointer-events:none;
+    z-index:0;
+  }
+  h1,h2,h3,.display{
+    font-family:'Anton', sans-serif;
+    letter-spacing:0.5px;
+    text-transform:uppercase;
+  }
+  .wrap{max-width:1100px; margin:0 auto; padding:0 20px; position:relative; z-index:1;}
+
+  /* HEADER */
+  header{
+    padding:36px 20px 24px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+    background:
+      linear-gradient(180deg, rgba(57,255,143,0.08), transparent 70%);
+    position:relative; z-index:1;
+  }
+  header h1{
+    font-size:56px;
+    font-weight:400;
+    letter-spacing:1px;
+    background:linear-gradient(90deg, var(--green), var(--teal) 45%, var(--pink) 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    line-height:1;
+    text-shadow:0 0 40px rgba(57,255,143,0.15);
+  }
+  header p{color:var(--muted); font-size:15px; margin-top:8px; letter-spacing:.5px;}
+
+  /* SCREENS */
+  .screen{display:none; padding-top:36px;}
+  .screen.active{display:block;}
+
+  /* BUTTONS */
+  .btn{
+    font-family:'Anton', sans-serif;
+    font-size:22px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    background:linear-gradient(90deg, var(--green), var(--green2));
+    color:#04140c;
+    border:none;
+    padding:13px 34px;
+    border-radius:6px;
+    cursor:pointer;
+    transition:transform .15s ease, box-shadow .15s ease;
+    box-shadow:0 0 0 rgba(57,255,143,0);
+    position:relative;
+    overflow:hidden;
+  }
+  .btn::after{
+    content:"";
+    position:absolute; inset:0;
+    background-image:radial-gradient(rgba(0,0,0,0.15) 1px, transparent 1px);
+    background-size:5px 5px;
+    opacity:.5;
+  }
+  .btn:hover{transform:translateY(-2px); box-shadow:0 6px 24px rgba(57,255,143,0.35);}
+  .btn:disabled{opacity:.35; cursor:not-allowed; transform:none; box-shadow:none;}
+  .btn.secondary{
+    background:transparent;
+    color:var(--teal);
+    border:1px solid var(--teal);
+  }
+  .btn.pink{background:linear-gradient(90deg, var(--pink), #c8264f); color:#1a0409;}
+  .center{text-align:center;}
+
+  /* INTRO */
+  #screen-intro .intro-body{max-width:640px; margin:40px auto; text-align:center;}
+  #screen-intro p{color:var(--muted); line-height:1.6; margin-bottom:28px; font-size:16px;}
+  .odds-table{
+    text-align:left;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:20px 24px;
+    margin:28px 0;
+    font-size:14px;
+  }
+  .odds-table div{display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid var(--line); color:var(--muted);}
+  .odds-table div:last-child{border-bottom:none;}
+  .odds-table span:last-child{color:var(--text); font-weight:600;}
+
+  /* HERO PICK */
+  .hero-grid{display:flex; gap:20px; justify-content:center; flex-wrap:wrap; margin:32px 0;}
+  .hero-card {
+    width:200px;
+    position:relative;
+    border-radius:14px;
+    cursor:pointer;
+    transition:.2s ease;
+    animation:heroFloat 4s ease-in-out infinite; will-change:transform;
+  }
+  .hero-card:nth-child(2) {animation-delay:.4s;}
+  .hero-card:nth-child(3) {animation-delay:.8s;}
+  .hero-card .ring {
+    position:absolute; inset: -4px; border-radius:16px; pointer-events:none;
+    box-shadow:inset 0 0 0 2px transparent; transition:box-shadow .2s ease; z-index: 10;
+  }
+  .hero-card .card {
+    height: 100%;
+    pointer-events: none; /* Let the hero-card parent handle clicks */
+  }
+  .hero-card:hover .ring {
+    box-shadow:inset 0 0 0 2px var(--hero-color, var(--gold)), 0 0 18px var(--hero-color, rgba(244,197,66,.4));
+  }
+  .hero-card.selected .ring {
+    box-shadow:inset 0 0 0 4px var(--hero-color, var(--gold)), 0 0 24px var(--hero-color, rgba(244,197,66,.6));
+  }
+  @keyframes heroFloat{
+    0%,100%{transform:translateY(0) scale(1.0);}
+    50%{transform:translateY(-6px) scale(1.02);}
+  }
+
+  /* PACK OPENING */
+  .hero-chip{
+    display:flex; align-items:center; gap:10px;
+    max-width:280px; margin:0 auto 18px;
+    background:var(--panel); border:1px solid var(--gold); border-radius:40px;
+    padding:6px 16px 6px 6px;
+  }
+  .hero-chip img{width:38px; height:38px; border-radius:50%; object-fit:cover; display:block; border:2px solid var(--gold);}
+  .hero-chip .hc-label{font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--muted);}
+  .hero-chip .hc-name{font-family:'Anton',sans-serif; font-size:16px; letter-spacing:.5px; color:var(--gold); line-height:1.1;}
+  #screen-packs .pack-status{text-align:center; color:var(--muted); margin-bottom:16px; font-size:14px; letter-spacing:1px; text-transform:uppercase;}
+  .pack-deck{display:flex; justify-content:center; align-items:center; margin:60px 0; min-height:280px; position:relative;}
+
+  .pack-stage{position:relative; width:220px; height:300px; cursor:pointer;}
+  .pack-stage:hover .pack-body{transform:scale(1.03);}
+
+  .pack-flap{
+    position:absolute; top:-46px; left:6px; right:6px; height:110px;
+    background:
+      repeating-linear-gradient(115deg, rgba(255,255,255,0.05) 0 2px, transparent 2px 6px),
+      linear-gradient(120deg, var(--teal), #1a2f66 40%, var(--pink) 75%, var(--gold));
+    border-radius:10px 10px 0 0;
+    clip-path:polygon(4% 30%, 100% 0%, 96% 70%, 0% 100%);
+    box-shadow:0 6px 20px rgba(0,0,0,0.5);
+    transform-origin:bottom center;
+    transition:transform .55s cubic-bezier(.4,0,.2,1), opacity .55s ease;
+    z-index:2;
+  }
+
+  .pack-body{
+    position:absolute; top:24px; left:0; right:0; bottom:0;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(255,255,255,0.08), transparent 55%),
+      linear-gradient(155deg, #0c1420 0%, #182234 55%, #0c1420 100%);
+    border:2px solid var(--green);
+    border-radius:14px;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 0 0 3px rgba(57,255,143,0.08), 0 14px 40px rgba(0,0,0,0.55), 0 0 30px rgba(57,255,143,0.15);
+    transition:transform .2s ease;
+    overflow:hidden;
+  }
+  .pack-face{
+    width:78%; aspect-ratio:1/1;
+    background:conic-gradient(from 90deg, var(--gold) 0 90deg, var(--green) 90deg 180deg, var(--teal) 180deg 270deg, var(--pink) 270deg 360deg);
+    clip-path:polygon(10% 0, 90% 0, 100% 15%, 100% 100%, 0 100%, 0 15%);
+    position:relative;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:inset 0 0 40px rgba(0,0,0,0.35);
+  }
+  .pack-face::before{
+    content:"😈";
+    font-size:64px;
+    filter:drop-shadow(0 3px 4px rgba(0,0,0,.5));
+  }
+  .pack-label{
+    position:absolute; bottom:14px; left:0; right:0; text-align:center;
+    font-family:'Anton',sans-serif; font-size:20px; letter-spacing:3px; color:#fff;
+    text-shadow:0 2px 8px rgba(0,0,0,0.6); z-index:3;
+  }
+
+  .pack-stage.ripping .pack-flap{
+    transform:rotate(-95deg) translateY(-30px) translateX(-40px);
+    opacity:0;
+  }
+  .pack-stage.ripping .pack-body{
+    animation:packShake .35s ease;
+  }
+  @keyframes packShake{
+    0%,100%{transform:rotate(0deg);}
+    25%{transform:rotate(-2deg);}
+    75%{transform:rotate(2deg);}
+  }
+  .burst{
+    position:absolute; top:50%; left:50%; width:10px; height:10px;
+    border-radius:50%;
+    background:radial-gradient(circle, #fff 0%, var(--green) 35%, transparent 70%);
+    transform:translate(-50%,-50%) scale(0);
+    opacity:0;
+    pointer-events:none;
+    z-index:1;
+  }
+  .burst.go{
+    animation:burstOut .6s ease-out forwards;
+  }
+  .screen-flash{
+    position:fixed; inset:0; pointer-events:none; z-index:50;
+    background:radial-gradient(circle at 50% 45%, rgba(255,255,255,0.9), transparent 60%);
+    opacity:0;
+  }
+  .screen-flash.go{animation:screenFlash .5s ease-out forwards;}
+  .screen-flash.gold.go{background:radial-gradient(circle at 50% 45%, rgba(244,197,66,0.95), rgba(255,255,255,0.5) 40%, transparent 65%);}
+  .screen-flash.purple.go{background:radial-gradient(circle at 50% 45%, rgba(195,85,240,0.85), rgba(255,255,255,0.35) 40%, transparent 65%);}
+  @keyframes screenFlash{
+    0%{opacity:0;}
+    15%{opacity:1;}
+    100%{opacity:0;}
+  }
+  .particle{
+    position:absolute; top:50%; left:50%; width:6px; height:6px; border-radius:50%;
+    background:var(--gold); pointer-events:none; opacity:0; z-index:4;
+  }
+  .particle.go{animation:particleFly .8s ease-out forwards;}
+  @keyframes particleFly{
+    0%{opacity:1; transform:translate(-50%,-50%) translate(0,0) scale(1);}
+    100%{opacity:0; transform:translate(-50%,-50%) translate(var(--px), var(--py)) scale(.3);}
+  }
+  @keyframes burstOut{
+    0%{transform:translate(-50%,-50%) scale(0); opacity:1;}
+    70%{opacity:.9;}
+    100%{transform:translate(-50%,-50%) scale(22); opacity:0;}
+  }
+
+  .reveal-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(150px,1fr));
+    gap:16px;
+    margin:24px 0 40px;
+  }
+  
+  /* CARD UI UPDATES */
+  .card{
+    background:#0a1018;
+    border-radius:12px;
+    overflow:hidden;
+    border:2px solid var(--line);
+    animation:cardShoot .5s cubic-bezier(.2,.8,.3,1.15) backwards;
+    display: flex; flex-direction: column;
+    position:relative;
+    cursor: pointer;
+  }
+  .card.shiny{
+    border-image:linear-gradient(135deg, var(--gold), var(--silver), var(--gold)) 1;
+    box-shadow:0 0 24px rgba(244,197,66,0.4);
+  }
+  @keyframes cardShoot{
+    from{opacity:0; transform:scale(.4) translateY(60px) rotate(-8deg);}
+    60%{opacity:1;}
+    to{opacity:1; transform:scale(1) translateY(0) rotate(0deg);}
+  }
+  
+  .card .stats-bar {
+    position: absolute;
+    top: 6px; left: 6px; right: 6px;
+    display: flex; justify-content: space-between;
+    z-index: 2;
+    font-family: 'Anton', sans-serif;
+    font-size: 14px;
+    pointer-events: none;
+  }
+  .card .stat-cost {
+    background: var(--rare); color: #fff;
+    width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid #04140c;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  }
+  .card .stat-power {
+    background: var(--pink); color: #fff;
+    width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid #04140c;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  }
+  .card img{width:100%; aspect-ratio:3/4; object-fit:cover; display:block; background:#000; z-index: 1;}
+  .card .meta{padding:8px 10px; position:relative; z-index:1; flex: 1; display: flex; flex-direction: column;}
+  .card .name{font-family:'Anton',sans-serif; font-size:17px; letter-spacing:.3px; line-height:1.15;}
+  .card .theme{font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin-top:1px;}
+  .card .rarity{font-size:11px; text-transform:uppercase; letter-spacing:1px; font-weight:700; margin-top:3px;}
+  .card .ability-text {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: 'Barlow', sans-serif;
+  }
+  
+  .r-common .rarity{color:var(--common);}
+  .r-rare .rarity{color:var(--rare);}
+  .r-epic .rarity{color:var(--epic);}
+  .r-legendary .rarity{color:var(--legendary);}
+  .r-fusion .rarity{color:var(--fusion);}
+  .r-hero .rarity{color:var(--hero);}
+
+  .card.r-rare::after,
+  .card.r-epic::after,
+  .card.r-legendary::after,
+  .card.r-fusion::after{
+    content:"";
+    position:absolute; inset:0;
+    background:linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.16) 45%, rgba(255,255,255,0.28) 50%, rgba(255,255,255,0.16) 55%, transparent 70%);
+    background-size:220% 220%;
+    background-position:120% 0%;
+    pointer-events:none;
+    mix-blend-mode:screen;
+    animation:holoSheen 3.2s ease-in-out infinite;
+    z-index:3;
+  }
+  .card.r-rare::after{animation-duration:4.4s;}
+  @keyframes holoSheen{
+    0%{background-position:130% -10%;}
+    50%{background-position:-10% 110%;}
+    100%{background-position:130% -10%;}
+  }
+
+  .card.r-rare{border-color:var(--rare); box-shadow:0 0 10px rgba(58,176,255,0.25);}
+  .card.r-epic{border-color:var(--epic); animation:cardShoot .5s cubic-bezier(.2,.8,.3,1.15) backwards, glowEpic 2.6s ease-in-out infinite;}
+  .card.r-legendary{border-color:var(--legendary); animation:cardShoot .5s cubic-bezier(.2,.8,.3,1.15) backwards, glowLegendary 2.2s ease-in-out infinite;}
+  .card.r-fusion{border-color:var(--fusion); animation:cardShoot .5s cubic-bezier(.2,.8,.3,1.15) backwards, glowEpic 2.6s ease-in-out infinite;}
+  .card.r-hero{border-color:var(--hero); box-shadow:0 0 10px rgba(57,255,143,0.25);}
+  @keyframes glowEpic{
+    0%,100%{box-shadow:0 0 10px rgba(195,85,240,0.25);}
+    50%{box-shadow:0 0 22px rgba(195,85,240,0.55);}
+  }
+  @keyframes glowLegendary{
+    0%,100%{box-shadow:0 0 12px rgba(240,168,58,0.35);}
+    50%{box-shadow:0 0 28px rgba(240,168,58,0.7);}
+  }
+  .card.shiny::after{animation-duration:2.4s;}
+  .card.shiny{animation:cardShoot .5s cubic-bezier(.2,.8,.3,1.15) backwards, glowShiny 1.8s ease-in-out infinite;}
+  @keyframes glowShiny{
+    0%,100%{box-shadow:0 0 18px rgba(244,197,66,0.4);}
+    50%{box-shadow:0 0 34px rgba(244,197,66,0.75);}
+  }
+  .shiny-tag{
+    display:inline-block; margin-top:4px; font-size:10px; letter-spacing:1px;
+    background:linear-gradient(90deg,var(--gold),var(--silver)); color:#1a1408;
+    padding:2px 7px; border-radius:4px; font-weight:700;
+  }
+
+  /* DECKBUILDER */
+  #screen-build .build-header{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px; flex-wrap:wrap; gap:10px;}
+  .counter{font-family:'Anton',sans-serif; font-size:26px; color:var(--green);}
+  .counter.full{color:var(--pink);}
+  .theme-filters{display:flex; gap:8px; flex-wrap:wrap; margin:14px 0 8px; align-items:center;}
+  .theme-filters button{
+    background:var(--panel); border:1px solid var(--line); color:var(--muted);
+    padding:6px 14px; border-radius:20px; font-size:13px; cursor:pointer; letter-spacing:.3px;
+    font-family:'Barlow',sans-serif; font-weight:600;
+    display:inline-flex; align-items:center; gap:6px;
+  }
+  .theme-filters button.active{border-color:var(--green); color:var(--green); background:rgba(57,255,143,0.08);}
+  .theme-count-badge{
+    background:rgba(255,255,255,0.1); color:var(--text); font-size:11px; font-weight:700;
+    padding:1px 7px; border-radius:10px; line-height:1.5;
+  }
+  .theme-filters button.active .theme-count-badge{background:rgba(57,255,143,0.2); color:var(--green);}
+  .sort-btn{
+    background:var(--panel); border:1px solid var(--line); color:var(--muted);
+    padding:6px 14px; border-radius:20px; font-size:13px; cursor:pointer; letter-spacing:.3px;
+    font-family:'Barlow',sans-serif; font-weight:600;
+    display:inline-flex; align-items:center; gap:6px;
+  }
+  .sort-btn::before{content:"⇅"; font-size:12px;}
+  .sort-btn.active{border-color:var(--gold); color:var(--gold); background:rgba(244,197,66,0.1);}
+  #reveal-controls .sort-btn{border-radius:20px;}
+  .pool-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(140px,1fr));
+    gap:14px;
+    margin:20px 0 40px;
+  }
+  .pool-card{position:relative; transition:transform .15s ease;}
+  .pool-card:hover{transform:translateY(-3px);}
+  .pool-card.picked .card{outline:3px solid var(--green); box-shadow:0 0 18px rgba(57,255,143,0.4);}
+  .pool-card.disabled{opacity:.3; cursor:not-allowed; pointer-events:none;}
+  .pool-card.hidden{display:none;}
+  .pick-badge{
+    position:absolute; top:6px; right:6px; background:var(--green); color:#04140c;
+    width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-weight:700; font-size:13px; opacity:0; transition:.15s; z-index:4; pointer-events:none;
+  }
+  .pool-card.picked .pick-badge{opacity:1;}
+  
+  /* MODAL */
+  .modal {
+    position: fixed; inset: 0; z-index: 999;
+    background: rgba(0,0,0,0.85);
+    display: none; align-items: center; justify-content: center;
+    backdrop-filter: blur(8px);
+  }
+  .modal.active { display: flex; }
+  .modal-content {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 30px;
+    max-width: 440px; width: 90%;
+    display: flex; flex-direction: column; align-items: center; gap: 20px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+    position: relative;
+  }
+  .modal-content .card { width: 220px; font-size: 1.1em; pointer-events: none; }
+  .modal-content .card .ability-text { white-space: normal; overflow: visible; display: none; } /* hide truncated text in modal preview */
+  .inspect-details h3 { font-family: 'Anton', sans-serif; font-size: 32px; color: var(--gold); margin-bottom: 8px;}
+  .inspect-details p { color: var(--text); font-size: 17px; line-height: 1.5; margin-bottom: 8px; font-family: 'Barlow', sans-serif;}
+
+  /* EXPORT */
+  #screen-export .export-box{
+    background:var(--panel); border:1px solid var(--line); border-radius:10px;
+    padding:24px; max-width:520px; margin:24px auto; font-family:monospace; font-size:15px; line-height:1.9;
+    white-space:pre-line;
+  }
+  .export-box .rarity-tag{color:var(--muted); font-size:12px;}
+  .export-strip{
+    display:flex; gap:8px; overflow-x:auto; max-width:640px; margin:24px auto 0; padding:4px 2px 14px;
+    scrollbar-width:thin;
+  }
+  .export-strip .mini-card{
+    flex:0 0 auto; width:64px; border-radius:8px; overflow:hidden; border:2px solid var(--line); background:#0a1018;
+  }
+  .export-strip .mini-card img{width:100%; aspect-ratio:3/4; object-fit:cover; display:block; background:#000;}
+  .export-strip .mini-card.r-rare{border-color:var(--rare);}
+  .export-strip .mini-card.r-epic{border-color:var(--epic);}
+  .export-strip .mini-card.r-legendary{border-color:var(--legendary);}
+  .export-strip .mini-card.r-fusion{border-color:var(--fusion);}
+  .export-strip .mini-card.shiny{border-image:linear-gradient(135deg, var(--gold), var(--silver), var(--gold)) 1; box-shadow:0 0 10px rgba(244,197,66,0.4);}
+
+  .anarchy-stats{
+    display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:20px;
+  }
+  .anarchy-stats .stat{
+    background:var(--panel); border:1px solid var(--line); border-radius:10px;
+    padding:12px 20px; text-align:center; min-width:120px;
+  }
+  .anarchy-stats .stat .val{font-family:'Anton',sans-serif; font-size:24px; color:var(--green);}
+  .anarchy-stats .stat.coins .val{color:var(--gold);}
+  .anarchy-stats .stat .lbl{font-size:11px; letter-spacing:1px; text-transform:uppercase; color:var(--muted); margin-top:2px;}
+  .pool-card .dupe-badge{
+    position:absolute; top:6px; left:6px; background:rgba(0,0,0,0.7); color:var(--text);
+    font-size:11px; font-weight:700; padding:2px 8px; border-radius:10px; z-index:5;
+  }
+
+  footer.actions{
+    position:sticky; bottom:0; left:0; right:0;
+    background:linear-gradient(0deg, var(--bg) 60%, transparent);
+    padding:20px 20px 10px;
+    text-align:center;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Wild Cards</h1>
+  <p>Pack Draft Simulator - 4 Sealed Packs</p>
+</header>
+
+<div class="wrap">
+
+  <!-- INTRO SCREEN -->
+  <section id="screen-intro" class="screen active">
+    <div class="intro-body">
+      <h2 style="font-size:28px;">Open 4 packs. Build a 12-card deck.</h2>
+      <p>You'll open 4 packs of 5 cards each, pick a Hero from 3 options, and build a 12-card deck from what you pull.</p>
+      
+      <div style="margin: 24px 0;">
+        <input type="text" id="draft-seed-input" placeholder="Enter Draft Seed (Optional)" style="padding: 12px 14px; border-radius: 6px; border: 1px solid var(--line); background: var(--bg2); color: var(--text); font-family: 'Barlow', sans-serif; font-size: 16px; width: 100%; max-width: 280px; text-align: center; text-transform: uppercase;">
+      </div>
+
+      <button class="btn" id="start-draft-btn" onclick="startHeroPick()" disabled>Loading Cards...</button>
+      <div style="margin-top:10px;">
+        <button class="btn secondary" id="start-anarchy-btn" onclick="openAnarchyHub()" disabled>Open Anarchy Packs</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANARCHY PACKS HUB -->
+  <section id="screen-anarchy" class="screen">
+    <h2 class="center" style="font-size:34px; background:linear-gradient(90deg, var(--pink), var(--gold)); -webkit-background-clip:text; background-clip:text; color:transparent;">Anarchy Packs</h2>
+    <p class="center" style="color:var(--muted); margin-top:6px;">3 cards per pack &middot; duplicates allowed &middot; 10,000 coins per pack</p>
+
+    <div class="anarchy-stats" id="anarchy-stats"></div>
+
+    <div class="odds-table" style="max-width:420px; margin:24px auto;">
+      <div><span>Common</span><span>97.0%</span></div>
+      <div><span>Rare</span><span>60.0%</span></div>
+      <div><span>Epic</span><span>12.5%</span></div>
+      <div><span>Legendary</span><span>3.5%</span></div>
+    </div>
+
+    <div class="center" style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin:28px 0;">
+      <button class="btn" id="anarchy-open1-btn" onclick="anarchyOpen(1)">Open 1 Pack (10,000)</button>
+      <button class="btn pink" id="anarchy-open10-btn" onclick="anarchyOpen(10)">Open 10 Packs (100,000)</button>
+    </div>
+    <div class="center">
+      <button class="btn secondary" onclick="showAnarchyCollection()">View Collection</button>
+    </div>
+
+    <div class="screen-flash" id="anarchy-screen-flash"></div>
+    <div id="anarchy-particle-field"></div>
+
+    <div class="reveal-grid" id="anarchy-reveal-grid" style="margin-top:32px;"></div>
+  </section>
+
+  <!-- ANARCHY COLLECTION -->
+  <section id="screen-anarchy-collection" class="screen">
+    <div class="build-header">
+      <h2 style="font-size:28px;">Your Collection</h2>
+      <div class="counter" id="anarchy-collection-counter">0 unique</div>
+    </div>
+    <div class="anarchy-stats" id="anarchy-collection-stats"></div>
+    <div class="pool-grid" id="anarchy-collection-grid" style="margin-top:24px;"></div>
+    <div class="center">
+      <button class="btn" onclick="show('screen-anarchy')">Back to Packs</button>
+    </div>
+  </section>
+
+  <!-- HERO PICK SCREEN -->
+  <section id="screen-hero" class="screen">
+    <h2 class="center" style="font-size:30px;">Choose Your Hero</h2>
+    <p class="center" style="color:var(--muted); margin-top:6px;">This card goes straight into your deck afterward. Left click to select, Right click to inspect.</p>
+    <div class="hero-grid" id="hero-grid"></div>
+    <div class="center">
+      <button class="btn" id="hero-confirm" disabled onclick="startPacks()">Confirm Hero</button>
+    </div>
+  </section>
+
+  <!-- PACK OPENING SCREEN -->
+  <section id="screen-packs" class="screen">
+    <div class="hero-chip" id="hero-chip">
+      <img id="hero-chip-img" src="" alt="">
+      <div>
+        <div class="hc-label">Your Hero</div>
+        <div class="hc-name" id="hero-chip-name"></div>
+      </div>
+    </div>
+    <div class="pack-status" id="pack-status">Pack 1 of 4</div>
+    <div class="pack-deck" id="pack-deck">
+      <div class="pack-stage" id="pack-stage" onclick="openPack()">
+        <div class="burst" id="pack-burst"></div>
+        <div class="pack-flap"></div>
+        <div class="pack-body">
+          <div class="pack-face"></div>
+          <div class="pack-label">TAP TO RIP</div>
+        </div>
+      </div>
+    </div>
+    <div class="screen-flash" id="screen-flash"></div>
+    <div id="particle-field"></div>
+    <div class="center" id="reveal-controls" style="display:none; margin-bottom:6px;">
+      <button class="btn secondary sort-btn" id="sort-toggle-packs" onclick="toggleSort('packs')">Sort by Rarity</button>
+    </div>
+    <div class="reveal-grid" id="reveal-grid"></div>
+    <div class="center" id="pack-next-wrap" style="display:none;">
+      <button class="btn" onclick="nextPackOrBuild()" id="pack-next-btn">Next Pack</button>
+    </div>
+  </section>
+
+  <!-- DECKBUILD SCREEN -->
+  <section id="screen-build" class="screen">
+    <div class="build-header">
+      <h2 style="font-size:28px;">Build Your Deck</h2>
+      <div class="counter" id="pick-counter">0 / 12</div>
+    </div>
+    <p style="color:var(--muted); font-size:14px;">Your hero is already locked into the deck. Pick 12 cards from the pool below.<br><b>Left Click</b> to inspect, <b>Right Click</b> to quick-add/remove.</p>
+    <div class="theme-filters" id="theme-filters"></div>
+    <div class="center" style="margin-bottom:4px;">
+      <button class="btn secondary sort-btn" id="sort-toggle-pool" onclick="toggleSort('pool')" style="display:none;">Sort by Rarity</button>
+    </div>
+    <div class="pool-grid" id="pool-grid"></div>
+    <div class="center">
+      <button class="btn pink" id="finish-btn" disabled onclick="showExport()">Finish Deck</button>
+    </div>
+  </section>
+
+  <!-- EXPORT SCREEN -->
+  <section id="screen-export" class="screen">
+    <h2 class="center" style="font-size:30px;">Your List</h2>
+    <p class="center" style="color:var(--muted);">Use this to build the deck in-game.</p>
+    <div class="export-strip" id="export-strip"></div>
+    <div class="export-box" id="export-box"></div>
+    <div class="center">
+      <button class="btn secondary" onclick="location.reload()">New Draft</button>
+    </div>
+  </section>
+
+</div>
+
+<!-- INSPECT MODAL -->
+<div id="inspect-modal" class="modal" onclick="closeInspect(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <div id="inspect-card-wrap"></div>
+    <div class="inspect-details">
+       <h3 id="inspect-name"></h3>
+       <p id="inspect-stats"></p>
+       <p id="inspect-ability"></p>
+    </div>
+    <button class="btn pink" id="inspect-action-btn" style="display:none;" onclick="handleInspectAction()">Add to Deck</button>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   PRNG UTILITIES
+   Ensures predictable randomness when a seed is provided.
+   ========================================================= */
+
+let rng = Math.random;
+
+function xmur3(str) {
+    for(var i = 0, h = 1779033703 ^ str.length; i < str.length; i++) {
+        h = Math.imul(h ^ str.charCodeAt(i), 3432918353);
+        h = h << 13 | h >>> 19;
+    } return function() {
+        h = Math.imul(h ^ (h >>> 16), 2246822507);
+        h = Math.imul(h ^ (h >>> 13), 3266489909);
+        return (h ^= h >>> 16) >>> 0;
+    }
+}
+
+function sfc32(a, b, c, d) {
+    return function() {
+      a >>>= 0; b >>>= 0; c >>>= 0; d >>>= 0; 
+      var t = (a + b) | 0;
+      a = b ^ b >>> 9;
+      b = c + (c << 3) | 0;
+      c = (c << 21 | c >>> 11);
+      d = d + 1 | 0;
+      t = t + d | 0;
+      c = c + t | 0;
+      return (t >>> 0) / 4294967296;
+    }
+}
+
+/* =========================================================
+   DATA LOADING & PARSING 
+   ========================================================= */
+
+const RARITIES = ["common","rare","epic","legendary","fusion"];
+const RARITY_ORDER = {legendary:0, fusion:1, epic:2, rare:3, common:4};
+function sortByRarity(cards){
+  return [...cards].sort((a,b)=> RARITY_ORDER[a.rarity]-RARITY_ORDER[b.rarity]);
+}
+
+const rarityColor = {common:"#3a3f52", rare:"#124a63", epic:"#4a2166", legendary:"#7a4a12", fusion:"#6b1a4a"};
+const THEMES = {
+  culture: {label:"Culture", accent:"#39ff8f"},
+  history: {label:"History", accent:"#f4c542"},
+  science: {label:"Science", accent:"#3ab0ff"},
+  nature:  {label:"Nature",  accent:"#2ee6c8"}
+};
+const HERO_COLORS = ["#ff2e6a","#2ee6c8","#f4c542","#3ab0ff","#c355f0","#39ff8f","#ff8a3d","#f05a5a","#8a6bff","#e0e0e0"];
+
+let CARD_POOL = [];
+let HERO_POOL = [];
+
+const EXCLUDED_CARDS = ["kitsune", "oni", "eric bloodaxe", "ivar the boneless", "labrador", "pug", "paper", "the wheel", "ivar"];
+
+window.addEventListener('DOMContentLoaded', loadCardData);
+
+async function loadCardData() {
+  const btn1 = document.getElementById("start-draft-btn");
+  const btn2 = document.getElementById("start-anarchy-btn");
+  try {
+    const res = await fetch("WC Card Data (07082026).csv");
+    if (!res.ok) throw new Error("Could not fetch CSV");
+    const text = await res.text();
+    parseCSV(text);
+    if(btn1) { btn1.textContent = "Start Draft"; btn1.disabled = false; }
+    if(btn2) { btn2.disabled = false; }
+  } catch(e) {
+    console.error("Error Loading CSV:", e);
+    if(btn1) btn1.textContent = "Error Loading CSV (Check console)";
+  }
+}
+
+function csvToArray(text) {
+    let p = '', row = [''], ret = [row], i = 0, r = 0, s = !0, l;
+    for (l of text) {
+        if ('"' === l) {
+            if (s && l === p) row[i] += l;
+            s = !s;
+        } else if (',' === l && s) l = row[++i] = '';
+        else if ('\n' === l && s) {
+            if ('\r' === p) row[i] = row[i].slice(0, -1);
+            row = ret[++r] = [l = '']; i = 0;
+        } else row[i] += l;
+        p = l;
+    }
+    return ret;
+}
+
+function parseAbilityText(text) {
+  if(!text) return "";
+  return text
+    .replace(/<[^>]*>/g, "")
+    .replace(/:draw:/gi, "✦ DRAW:")
+    .replace(/:return:/gi, "↩ RETURN:")
+    .replace(/:play:/gi, "▶ PLAY:")
+    .replace(/:turnstart:/gi, "⏳ TURN START:")
+    .replace(/:energy:/gi, "NRG")
+    .replace(/:attack:/gi, "ATK")
+    .replace(/:health:/gi, "HP")
+    .replace(/:shield:/gi, "SHLD")
+    .replace(/:charge:/gi, "CHG")
+    .replace(/:ept:/gi, "EPT")
+    .replace(/:freeze:/gi, "Freeze")
+    .replace(/:burn:/gi, "Burn")
+    .trim();
+}
+
+function placeholderImg(seed, color, accent){
+  return `data:image/svg+xml;utf8,` + encodeURIComponent(`
+    <svg xmlns="http://www.w3.org/2000/svg" width="300" height="400">
+      <defs>
+        <pattern id="dots" width="6" height="6" patternUnits="userSpaceOnUse">
+          <circle cx="1" cy="1" r="1" fill="${accent}" opacity="0.25"/>
+        </pattern>
+      </defs>
+      <rect width="300" height="400" fill="${color}"/>
+      <rect width="300" height="400" fill="url(#dots)"/>
+    </svg>`);
+}
+
+function parseCSV(text) {
+  const data = csvToArray(text.trim());
+  let heroes = [];
+  let cards = [];
+  
+  for(let i=1; i<data.length; i++) {
+    const row = data[i];
+    if(row.length < 9) continue;
+    
+    const name = row[0].trim();
+    if(EXCLUDED_CARDS.some(ex => name.toLowerCase().includes(ex))) continue;
+    
+    const c = {
+      name: name,
+      code: row[1].trim(),
+      collection: row[2].trim(),
+      theme: row[3].trim().toLowerCase(),
+      themeLabel: row[3].trim(),
+      rarity: row[4].trim().toLowerCase(),
+      energy: parseInt(row[5].trim()) || 0,
+      power: parseInt(row[6].trim()) || 0,
+      abilityTitle: row[7].trim(),
+      ability: parseAbilityText(row[8].trim())
+    };
+    
+    const themeData = THEMES[c.theme] || {label:c.themeLabel, accent:"#8b95a8"};
+    c.image = placeholderImg(c.code, rarityColor[c.rarity] || "#3a3f52", themeData.accent);
+    
+    if(c.rarity === "hero") {
+      c.color = HERO_COLORS[heroes.length % HERO_COLORS.length];
+      c.image = placeholderImg(c.code, "#0c1420", "#39ff8f");
+      heroes.push({id: "h"+i+"_"+c.code, ...c});
+    } else {
+      cards.push({id: "c"+i+"_"+c.code, ...c});
+    }
+  }
+  CARD_POOL = cards;
+  HERO_POOL = heroes;
+}
+
+/* =========================================================
+   UI HELPERS & MODAL 
+   ========================================================= */
+
+function buildCardHTML(c) {
+  return `
+    <div class="card r-${c.rarity}${c.shiny?' shiny':''}">
+      <div class="stats-bar">
+        ${c.rarity !== 'hero' ? `<div class="stat-cost">${c.energy}</div>` : '<div></div>'}
+        <div class="stat-power">${c.power}</div>
+      </div>
+      <img src="${c.image}">
+      <div class="meta">
+        <div class="name">${c.name}</div>
+        <div class="theme">${c.themeLabel}</div>
+        <div class="rarity">${c.rarity}</div>
+        <div class="ability-text">${c.ability}</div>
+      </div>
+    </div>`;
+}
+
+let inspectTargetCard = null;
+
+function openInspect(c, deckBuilderMode) {
+  inspectTargetCard = c;
+  const modal = document.getElementById("inspect-modal");
+  modal.classList.add("active");
+  
+  document.getElementById("inspect-card-wrap").innerHTML = buildCardHTML(c);
+  document.getElementById("inspect-name").textContent = c.name;
+  
+  document.getElementById("inspect-stats").innerHTML = c.rarity === 'hero' 
+    ? `<b>Power:</b> ${c.power}` 
+    : `<b>Cost:</b> ${c.energy} &nbsp;|&nbsp; <b>Power:</b> ${c.power}`;
+    
+  document.getElementById("inspect-ability").textContent = c.ability || "(No Ability)";
+
+  const btn = document.getElementById("inspect-action-btn");
+  if(deckBuilderMode) {
+    btn.style.display = "inline-block";
+    const isPicked = state.picked.some(p => p.id === c.id);
+    btn.textContent = isPicked ? "Remove from Deck" : "Add to Deck";
+    btn.className = isPicked ? "btn secondary" : "btn pink";
+  } else {
+    btn.style.display = "none";
+  }
+}
+
+function closeInspect(e) {
+  document.getElementById("inspect-modal").classList.remove("active");
+  inspectTargetCard = null;
+}
+
+function handleInspectAction() {
+  if (inspectTargetCard) {
+    togglePick(inspectTargetCard);
+  }
+}
+
+/* ========================================================= */
+
+let state = {
+  seed: null,
+  hero:null,
+  heroOptions:[],
+  packs:[],       
+  currentPack:0,
+  pulledIds: new Set(),
+  poolAll:[],     
+  picked:[],
+  themeFilter:"all",
+  sortRarity:{packs:false, pool:false}
+};
+
+function toggleSort(which){
+  state.sortRarity[which] = !state.sortRarity[which];
+  document.getElementById(which==="packs" ? "sort-toggle-packs" : "sort-toggle-pool")
+    .classList.toggle("active", state.sortRarity[which]);
+  if(which==="packs"){ renderReveal(state.packs[state.currentPack]); }
+  else { renderPool(); }
+}
+
+function show(screenId){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.getElementById(screenId).classList.add("active");
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function startHeroPick(){
+  const seedInput = document.getElementById("draft-seed-input").value.trim().toUpperCase();
+  state.seed = seedInput || Math.random().toString(36).substring(2, 8).toUpperCase();
+  document.getElementById("draft-seed-input").value = state.seed; 
+  
+  const seedGen = xmur3(state.seed);
+  rng = sfc32(seedGen(), seedGen(), seedGen(), seedGen());
+
+  let shuffled = [...HERO_POOL].sort(()=>rng()-0.5);
+  state.heroOptions = shuffled.slice(0,3);
+  const grid = document.getElementById("hero-grid");
+  grid.innerHTML = "";
+  
+  state.heroOptions.forEach(h=>{
+    const div = document.createElement("div");
+    div.className = "hero-card";
+    div.style.setProperty("--hero-color", h.color || "var(--gold)");
+    div.innerHTML = buildCardHTML(h) + `<div class="ring"></div>`;
+    
+    div.onclick = ()=>{
+      document.querySelectorAll(".hero-card").forEach(c=>c.classList.remove("selected"));
+      div.classList.add("selected");
+      state.hero = h;
+      document.getElementById("hero-confirm").disabled = false;
+    };
+    div.oncontextmenu = (e)=>{
+      e.preventDefault();
+      openInspect(h, false);
+    };
+    grid.appendChild(div);
+  });
+  show("screen-hero");
+}
+
+function weightedPick(tierA, tierB, pctA, excludeIds){
+  const useTierA = rng()*100 < pctA;
+  const tier = useTierA ? tierA : tierB;
+  const pickFrom = (t) => CARD_POOL.filter(c => c.rarity===t && !state.pulledIds.has(c.id) && !excludeIds.has(c.id));
+
+  let available = pickFrom(tier);
+  if(available.length===0){
+    const otherTier = tier===tierA ? tierB : tierA;
+    available = pickFrom(otherTier);
+  }
+  if(available.length===0){
+    available = CARD_POOL.filter(c=>!state.pulledIds.has(c.id) && !excludeIds.has(c.id));
+  }
+  if(available.length===0){
+    available = CARD_POOL.filter(c=>!excludeIds.has(c.id));
+  }
+  if(available.length===0){
+    available = CARD_POOL;
+  }
+  return available[Math.floor(rng()*available.length)];
+}
+
+function pullPack(){
+  const slots = [
+    ["legendary","epic",75],
+    ["epic","rare",75],
+    ["rare","common",75],
+    ["common","rare",75],
+    ["common","common",100]
+  ];
+  const excludeIds = new Set();
+  let pulled = slots.map(([a,b,pct]) => {
+    const c = weightedPick(a,b,pct,excludeIds);
+    excludeIds.add(c.id);
+    return c;
+  });
+  pulled.forEach(c => state.pulledIds.add(c.id));
+
+  if(rng() < 1/10){
+    const shinySource = CARD_POOL[Math.floor(rng()*CARD_POOL.length)];
+    const shinyCard = {...shinySource, id: shinySource.id + "-shiny-" + rng().toString(36).slice(2,7), shiny:true};
+    pulled.push(shinyCard);
+  }
+  return pulled;
+}
+
+function startPacks(){
+  state.currentPack = 0;
+  state.packs = [];
+  document.getElementById("reveal-grid").innerHTML = "";
+  document.getElementById("pack-next-wrap").style.display = "none";
+  document.getElementById("pack-deck").style.display = "flex";
+  document.getElementById("hero-chip-img").src = state.hero.image;
+  document.getElementById("hero-chip-name").textContent = state.hero.name;
+  resetPackVisual();
+  updatePackStatus();
+  show("screen-packs");
+}
+
+function resetPackVisual(){
+  const stage = document.getElementById("pack-stage");
+  stage.classList.remove("ripping");
+  document.getElementById("pack-burst").classList.remove("go");
+}
+
+function updatePackStatus(){
+  document.getElementById("pack-status").textContent = `Pack ${state.currentPack+1} of 4`;
+}
+
+function bestRarityInPack(pulled){
+  if(pulled.some(c=>c.shiny)) return "shiny";
+  let best = "common";
+  pulled.forEach(c=>{ if(RARITY_ORDER[c.rarity] < RARITY_ORDER[best]) best = c.rarity; });
+  return best;
+}
+
+function fireParticles(tier){
+  const field = document.getElementById("particle-field");
+  if(!field) return;
+  const stage = document.getElementById("pack-stage");
+  const rect = stage.getBoundingClientRect();
+  const count = tier==="shiny" ? 28 : tier==="legendary" ? 22 : tier==="fusion" ? 18 : tier==="epic" ? 14 : 0;
+  if(count===0) return;
+  const colorMap = {shiny:"#f4c542", legendary:"#f0a83a", fusion:"#ff5fa8", epic:"#c355f0"};
+  for(let i=0;i<count;i++){
+    const p = document.createElement("div");
+    p.className = "particle go";
+    const angle = Math.random()*Math.PI*2;
+    const dist = 60 + Math.random()*120;
+    p.style.setProperty("--px", (Math.cos(angle)*dist)+"px");
+    p.style.setProperty("--py", (Math.sin(angle)*dist)+"px");
+    p.style.left = (rect.left + rect.width/2) + "px";
+    p.style.top = (rect.top + rect.height/2) + "px";
+    p.style.position = "fixed";
+    p.style.background = colorMap[tier];
+    field.appendChild(p);
+    setTimeout(()=>p.remove(), 850);
+  }
+}
+
+function openPack(){
+  const stage = document.getElementById("pack-stage");
+  if(stage.classList.contains("ripping")) return;
+  const pulled = pullPack();
+  state.packs.push(pulled);
+
+  stage.classList.add("ripping");
+  document.getElementById("pack-burst").classList.add("go");
+
+  const tier = bestRarityInPack(pulled);
+  if(tier==="shiny" || tier==="legendary" || tier==="fusion" || tier==="epic"){
+    const flash = document.getElementById("screen-flash");
+    flash.className = "screen-flash go " + (tier==="epic" || tier==="fusion" ? "purple" : "gold");
+    fireParticles(tier);
+    setTimeout(()=>{ flash.className = "screen-flash"; }, 550);
+  }
+
+  setTimeout(()=>{
+    document.getElementById("pack-deck").style.display = "none";
+    document.getElementById("reveal-controls").style.display = "block";
+    renderReveal(pulled);
+
+    document.getElementById("pack-next-wrap").style.display = "block";
+    document.getElementById("pack-next-btn").textContent = state.currentPack < 3 ? "Next Pack" : "Go to Deckbuilder";
+  }, 480);
+}
+
+function renderReveal(pulled){
+  const grid = document.getElementById("reveal-grid");
+  grid.innerHTML = "";
+  const ordered = state.sortRarity.packs ? sortByRarity(pulled) : pulled;
+  
+  ordered.forEach((c,i)=>{
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = buildCardHTML(c).trim();
+    const el = wrapper.firstChild;
+    el.style.animationDelay = (i*0.09)+"s";
+    el.onclick = () => openInspect(c, false);
+    grid.appendChild(el);
+  });
+}
+
+function nextPackOrBuild(){
+  state.currentPack++;
+  if(state.currentPack < 4){
+    document.getElementById("reveal-grid").innerHTML = "";
+    document.getElementById("reveal-controls").style.display = "none";
+    document.getElementById("pack-next-wrap").style.display = "none";
+    document.getElementById("pack-deck").style.display = "flex";
+    resetPackVisual();
+    updatePackStatus();
+  } else {
+    buildPool();
+    show("screen-build");
+  }
+}
+
+function buildPool(){
+  state.poolAll = state.packs.flat();
+  state.picked = [];
+  document.getElementById("sort-toggle-pool").style.display = "inline-flex";
+  renderThemeFilters();
+  renderPool();
+}
+
+function renderThemeFilters(){
+  const wrap = document.getElementById("theme-filters");
+  const themesPresent = [...new Set(state.poolAll.map(c=>c.theme))];
+  const sortBtn = document.getElementById("sort-toggle-pool");
+  wrap.innerHTML = "";
+  wrap.appendChild(sortBtn);
+
+  const pickedCount = (t) => state.picked.filter(c=>c.theme===t).length;
+
+  const allBtn = document.createElement("button");
+  allBtn.innerHTML = `All ${state.picked.length ? `<span class="theme-count-badge">${state.picked.length}</span>` : ""}`;
+  allBtn.className = state.themeFilter==="all" ? "active" : "";
+  allBtn.onclick = ()=>{ state.themeFilter="all"; renderThemeFilters(); renderPool(); };
+  wrap.appendChild(allBtn);
+  themesPresent.forEach(t=>{
+    const label = THEMES[t] ? THEMES[t].label : t;
+    const n = pickedCount(t);
+    const b = document.createElement("button");
+    b.innerHTML = `${label} ${n ? `<span class="theme-count-badge">${n}</span>` : ""}`;
+    b.className = state.themeFilter===t ? "active" : "";
+    b.onclick = ()=>{ state.themeFilter=t; renderThemeFilters(); renderPool(); };
+    wrap.appendChild(b);
+  });
+}
+
+function renderPool(){
+  const grid = document.getElementById("pool-grid");
+  grid.innerHTML = "";
+  const ordered = state.sortRarity.pool ? sortByRarity(state.poolAll) : state.poolAll;
+  
+  ordered.forEach(c=>{
+    const wrap = document.createElement("div");
+    wrap.className = "pool-card";
+    if(state.themeFilter!=="all" && c.theme!==state.themeFilter) wrap.classList.add("hidden");
+    const isPicked = state.picked.some(p=>p.id===c.id);
+    if(isPicked) wrap.classList.add("picked");
+    if(!isPicked && state.picked.length>=12) wrap.classList.add("disabled");
+    
+    wrap.innerHTML = buildCardHTML(c) + `<div class="pick-badge">✓</div>`;
+    wrap.onclick = (e) => {
+      openInspect(c, true);
+    };
+    wrap.oncontextmenu = (e) => {
+      e.preventDefault();
+      togglePick(c);
+    };
+    grid.appendChild(wrap);
+  });
+  updateCounter();
+}
+
+function togglePick(c){
+  const idx = state.picked.findIndex(p=>p.id===c.id);
+  if(idx>=0){
+    state.picked.splice(idx,1);
+  } else if(state.picked.length<12){
+    state.picked.push(c);
+  }
+  renderThemeFilters();
+  renderPool();
+  
+  if(inspectTargetCard && inspectTargetCard.id === c.id) {
+     const isPicked = state.picked.some(p => p.id === c.id);
+     const btn = document.getElementById("inspect-action-btn");
+     btn.textContent = isPicked ? "Remove from Deck" : "Add to Deck";
+     btn.className = isPicked ? "btn secondary" : "btn pink";
+  }
+}
+
+function updateCounter(){
+  const el = document.getElementById("pick-counter");
+  el.textContent = `${state.picked.length} / 12`;
+  el.classList.toggle("full", state.picked.length===12);
+  document.getElementById("finish-btn").disabled = state.picked.length!==12;
+}
+
+function showExport(){
+  const box = document.getElementById("export-box");
+  let lines = [`SEED: ${state.seed}`, `HERO: ${state.hero.name}`, ""];
+  state.picked.forEach(c=>{
+    lines.push(`${c.name} - ${c.themeLabel}${c.shiny?' ✦ SHINY':''}  <span class="rarity-tag">(${c.rarity})</span>`);
+  });
+  box.innerHTML = lines.join("\n");
+
+  const strip = document.getElementById("export-strip");
+  const stripCards = [{...state.hero, rarity:"hero", themeLabel:"Hero"}, ...state.picked];
+  strip.innerHTML = "";
+  stripCards.forEach(c=>{
+    const el = document.createElement("div");
+    el.className = `mini-card${c.rarity && c.rarity!=='hero' ? ' r-'+c.rarity : ''}${c.shiny?' shiny':''}`;
+    el.innerHTML = `<img src="${c.image}" title="${c.name}">`;
+    strip.appendChild(el);
+  });
+
+  show("screen-export");
+}
+
+/* =========================================================
+   ANARCHY PACKS
+   ========================================================= */
+
+const ANARCHY_ODDS = [
+  {rarity:"legendary", chance:0.035},
+  {rarity:"fusion",    chance:0.07},
+  {rarity:"epic",      chance:0.125},
+  {rarity:"rare",      chance:0.60},
+  {rarity:"common",    chance:0.97}
+];
+
+let anarchyState = {
+  coinsSpent: 0,
+  packsOpened: 0,
+  collection: {}
+};
+
+function anarchyRollRarity(){
+  for(const tier of ANARCHY_ODDS){
+    if(rng() < tier.chance) return tier.rarity;
+  }
+  return "common";
+}
+
+function anarchyPullCard(){
+  const rarity = anarchyRollRarity();
+  const pool = CARD_POOL.filter(c => c.rarity === rarity);
+  const source = pool.length ? pool : CARD_POOL;
+  return source[Math.floor(rng()*source.length)];
+}
+
+function anarchyPullPack(){
+  return [anarchyPullCard(), anarchyPullCard(), anarchyPullCard()];
+}
+
+function anarchyAddToCollection(card){
+  const entry = anarchyState.collection[card.id];
+  if(entry){ entry.count++; }
+  else{ anarchyState.collection[card.id] = {card, count:1}; }
+}
+
+function openAnarchyHub(){
+  document.getElementById("anarchy-reveal-grid").innerHTML = "";
+  updateAnarchyStats();
+  show("screen-anarchy");
+}
+
+function updateAnarchyStats(){
+  const uniqueCount = Object.keys(anarchyState.collection).length;
+  document.getElementById("anarchy-stats").innerHTML = `
+    <div class="stat"><div class="val">${anarchyState.packsOpened}</div><div class="lbl">Packs Opened</div></div>
+    <div class="stat coins"><div class="val">${anarchyState.coinsSpent.toLocaleString()}</div><div class="lbl">Coins Spent</div></div>
+    <div class="stat"><div class="val">${uniqueCount}</div><div class="lbl">Unique Cards</div></div>
+  `;
+}
+
+function anarchyFireParticles(tier){
+  const field = document.getElementById("anarchy-particle-field");
+  if(!field) return;
+  const anchor = document.getElementById("anarchy-open1-btn");
+  if(!anchor) return;
+  const rect = anchor.getBoundingClientRect();
+  const count = tier==="legendary" ? 22 : tier==="epic" ? 14 : 0;
+  if(count===0) return;
+  const colorMap = {legendary:"#f0a83a", epic:"#c355f0"};
+  for(let i=0;i<count;i++){
+    const p = document.createElement("div");
+    p.className = "particle go";
+    const angle = Math.random()*Math.PI*2;
+    const dist = 60 + Math.random()*120;
+    p.style.setProperty("--px", (Math.cos(angle)*dist)+"px");
+    p.style.setProperty("--py", (Math.sin(angle)*dist)+"px");
+    p.style.left = (rect.left + rect.width/2) + "px";
+    p.style.top = (rect.top + rect.height/2) + "px";
+    p.style.position = "fixed";
+    p.style.background = colorMap[tier];
+    field.appendChild(p);
+    setTimeout(()=>p.remove(), 850);
+  }
+}
+
+function anarchyOpen(numPacks){
+  const cost = numPacks * 10000;
+  const openBtns = [document.getElementById("anarchy-open1-btn"), document.getElementById("anarchy-open10-btn")];
+  openBtns.forEach(b=>b.disabled = true);
+
+  let allPulled = [];
+  for(let i=0;i<numPacks;i++){
+    const pulled = anarchyPullPack();
+    pulled.forEach(c => anarchyAddToCollection(c));
+    allPulled = allPulled.concat(pulled);
+  }
+  anarchyState.packsOpened += numPacks;
+  anarchyState.coinsSpent += cost;
+
+  const bestTier = allPulled.reduce((best,c)=>{
+    return RARITY_ORDER[c.rarity] < RARITY_ORDER[best] ? c.rarity : best;
+  }, "common");
+  if(bestTier==="legendary" || bestTier==="epic"){
+    const flash = document.getElementById("anarchy-screen-flash");
+    flash.className = "screen-flash go " + (bestTier==="epic" ? "purple" : "gold");
+    anarchyFireParticles(bestTier);
+    setTimeout(()=>{ flash.className = "screen-flash"; }, 550);
+  }
+
+  const grid = document.getElementById("anarchy-reveal-grid");
+  grid.innerHTML = "";
+  const ordered = sortByRarity(allPulled);
+  ordered.forEach((c,i)=>{
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = buildCardHTML(c).trim();
+    const el = wrapper.firstChild;
+    el.style.animationDelay = (i*0.05)+"s";
+    el.onclick = () => openInspect(c, false);
+    grid.appendChild(el);
+  });
+
+  updateAnarchyStats();
+  openBtns.forEach(b=>b.disabled = false);
+  grid.scrollIntoView({behavior:"smooth", block:"nearest"});
+}
+
+function showAnarchyCollection(){
+  const entries = Object.values(anarchyState.collection);
+  const ordered = entries.sort((a,b)=> RARITY_ORDER[a.card.rarity]-RARITY_ORDER[b.card.rarity]);
+  const grid = document.getElementById("anarchy-collection-grid");
+  grid.innerHTML = "";
+  if(ordered.length===0){
+    grid.innerHTML = `<p style="color:var(--muted); grid-column:1/-1;">No cards yet - open some Anarchy Packs first.</p>`;
+  }
+  ordered.forEach(({card,count})=>{
+    const wrap = document.createElement("div");
+    wrap.className = "pool-card";
+    wrap.innerHTML = `<div class="dupe-badge">x${count}</div>` + buildCardHTML(card);
+    wrap.onclick = () => openInspect(card, false);
+    grid.appendChild(wrap);
+  });
+  document.getElementById("anarchy-collection-counter").textContent = `${ordered.length} unique`;
+
+  const totalCards = entries.reduce((sum,e)=>sum+e.count,0);
+  document.getElementById("anarchy-collection-stats").innerHTML = `
+    <div class="stat"><div class="val">${anarchyState.packsOpened}</div><div class="lbl">Packs Opened</div></div>
+    <div class="stat coins"><div class="val">${anarchyState.coinsSpent.toLocaleString()}</div><div class="lbl">Coins Spent</div></div>
+    <div class="stat"><div class="val">${totalCards}</div><div class="lbl">Total Cards</div></div>
+  `;
+
+  show("screen-anarchy-collection");
+}
+</script>
+</body>
+</html>

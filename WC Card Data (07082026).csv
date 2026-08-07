@@ -1,0 +1,470 @@
+﻿Name,Card Code,Collections,Albums (from Collections),Rarity,Energy,Power,Ability Title,Ability (Override)
+Apollo,CGM003,Greek Mythology,Culture,Epic,8,7,Athletic Youth,"<indent=1em>:draw:</indent><indent=2em>If it’s an odd turn, gain +3 :energy:. If it’s an even turn, gain +3 Hero :attack:.</indent>"
+Persephone,CGM002,Greek Mythology,Culture,Epic,7,5,Return to the Surface,"<indent=1em>:return:</indent><indent=2em>If you did not Attack this turn, restore +8 :health:</indent>"
+Hades,CGM001,Greek Mythology,Culture,Legendary,4,6,Overthrow,"<indent=1em>:play:</indent><indent=2em>If your opponent hasn't Attacked in 2 or more turns, force them to Attack this turn.</indent>"
+Heaven’s Gate,NNM011,Natural Monuments,Nature,Common,4,3,Steep Ascent,"<indent=1em>:play:</indent><indent=2em>If played next to Devil's Tower, your Common Natural Monuments cards gain <nobr>+2 :attack:</nobr> until played.</indent>"
+Nitrogen,SPT002,The Periodic Table,Science,Epic,6,2,Compound Volatility,"<indent=1em>:play:</indent><indent=2em>For every Rare card played adjacent to this, this card gains <nobr>+4 :attack:</nobr> this turn</indent>"
+Bull Shark,NSH012,Sharks,Nature,Common,6,4,Aggrocean,<indent=1em>:play:</indent><indent=2em>Your Aquatic cards gain <nobr>+1 :attack:</nobr> this turn and you lose <nobr>-2 :health:</nobr>.</indent>
+Ouija Board,CTO004,The Occult,Culture,Rare,6,3,Voices of the Dead,"<indent=1em>:return:</indent><indent=2em>If your opponent <nobr>Attacked :attack:</nobr> this turn, gain <nobr>+5 Hero :attack:</nobr>.</indent>"
+Mars,SSS001,The Solar System,Science,Legendary,3,1,Seeing Red,"<indent=1em>:play:</indent><indent=2em>If you are below <nobr>25 :health:</nobr>, restore <nobr>+15 :health:</nobr>.</indent>"
+Mount Olympus,CGM016,Greek Mythology,Culture,Fusion,9,2,Peak Performance,"<indent=1em>:draw:</indent><indent=2em>If your deck contains any Natural Monuments card, your Greek Mythology cards gain +2 :attack: until played.</indent>"
+Cleopatra,HHE001,Heroes of History,History,Hero,0,70,For The People,Gain <nobr>+10 :shield:</nobr>. <nobr>[2 :charge:]</nobr>
+Acheroraptor,NDI007,Dinosaurs,Nature,Rare,5,6,Clawsome,<indent=1em>:play:</indent><indent=2em>Your Velociraptor and Megaraptor cards gain <nobr>+2 :attack:</nobr> this turn.</indent>
+Caligula,HRE007,The Roman Empire,History,Rare,4,4,Oderint dum metuant,<indent=1em>:draw:</indent><indent=2em>This card takes <nobr>+1 :attack:</nobr> from all other The Roman Empire cards in your hand until played.</indent>
+The Grand Canyon,NNM016,Natural Monuments,Nature,Fusion,5,3,Mountain Lying Down,"<indent=1em>:play:</indent><indent=2em>If your deck contains exactly 6 Nature cards, your non-Nature cards gain <nobr>+1 :attack:</nobr> until played.</indent>"
+Siamese,NFE003,Felines,Nature,Epic,5,3,Point Coloration,"<indent=1em>:play:</indent><indent=2em>If you are not <nobr>Attacking :attack:</nobr>, your Felines cards gain <nobr>+2 :attack:</nobr> this turn.</indent>"
+Poseidon,CGM006,Greek Mythology,Culture,Rare,6,5,Come in Waves,"<indent=1em>:play:</indent><indent=2em>If it is an even Turn number, this card gains +3 :attack: this turn.</indent>"
+Elizabeth Blackwell,SST010,STEM Stars,Science,Common,3,1,Medicine and Morality,<indent=1em>:return:</indent><indent=2em>Gain <nobr>+1 :charge:</nobr>.</indent>
+Mary Shelley,CLI002,Literature,Culture,Epic,5,4,Mother Monster,"<indent=1em>:play:</indent><indent=2em>If played next to any Anatomy card, your Literature cards gain <nobr>+2 :attack:</nobr> this turn.</indent>"
+Ankh,HAE008,Ancient Egypt,History,Common,1,1,Live Forever,"<indent=1em>:play:</indent><indent=2em> If played next to Scarab, gain <nobr>+3 :shield:</nobr>.</indent>"
+Gladius,HRE010,The Roman Empire,History,Common,2,0,Ego tibi gladius...,<indent=1em>:play:</indent><indent=2em>Gain <nobr>+3 Hero :attack:</nobr>.</indent>
+Hammerhead Shark,NSH016,Sharks,Nature,Fusion,7,7,Cephalofoil,"<indent=1em>:play:</indent><indent=2em>If played between two cards from an Album, two random cards from that Album gain <nobr>+4 :attack:</nobr> until played.</indent>"
+Spinosaurus,NDI002,Dinosaurs,Nature,Epic,6,5,Show Some Backbone,"<indent=1em>:draw:</indent><indent=2em>If you <nobr>Attacked :attack:</nobr> last turn, gain <nobr>+8 :shield:</nobr>.</indent>"
+Nikola Tesla,SHE003,Heroes of Science,Science,Hero,0,70,Alternating Current,Steal <nobr>1 :charge:</nobr> from your opponent and turn it into <nobr>+3 :ept:</nobr> for yourself. <nobr>[3 :charge:]</nobr>
+Neptune,SSS007,The Solar System,Science,Rare,7,4,Fluid,"<indent=1em>:play:</indent><indent=2em>If played on the left, Reset a random card in your hand. If played on the right, gain <nobr>+3 :shield:</nobr>.</indent>"
+Adventure Galley,HAP013,Age of Piracy,History,Common,4,2,Privateering,<indent=1em>:play:</indent><indent=2em>Your Captain Kidd card gains <nobr>+2 :attack:</nobr> until played.</indent>
+Brain,SHE001,Heroes of Science,Science,Hero,0,70,Emotional Response,"If you have 50% or less <nobr>:health:</nobr>, your cards in-hand gain <nobr>+3 :attack:</nobr> this turn. <nobr>[1 :charge:]</nobr>"
+Witching Hour,CTO009,The Occult,Culture,Common,6,3,Midnight Guard,<indent=1em>:return:</indent><indent=2em>Your remaining Common cards in-hand gain <nobr>+3 :attack:</nobr> next turn.</indent>
+Mary Seacole,SST011,STEM Stars,Science,Common,3,1,Mother Seacole,"<indent=1em>:play:</indent><indent=2em>If you've been <nobr>Attacked :attack:</nobr> 1 or more times this game, your opponent loses <nobr>-3 Hero :attack:</nobr>.</indent>"
+Hera,CGM011,Greek Mythology,Culture,Common,5,3,Family Values,"<indent=1em>:play:</indent><indent=2em> If you have Attacked 2+ times this game, your Greek Mythology cards in-hand gain +2 :attack: this turn.</indent>"
+Shakshuka,CFD010,Food and Drink,Culture,Common,4,4,Sizzle,<indent=1em>:return:</indent><indent=2em><nobr>Burn :burn: (-1)</nobr> your remaining cards in hand until played.</indent>
+Perseids,SSS012,The Solar System,Science,Common,5,4,Meteor Shower,<indent=1em>:draw:</indent><indent=2em>3 random cards in either player's hands cost <nobr>-1 :energy:</nobr> this turn.</indent>
+Sphynx,NFE007,Felines,Nature,Rare,2,1,Selective Breeding,"<indent=1em>:return:</indent><indent=2em>If played next to The Sphinx, gain <nobr>+4 :shield:</nobr>.</indent>"
+Skeleton,SAN016,Anatomy,Science,Fusion,4,3,Good Bones,"<indent=1em>:play:</indent><indent=2em>If played between two Dinosaurs cards, your Science cards gain <nobr>+2 :attack:</nobr> until played.</indent>"
+Hansel and Gretel,CLI014,Literature,Culture,Common,3,3,Keeping Sweet,<indent=1em>:return:</indent><indent=2em><nobr>Burn :burn: (-1)</nobr> your opponent's remaining cards for 2 turns.</indent>
+Silver,SPT004,The Periodic Table,Science,Rare,4,7,Conductive,"<indent=1em>:play:</indent><indent=2em>Three random cards in your hand gain <nobr>+1 :attack:</nobr> permanently, and this card loses <nobr>-3 :attack:</nobr> permanently.</indent>"
+William Shakespeare,CHE004,Heroes of Culture,Culture,Hero,0,80,To Thine Own Self,"If you did not <nobr>Attack :attack:</nobr> last turn, restore <nobr>+15 :health:</nobr>. <nobr>[3 :charge:]</nobr>"
+Ada Lovelace,SST002,STEM Stars,Science,Epic,6,5,Bride of Science,"<indent=1em>:play:</indent><indent=2em>For every 5 <nobr>Hero :attack:</nobr> your opponent has, gain <nobr>+1 :shield:</nobr>.</indent>"
+Mummies,HAE014,Ancient Egypt,History,Common,2,0,Preservation,<indent=1em>:draw:</indent><indent=2em>Your cards with 0 Base <nobr>:attack:</nobr> gain <nobr>+1 :attack:</nobr> until played.</indent>
+Scarab,HAE015,Ancient Egypt,History,Common,1,1,Live Forever,"<indent=1em>:play:</indent><indent=2em> If played next to Ankh, gain <nobr>+3 :shield:</nobr>.</indent>"
+Tiberius,HRE004,The Roman Empire,History,Rare,4,3,Auribus teneo lupum,"<indent=1em>:play:</indent><indent=2em>If you have played Tiberius this game, your The Roman Empire cards gain <nobr>+1 :attack:</nobr> until played.</indent>"
+The Pantheon,HRE015,The Roman Empire,History,Common,4,2,M. Agrippa Hoc Fecit,"<indent=1em>:return:</indent><indent=2em>If you <nobr>Attacked :attack:</nobr> for more than your opponent this turn, gain <nobr>+1 Hero :attack:</nobr>.</indent>"
+Zebra Shark,NSH008,Sharks,Nature,Common,5,4,Night Hunting,"<indent=1em>:turnstart:</indent><indent=5.85em>Every 3rd Turn of the game, gain <nobr>+1 Hero :attack:</nobr></indent>"
+Uranus,SSS009,The Solar System,Science,Common,3,5,Ice Giant,<indent=1em>:return:</indent><indent=2em><nobr>Freeze :freeze:</nobr> two cards in either player's hand next turn.</indent>
+Achilles,CGM005,Greek Mythology,Culture,Rare,6,5,Heel,"<indent=1em>:play:</indent><indent=2em> If you have 10 or less Hero :attack:, restore +5 :health:</indent>"
+Hangaku Gozen,HFJ006,Feudal Japan,History,Rare,8,4,Uprising,"<indent=1em>:draw:</indent><indent=2em>For every Feudal Japan card in your hand, this card costs <nobr>-2 :energy:</nobr> this turn.</indent>"
+Katana,HFJ008,Feudal Japan,History,Common,3,0,Strike,<indent=1em>:return:</indent><indent=2em>This card gains <nobr>+4 :attack:</nobr> permanently.</indent>
+Miranda,SSS015,The Solar System,Science,Common,5,2,Seasonal Extremes,"<indent=1em>:draw:</indent><indent=2em>If it's before Turn 5, <nobr>Burn :burn: (-2)</nobr> a random opponent's card until played.</indent>"
+Pentagram,CTO001,The Occult,Culture,Legendary,5,5,Circle of Power,"<indent=1em>:turnstart:</indent><indent=2em>Gain <nobr>+3 :shield:</nobr>. For every time you have played Pentagram this game, gain an additional <nobr>:shield:</nobr>.</indent>"
+Mount Vesuvius,NNM003,Natural Monuments,Nature,Epic,5,3,Ashfall,"<indent=1em>:return:</indent><indent=2em>If played next to Mount Etna, both cards gain <nobr>+1 :attack:</nobr> permanently.</indent>"
+Jane Austen,CLI001,Literature,Culture,Legendary,4,3,Brace Yourself,"<indent=1em>:play:</indent><indent=2em>If you have not <nobr>Attacked :attack:</nobr> this game, gain <nobr>+9 :shield:</nobr>.</indent>"
+Tarzan of the Apes,CLI013,Literature,Culture,Common,4,3,Lord of the Manor,"<indent=1em>:play:</indent><indent=2em>If played next to any Nature card, this card gains <nobr>+4 :attack:</nobr> this turn.</indent>"
+White Cliffs of Dover,NNM008,Natural Monuments,Nature,Common,6,4,Chalk It Up,"<indent=1em>:play:</indent><indent=2em>If you are below 50% <nobr>:health:</nobr>, gain <nobr>+3 :shield:</nobr>.</indent>"
+The Pyramids,HAE016,Ancient Egypt,History,Fusion,3,3,Pyramid Power,"<indent=1em>:return:</indent><indent=2em>If your deck contains any The Occult card, your History cards gain <nobr>+3 :attack:</nobr> next turn.</indent>"
+Femur,SAN015,Anatomy,Science,Common,4,7,Efemural,"<indent=1em>:play:</indent><indent=2em>If you <nobr>Attack :attack:</nobr> this turn, lose <nobr>-5 :health:</nobr>.</indent>"
+Goblin Shark,NSH003,Sharks,Nature,Epic,6,5,Extended Jaw,<indent=1em>:draw:</indent><indent=2em>2 random Rare+ cards in your opponent's hand lose <nobr>-2 :attack:</nobr> until played</indent>
+Coffin Texts,HAE010,Ancient Egypt,History,Common,5,0,Keeping Track,<indent=1em>:play:</indent><indent=2em> Your Ancient Egypt cards in-hand gain <nobr>+1 :attack:</nobr> this turn.</indent>
+Jolly Roger,HAP016,Age of Piracy,History,Fusion,8,8,Black Flag,"<indent=1em>:play:</indent><indent=2em>If you are at or below <nobr>15 :health:</nobr>, a random non-History card in your hand  gains <nobr>+10 :attack:</nobr> permanently.</indent>"
+The Roman Army,HRE016,The Roman Empire,History,Fusion,4,1,Legio aeterna victrix,"<indent=1em>:draw:</indent><indent=2em>For every Common card in your hand, this card gains <nobr>+2 :attack:</nobr> this turn.</indent>"
+Friday the 13th,CTO008,The Occult,Culture,Common,6,3,Bad Omen,"<indent=1em>:draw:</indent><indent=2em>If you <nobr>Attacked :attack:</nobr> last turn, steal <nobr>1 :charge:</nobr> from your opponent.</indent>"
+Archimedes,SST006,STEM Stars,Science,Rare,6,4,Euerka Moment,<indent=1em>:play:</indent><indent=2em>Your STEM Stars cards in hand gain <nobr>+2 :attack:</nobr> this turn.</indent>
+Jane Eyre,CLI007,Literature,Culture,Rare,4,3,Private Consciousness,"<indent=1em>:draw:</indent><indent=2em>If you have less than <nobr>30 :health:</nobr>, gain <nobr>+3 :shield:</nobr>.</indent>"
+Bratwurst,CFD004,Food and Drink,Culture,Rare,4,3,Wurst Case Scenario,"<indent=1em>:draw:</indent><indent=2em>If your opponent has <nobr>16+ Hero :attack:</nobr>, reduce it by -6.</indent>"
+Ramen,CFD006,Food and Drink,Culture,Rare,5,4,Spice Packet,<indent=1em>:play:</indent><indent=2em><nobr>Burn :burn: (-1)</nobr> a random card in each player's hand for 2 turns.</indent>
+Valley of the Kings,HAE006,Ancient Egypt,History,Rare,8,0,East and West,"<indent=1em>:return:</indent><indent=2em>If played on the left, gain <nobr>+1 Hero :attack:</nobr> permanently. If played on the right, gain <nobr>+1 :ept:</nobr> permanently.</indent>"
+Iron,SPT009,The Periodic Table,Science,Common,6,5,A New Age,<indent=1em>:draw:</indent><indent=2em>A random Rare card costs <nobr>+1 :energy:</nobr> permanently and this card gains <nobr>+1 :attack:</nobr> permanently.</indent>
+Mac ‘n’ Cheese,CFD007,Food and Drink,Culture,Rare,5,3,True Comfort,"<indent=1em>:play:</indent><indent=2em>If your opponent has <nobr>20+ Hero :attack:</nobr>, gain <nobr>+5 :shield:</nobr>.</indent>"
+Neon,SPT011,The Periodic Table,Science,Common,7,2,Emission Spectrum,<indent=1em>:return:</indent><indent=2em>A random card of each Rarity in your deck gains <nobr>+1 :attack:</nobr> permanently.</indent>
+Charles Darwin,SST016,STEM Stars,Science,Fusion,5,4,Adaptive Evolution,"<indent=1em>:play:</indent><indent=2em>If your deck contains 4 or more Nature cards, your Science cards gain <nobr>+1 :attack:</nobr> until played.</indent>"
+The Moon,SSS005,The Solar System,Science,Rare,6,4,Far Side,"<indent=1em>:play:</indent><indent=2em>If you are at or below <nobr>25 :health:</nobr>, gain <nobr>+10 Hero :attack:</nobr>.</indent>"
+Giganotosaurus,NDI015,Dinosaurs,Nature,Common,6,4,Giant Appetite,"<indent=1em>:play:</indent><indent=2em>The opposite card loses <nobr>-2 :attack:</nobr> this turn, and this card gains <nobr>+2 :attack:</nobr> this turn.</indent>"
+Mako Shark,NSH009,Sharks,Nature,Common,3,3,Equal Tail,<indent=1em>:return:</indent><indent=2em>Both players gain <nobr>+1 :energy:</nobr>.</indent>
+Winchester Mystery House,CTO007,The Occult,Culture,Rare,5,2,Dead Ends,<indent=1em>:draw:</indent><indent=2em>Your opponent's cards in hand cost <nobr>+1 :energy:</nobr> this turn.</indent>
+Epic of Gilgamesh,CLI015,Literature,Culture,Common,3,2,Beholdest Him,"<indent=1em>:play:</indent><indent=2em>If played adjacent to no other card, your opponent loses <nobr>-6 Hero :attack:</nobr>.</indent>"
+Athame,CTO005,The Occult,Culture,Rare,4,3,Ritual Strike,<indent=1em>:play:</indent><indent=2em>Your The Occult cards gain <nobr>+2 :attack:</nobr> this turn.</indent>
+Hand of Glory,CTO011,The Occult,Culture,Common,4,3,Sinister Candle,"<indent=1em>:play:</indent><indent=2em>If played on the left, your opponent loses <nobr>-3 Hero :attack:</nobr>.</indent>"
+Halley’s Comet,SSS008,The Solar System,Science,Common,7,5,Dirty Snowball,"<indent=1em>:return:</indent><indent=2em>If your opponent <nobr>Attacked :attack:</nobr> this turn, <nobr>Freeze :freeze:</nobr> a random opponent's card next turn.</indent>"
+Grimoire,CTO016,The Occult,Culture,Fusion,4,3,Living Ink,"<indent=1em>:play:</indent><indent=2em>If your deck contains 3 or more Nature cards, your The Occult cards gain <nobr>+1 :attack:</nobr> until played.</indent>"
+Mount Kilimanjaro,NNM001,Natural Monuments,Nature,Legendary,8,8,That Which Defeats,<indent=1em>:return:</indent><indent=2em>This card gains <nobr>+8 :attack:</nobr> and costs <nobr>+4 :energy:</nobr> permanently.</indent>
+The Sphinx,HAE004,Ancient Egypt,History,Rare,3,2,Nosey,"<indent=1em>:play:</indent><indent=2em>If your opponent is below <nobr>20 :health:</nobr>, gain <nobr>+5 Hero :attack:</nobr>.</indent>"
+Giant’s Causeway,NNM004,Natural Monuments,Nature,Rare,7,5,Stepping Stones,"<indent=1em>:play:</indent><indent=2em>If you did not <nobr>attack :attack:</nobr> this turn, gain an additional <nobr>+1 Hero :attack:</nobr> every turn.</indent>"
+Plateosaurus,NDI013,Dinosaurs,Nature,Common,6,5,Broad Spectrum,"<indent=1em>:play:</indent><indent=2em>If your opponent has <nobr>15+ Hero :attack:</nobr>, gain <nobr>+8 :shield:</nobr>.</indent>"
+Marcus Aurelius,HRE002,The Roman Empire,History,Epic,6,6,Dum spiro spero,"<indent=1em>:return:</indent><indent=2em>If your opponent <nobr>Attacked :attack:</nobr>, and you did not, gain <nobr>+1 :ept:</nobr> and <nobr>+2 Hero :attack:</nobr> permanently.</indent>"
+Bananas,CFD014,Food and Drink,Culture,Common,4,2,Peel,<indent=1em>:return:</indent><indent=2em>Your Gorilla card costs <nobr>-3 :energy:</nobr> next turn.</indent>
+Bobcat,NFE008,Felines,Nature,Common,4,3,Territorial Boundaries,<indent=1em>:play:</indent><indent=2em>Gain <nobr>+1 :shield:</nobr>.</indent>
+Adam’s Apple,SAN012,Anatomy,Science,Common,3,3,Prominence,"<indent=1em>:play:</indent><indent=2em>If played next to Larynx, lose <nobr>-2 :health:</nobr>.</indent>"
+Imhotep,HAE005,Ancient Egypt,History,Rare,1,2,Better With Time,<indent=1em>:return:</indent><indent=2em>This card gains <nobr>+1 :attack:</nobr> and costs <nobr>+1 :energy:</nobr> permanently.</indent>
+Heart,SAN001,Anatomy,Science,Legendary,3,0,Skip a Beat,"<indent=1em>:play:</indent><indent=2em>Lose <nobr>-6 :health:</nobr> and, for every Science card you play this turn, this card gains <nobr>+2 :attack:</nobr> permanently.</indent>"
+Diplodocus,NDI009,Dinosaurs,Nature,Common,6,2,Big-Boned,<indent=1em>:draw:</indent><indent=2em>This card gains <nobr>+3 :attack:</nobr> permanently.</indent>
+Angel Shark,NSH011,Sharks,Nature,Common,1,1,Tiny Hunter,<indent=1em>:return:</indent><indent=2em>All cards that cost 3 or less <nobr>:energy:</nobr> cost <nobr>+1 :energy:</nobr> next turn.</indent>
+Shuriken,HFJ009,Feudal Japan,History,Common,2,2,Expendable,"<indent=1em>:draw:</indent><indent=2em>If you have played this card before, Reset this card.</indent>"
+Ankylosaurus,NDI011,Dinosaurs,Nature,Common,7,6,Gone Clubbin',"<indent=1em>:play:</indent><indent=2em>If your opponent has any <nobr>:shield:</nobr>, they lose <nobr>-4 :health:</nobr>.</indent>"
+Sayyida Al Hurra,HAP008,Age of Piracy,History,Common,4,3,Split Control,"<indent=1em>:return:</indent><indent=2em>If your opponent <nobr>Attacked :attack:</nobr> this turn, restore <nobr>+5 :health:</nobr>. If they did not, lose <nobr>-5 :health:</nobr>.</indent>"
+Sappho,CLI006,Literature,Culture,Rare,2,1,The Poetess,<indent=1em>:return:</indent><indent=2em>Restore <nobr>+3 :health:</nobr>.</indent>
+Uranium,SPT007,The Periodic Table,Science,Rare,5,8,Decay,"<indent=1em>:play:</indent><indent=2em>For every Rare card played by either player this turn, this card loses <nobr>-1 :attack:</nobr> this turn.</indent>"
+Teeth,SAN014,Anatomy,Science,Common,3,3,Chompers,"<indent=1em>:play:</indent><indent=2em>If played next to Esophagus, this card gains <nobr>+2 :attack:</nobr> this turn.</indent>"
+Hatshepsut,HAE003,Ancient Egypt,History,Epic,6,5,Prosperity,<indent=1em>:play:</indent><indent=2em> Gain <nobr>+5 :shield:</nobr>.</indent>
+Brachiosaurus,NDI010,Dinosaurs,Nature,Common,3,5,Big Cow,"<indent=1em>:draw:</indent><indent=2em>For every time you have played Brachiosaurus, restore <nobr>+1 :health:</nobr>.</indent>"
+Nickel,SPT012,The Periodic Table,Science,Common,0,3,And Diming,"<indent=1em>:draw:</indent><indent=2em>For every Common card in your hand, this card costs <nobr>+1 :energy:</nobr> this turn.</indent>"
+Eye,SAN003,Anatomy,Science,Epic,5,4,20/20,"<indent=1em>:return:</indent><indent=2em>For every Anatomy card you play this turn, the card opposite costs <nobr>+1 :energy:</nobr> permanently.</indent>"
+Megaraptor,NDI005,Dinosaurs,Nature,Rare,6,5,Clawsome,<indent=1em>:play:</indent><indent=2em>Your Velociraptor and Acheroraptor cards gain <nobr>+2 :attack:</nobr> this turn.</indent>
+Muramasa,HFJ011,Feudal Japan,History,Common,5,3,Wicked Katana,"<indent=1em>:play:</indent><indent=2em>If played next to Katana, gain <nobr>+2 Hero :attack:</nobr>.</indent>"
+Avicenna,SST005,STEM Stars,Science,Rare,5,4,Canon of Medicine,<indent=1em>:return:</indent><indent=2em>Your cards with HP abilities cost <nobr>-1 :energy:</nobr> until played.</indent>
+American Shorthair,NFE014,Felines,Nature,Common,3,2,Intermeowtional,"<indent=1em>:play:</indent><indent=2em>If played next to Norwegian Forest Cat, gain <nobr>+4 Hero :attack:</nobr>.</indent>"
+John Dee,SST008,STEM Stars,Science,Common,2,2,Occult Scholar,"<indent=1em>:play:</indent><indent=2em>If played next to Crystal Ball, gain <nobr>+4 Hero :attack:</nobr>.</indent>"
+"Pluto, Dwarf Planet",SSS010,The Solar System,Science,Common,4,3,Beyond Neptune,"<indent=1em>:play:</indent><indent=2em>If you have played Neptune, reduce it's cost by <nobr>-3 :energy:</nobr> until played.</indent>"
+T-Rex,NHE001,Heroes of Nature,Nature,Hero,0,90,Bone Crusher,"Your cards in hand gain <nobr>+4 :attack:</nobr> until played, and you lose <nobr>-30 :health:</nobr>. <nobr>[2 :charge:]</nobr>"
+Stegosaurus,NDI003,Dinosaurs,Nature,Epic,6,5,Tail Whip,<indent=1em>:return:</indent><indent=2em>Your opponent's remaining cards lose <nobr>-2 :attack:</nobr> for 2 turns.</indent>
+Battle of Sekigahara,HFJ007,Feudal Japan,History,Rare,8,0,Power Vacuum,"<indent=1em>:play:</indent><indent=2em>If you are below 50% <nobr>:health:</nobr>, Steal up to <nobr>-8 Hero :attack:</nobr> from your opponent.</indent>"
+Mochi,CFD011,Food and Drink,Culture,Common,5,4,Kagami,"<indent=1em>:play:</indent><indent=2em>If played next to Samurai, both cards gain <nobr>+1 :attack:</nobr> this turn.</indent>"
+Iguazu Falls,NNM012,Natural Monuments,Nature,Common,6,4,Big Water,<indent=1em>:return:</indent><indent=2em>Restore <nobr>+3 :health:</nobr>.</indent>
+Anne Bonny,HAP002,Age of Piracy,History,Epic,8,6,Partners In Plunder,<indent=1em>:play:</indent><indent=2em><nobr>Force :attack:</nobr> your opponent to Attack this turn.</indent>
+Potatoes,CFD012,Food and Drink,Culture,Common,6,5,Overboiled,"<indent=1em>:play:</indent><indent=2em>If your opponent has <nobr>5 :shield:</nobr> or more, they lose <nobr>-5 :health:</nobr>.</indent>"
+Pinocchio,CLI011,Literature,Culture,Common,2,1,Strings Attached,"<indent=1em>:play:</indent><indent=2em>If you did not <nobr>Attack :attack:</nobr> last turn, restore <nobr>+5 :health:</nobr>. If you did <nobr>Attack :attack:</nobr> last turn, lose <nobr>-5 :health:</nobr>.</indent>"
+Humerus,SAN013,Anatomy,Science,Common,2,4,Funny Bones,"<indent=1em>:return:</indent><indent=2em>If you were <nobr>Attacked :attack:</nobr> this turn, lose <nobr>-1 :health:</nobr>.</indent>"
+Skin,SAN007,Anatomy,Science,Rare,4,3,Thick Skin,"<indent=1em>:play:</indent><indent=2em>For every time your opponent has <nobr>Attacked :attack:</nobr> this game, restore <nobr>+2 :health:</nobr>.</indent>"
+Zinc,SPT015,The Periodic Table,Science,Common,3,1,Trace Element,"<indent=1em>:return:</indent><indent=2em>If your opponent's deck contains any Nature card, they lose <nobr>-2 :energy:</nobr>.</indent>"
+Mount Etna,NNM002,Natural Monuments,Nature,Epic,5,3,Eruption,"<indent=1em>:play:</indent><indent=2em>If played next to Mount Vesuvius, both cards gain <nobr>+2 :attack:</nobr> this turn.</indent>"
+Basking Shark,NSH002,Sharks,Nature,Epic,8,6,Slow Mover,<indent=1em>:turnstart:</indent><indent=2em>A random opponent's card in hand with 3 or less Base <nobr>:energy:</nobr> <nobr>Burns :burn: (-1)</nobr> for 2 turns.</indent>
+Ocelot,NFE011,Felines,Nature,Common,4,3,Revolver,<indent=1em>:play:</indent><indent=2em>Your Felines cards in hand that cost 3 or less <nobr>:energy:</nobr> gain <nobr>+1 :attack:</nobr> this turn.</indent>
+Alan Turing,SST007,STEM Stars,Science,Rare,5,4,Enigma Break,"<indent=1em>:play:</indent><indent=2em>If it's after Turn 6, your opponent loses <nobr>-12 Hero :attack:</nobr>.</indent>"
+"Titan, Moon of Saturn",SSS013,The Solar System,Science,Common,7,5,Rocky Core,"<indent=1em>:play:</indent><indent=2em>If you have <nobr>70+ :health:</nobr>, gain <nobr>+5 Hero :attack:</nobr>.</indent>"
+Aphrodite,CGM009,Greek Mythology,Culture,Common,6,4,True Love Waits,"<indent=1em>:play:</indent><indent=2em>If it's after Turn 5, your Greek Mythology cards gain +1 :attack: until played.</indent>"
+Marie Laveau,CTO003,The Occult,Culture,Epic,8,6,Queen's Blessing,"<indent=1em>:draw:</indent><indent=2em>For every Common The Occult card you have played this game, restore <nobr>+1 :health:</nobr>.</indent>"
+Cougar,NFE010,Felines,Nature,Common,5,6,,
+Spiny Dogfish,NSH007,Sharks,Nature,Rare,7,5,Defensive Pierce,"<indent=1em>:play:</indent><indent=2em>If your opponent <nobr>Attacked :attack:</nobr> last turn, they lose <nobr>-5 :health:</nobr>.</indent>"
+Medusa,CGM012,Greek Mythology,Culture,Common,5,3,Stone Gaze,<indent=1em>:play:</indent><indent=2em>The card opposite loses -2 :attack: this turn.</indent>
+Chlorine,SPT010,The Periodic Table,Science,Common,5,4,Alchemy,<indent=1em>:return:</indent><indent=2em>Reset 1 of your opponent's remaining cards in hand.</indent>
+Doubloon,HAP014,Age of Piracy,History,Common,4,0,Booty,"<indent=1em>:play:</indent><indent=2em>If played next to any Age of Piracy card, gain <nobr>+1 :charge:</nobr>.</indent>"
+Daemonologie,CTO015,The Occult,Culture,Common,3,2,Black Books,"<indent=1em>:play:</indent><indent=2em>If played next to Grimoire, restore <nobr>+3 :health:</nobr>.</indent>"
+Velociraptor,NDI016,Dinosaurs,Nature,Fusion,6,4,Clever Girl,<indent=1em>:play:</indent><indent=2em>Your cards with 7 or more Base <nobr>:energy:</nobr> gain <nobr>+4 :attack:</nobr> this turn.</indent>
+Carl Sagan,SST004,STEM Stars,Science,Rare,3,2,Cosmic Perspective,"<indent=1em>:play:</indent><indent=2em>If played next to Venus, your STEM Stars cards gain <nobr>+1 :attack:</nobr> until played.</indent>"
+Date Masamune,HFJ003,Feudal Japan,History,Epic,7,4,One Vision,"<indent=1em>:return:</indent><indent=2em>If played on the left, the card opposite costs <nobr>+4 :energy:</nobr> until played.</indent>"
+K2,NNM006,Natural Monuments,Nature,Rare,7,8,Savage Mountain,"<indent=1em>:return:</indent><indent=2em>If you did not <nobr>attack :attack:</nobr> this turn, this card gains <nobr>+3 :attack:</nobr> permanently.</indent>"
+Hands,SAN005,Anatomy,Science,Rare,4,2,Hands-on,<indent=1em>:return:</indent><indent=2em>1 non-Anatomy card in your hand gains <nobr>+5 :attack:</nobr> until played.</indent>
+Luxor Temple,HAE012,Ancient Egypt,History,Common,4,2,Sanctuary,<indent=1em>:draw:</indent><indent=2em>Gain <nobr>+1 :charge:</nobr>.</indent>
+Colossi of Memnon,HAE013,Ancient Egypt,History,Common,3,0,Sitting Pretty,"<indent=1em>:turnstart:</indent><indent=2em>If your opponent <nobr>Attacked :attack:</nobr> last turn, gain <nobr>+1 :ept:</nobr> this turn.</indent>"
+Bushido,HFJ010,Feudal Japan,History,Common,7,7,Loyalty,"<indent=1em>:play:</indent><indent=2em>If your opponent <nobr>Attacks :attack:</nobr> this turn, lose <nobr>-7 Hero :attack:</nobr> and <nobr>force :attack:</nobr> this turn.</indent>"
+Chain Catshark,NSH015,Sharks,Nature,Common,6,5,Chain Attack,"<indent=1em>:play:</indent><indent=2em>If you <nobr>Attacked :attack:</nobr> last turn, gain <nobr>+1 Hero :attack:</nobr>.</indent>"
+Cerberus,CGM015,Greek Mythology,Culture,Common,4,4,Underdog,"<indent=1em>:play:</indent><indent=2em>If played with Hades, this card gains +4 :attack: this turn.</indent>"
+Henry Morgan,HAP006,Age of Piracy,History,Rare,8,8,Loot,"<indent=1em>:draw:</indent><indent=2em>If you did not <nobr>Attack :attack:</nobr> last turn, this card costs <nobr>-4 :energy:</nobr> this turn.</indent>"
+Hecate,CGM004,Greek Mythology,Culture,Rare,8,6,Soteira,"<indent=1em>:play:</indent><indent=2em>If your opponent has 100% :health:, this card gains +3 :attack: permanently.</indent>"
+Black Panther,NFE002,Felines,Nature,Epic,5,4,Palette Swap,"<indent=1em>:play:</indent><indent=2em>If you are <nobr>Attacking :attack:</nobr>, gain <nobr>+8 :shield:</nobr>.</indent>"
+Grand Prismatic Spring,NNM009,Natural Monuments,Nature,Common,3,1,No Swimming,<indent=1em>:draw:</indent><indent=2em>Gain <nobr>+2 :energy:</nobr>.</indent>
+Muscle,SAN006,Anatomy,Science,Rare,5,10,Sweet Gains,<indent=1em>:turnstart:</indent><indent=2em>This card loses <nobr>-2 :attack:</nobr> permanently.</indent>
+Book of the Dead,HAE007,Ancient Egypt,History,Rare,5,8,Journey of Death,<indent=1em>:play:</indent><indent=2em>Lose <nobr>-2 :health:</nobr>.</indent>
+Tomoe Gozen,HFJ005,Feudal Japan,History,Rare,7,5,Headstrong,"<indent=1em>:draw:</indent><indent=2em>If you <nobr>Attacked :attack:</nobr> last turn, a random Feudal Japan card in your hand costs <nobr>-5 :energy:</nobr> permanently.</indent>"
+Ratatouille,CFD003,Food and Drink,Culture,Epic,4,4,Simmer,"<indent=1em>:play:</indent><indent=2em>If this card is <nobr>Burning :burn:</nobr> at the start of this turn, this card gains <nobr>+4 :attack:</nobr> this turn.</indent>"
+Marie Skłodowska-Curie,SST003,STEM Stars,Science,Epic,4,4,Fear Less,"<indent=1em>:return:</indent><indent=2em>Gain <nobr>+2 Hero :attack:</nobr>, and this card loses <nobr>-1 :attack:</nobr> permanently.</indent>"
+Harpies,CGM013,Greek Mythology,Culture,Common,4,3,Storm Winds,"<indent=1em>:return:</indent><indent=2em>A random card in either player's hand gains +1 :attack:, and a random card in either player's hand costs +1 :energy:.</indent>"
+Coelophysis,NDI014,Dinosaurs,Nature,Common,3,3,Hollow Body,"<indent=1em>:play:</indent><indent=2em>If played adjacent to no other cards, gain <nobr>+3 Hero :attack:</nobr>.</indent>"
+Queen Anne’s Revenge,HAP005,Age of Piracy,History,Rare,7,7,Flagship,"<indent=1em>:play:</indent><indent=2em>If you <nobr>Attacked :attack:</nobr> last turn, gain <nobr>+5 Hero :attack:</nobr> and lose <nobr>-5 :health:</nobr>.</indent>"
+Solar Eclipse,SSS014,The Solar System,Science,Common,2,4,Total Eclipse,"<indent=1em>:play:</indent><indent=2em>If played between The Sun and The Moon, gain <nobr>+10 :shield:</nobr>.</indent>"
+Florence Nightingale,SST015,STEM Stars,Science,Common,4,2,Lady with the Lamp,"<indent=1em>:return:</indent><indent=2em>If any player was <nobr>Attacked :attack:</nobr> this turn, restore <nobr>+4 :health:</nobr> to that player.</indent>"
+Saturn,SSS002,The Solar System,Science,Epic,6,6,Ringside,<indent=1em>:turnstart:</indent><indent=2em>Restore <nobr>+2 :health:</nobr>.</indent>
+Titanosaurus,NDI004,Dinosaurs,Nature,Rare,5,3,Clash of Titans,"<indent=1em>:play:</indent><indent=2em>If played next to Titan, Moon of Saturn, both cards gain <nobr>+3 :attack:</nobr> this turn.</indent>"
+Triceratops,NDI001,Dinosaurs,Nature,Legendary,8,4,Three-Horned Face,"<indent=1em>:play:</indent><indent=2em>If played in the centre, your cards in hand gain <nobr>+3 :attack:</nobr> this turn.</indent>"
+Library of Celsus,HRE014,The Roman Empire,History,Common,3,3,Ex libris,"<indent=1em>:draw:</indent><indent=2em>For every time you have played Library of Celsus, restore <nobr>+2 :health:</nobr>.</indent>"
+Matterhorn,NNM007,Natural Monuments,Nature,Rare,5,4,Meadow's Peak,"<indent=1em>:play:</indent><indent=2em>For every time you have you played this card, gain <nobr>+1 Hero :attack:</nobr>.</indent>"
+Norwegian Forest Cat,NFE012,Felines,Nature,Common,3,2,Intermeowtional,"<indent=1em>:play:</indent><indent=2em>If played next to Scottish Fold, gain <nobr>+4 :shield:</nobr>.</indent>"
+Claudius,HRE006,The Roman Empire,History,Rare,3,2,Para bellum,<indent=1em>:play:</indent><indent=2em>Gain <nobr>+6 :shield:</nobr>.</indent>
+Persian,NFE015,Felines,Nature,Common,3,3,Flat Faced,<indent=1em>:return:</indent><indent=2em>This card and the card opposite cost <nobr>+1 :energy:</nobr> until played</indent>
+Ise Grand Shrine,HFJ014,Feudal Japan,History,Common,4,3,Jingū,"<indent=1em>:play:</indent><indent=2em>If played with The Sun, gain <nobr>+4 Hero :attack:</nobr>.</indent>"
+Sushi,CFD002,Food and Drink,Culture,Epic,7,6,Served Fresh,<indent=1em>:draw:</indent><indent=2em><nobr>Freeze :freeze:</nobr> a random card in each player's hand for 2 turns.</indent>
+Copper,SPT005,The Periodic Table,Science,Rare,5,3,Native Metal,"<indent=1em>:play:</indent><indent=2em>If you have 15 or less <nobr>:health:</nobr> remaining, gain <nobr>+10 Hero :attack:</nobr>.</indent>"
+Brothers Grimm,CLI009,Literature,Culture,Common,6,5,A Rare Happy Ending,"<indent=1em>:play:</indent><indent=2em>For every turn since you last <nobr>Attacked :attack:</nobr>, your Hansel and Gretel card gains <nobr>+1 :attack:</nobr> until played.</indent>"
+Grog,HAP010,Age of Piracy,History,Common,5,5,Rationing,"<indent=1em>:draw:</indent><indent=2em>5 random cards in either player's hand gain <nobr>+1 :attack:</nobr> permanently, and this card loses <nobr>-5 :attack:</nobr> until played.</indent>"
+Pandora,CGM010,Greek Mythology,Culture,Common,6,5,Boxed In,"<indent=1em>:play:</indent><indent=2em>If played in the centre, gain +2 Hero :attack:.</indent>"
+Charles Babbage,SST009,STEM Stars,Science,Common,5,4,Make a Difference,<indent=1em>:draw:</indent><indent=2em>Both players lose <nobr>-1 :charge:</nobr>.</indent>
+Zeus,CHE001,Heroes of Culture,Culture,Hero,0,80,Godmode,"For every time you have <nobr>Attacked :attack:</nobr> this game, your cards in-hand gain <nobr>+1 :attack:</nobr> this turn. <nobr>[3 :charge:]</nobr>"
+Augustus,HRE003,The Roman Empire,History,Epic,5,4,Pax Romana,"<indent=1em>:draw:</indent><indent=2em>If you have more <nobr>Hero :attack:</nobr> than your opponent this turn, your The Roman Empire cards gain <nobr>+1 :attack:</nobr> until played.</indent>"
+Naginata,HFJ013,Feudal Japan,History,Common,3,1,Mowing Sword,<indent=1em>:play:</indent><indent=2em>Your opponent's cards lose <nobr>-1 :attack:</nobr> this turn.</indent>
+Pyramid Texts,HAE011,Ancient Egypt,History,Common,5,3,Pharaohs Only,<indent=1em>:draw:</indent><indent=2em>Your Epic+ Ancient Egypt cards cost <nobr>-1 :energy:</nobr> until played.</indent>
+Sand Tiger Shark,NSH005,Sharks,Nature,Rare,4,2,Surface for Air,<indent=1em>:draw:</indent><indent=2em>All Common cards in both player's hands gain <nobr>+3 :attack:</nobr> this turn.</indent>
+Ragdoll,NFE006,Felines,Nature,Rare,3,2,Dog-Like,"<indent=1em>:play:</indent><indent=2em>If neither player <nobr>attacked :attack:</nobr> this turn, your cards in hand gain <nobr>+1 :attack:</nobr> until played.</indent>"
+Samurai,HFJ016,Feudal Japan,History,Fusion,8,8,Ruling Class,"<indent=1em>:return:</indent><indent=2em>If your deck contains 8 or more Feudal Japan cards, your non-Feudal Japan cards gain <nobr>+3 :attack:</nobr> until played.</indent>"
+Ijen,NNM014,Natural Monuments,Nature,Common,5,5,Blue Fire,<indent=1em>:draw:</indent><indent=2em><nobr>Burn :burn: (-1)</nobr> your opponent's cards in hand until played.</indent>
+Hydrogen,SPT001,The Periodic Table,Science,Legendary,1,1,Abundance,"<indent=1em>:play:</indent><indent=2em>For every The Periodic Table card you have played this game, up to a maximum of 10, restore <nobr>+1 :health:</nobr>.</indent>"
+Calico Jack,HAP004,Age of Piracy,History,Rare,7,5,Partners In Plunder,"<indent=1em>:return:</indent><indent=2em>If both players <nobr>Attacked :attack:</nobr> this turn, your opponent loses <nobr>-5 :health:</nobr>.</indent>"
+Lungs,SAN002,Anatomy,Science,Epic,3,2,Take a Breath,"<indent=1em>:return:</indent><indent=2em>For every time you have played Lungs this game, restore <nobr>+3 :health:</nobr>.</indent>"
+Agatha Christie,CLI008,Literature,Culture,Common,4,3,Queen of Crime,"<indent=1em>:draw:</indent><indent=2em>For every time your opponent has <nobr>attacked :attack:</nobr>, gain <nobr>+1 :shield:</nobr>.</indent>"
+Canopic Jars,HAE009,Ancient Egypt,History,Common,4,1,Viscera,"<indent=1em>:play:</indent><indent=2em>If played next to Lungs, your cards in hand gain <nobr>+2 :attack:</nobr> this turn.</indent>"
+Malleus Maleficarum,CTO013,The Occult,Culture,Common,5,3,Hammer of Witches,"<indent=1em>:draw:</indent><indent=2em>For every The Occult card in your hand, this card gains <nobr>+1 :attack:</nobr> this turn.</indent>"
+Sherlock Holmes,CLI012,Literature,Culture,Common,5,6,Elementary,"<indent=1em>:play:</indent><indent=2em>If played next to Arthur Conan Doyle, gain <nobr>+1 Hero :attack:</nobr> and <nobr>+1 :shield:</nobr>.</indent>"
+Emilie Du Chatalet,SST012,STEM Stars,Science,Common,4,5,Foundational,"<indent=1em>:play:</indent><indent=2em>If you have played Sir Isaac Newton this game, gain <nobr>+3 Hero :attack:</nobr>.</indent>"
+The Flying Dutchman,HAP007,Age of Piracy,History,Rare,7,4,Dead Voyage,"<indent=1em>:draw:</indent><indent=2em>If it has been 2 or more turns since you last <nobr>Attacked :attack:</nobr>, gain <nobr>+1 :charge:</nobr> and <nobr>+1 Hero :attack:</nobr>.</indent>"
+Mercury,SSS006,The Solar System,Science,Rare,3,2,Inner System,"<indent=1em>:return:</indent><indent=2em>For every time you have played Venus and Mars this game, restore <nobr>+1 :health:</nobr>.</indent>"
+Venus,SSS004,The Solar System,Science,Rare,3,2,Inner System,"<indent=1em>:return:</indent><indent=2em>For every time you have played Mars and Mercury this game, restore <nobr>+1 :health:</nobr></indent>"
+Achilles Tendon,SAN011,Anatomy,Science,Common,2,2,Weak Spot,<indent=1em>:play:</indent><indent=2em>Your Achilles card gains <nobr>+1 :attack:</nobr> permanently. Lose <nobr>-1 :health:</nobr>.</indent>
+Kirkjufell,NNM013,Natural Monuments,Nature,Common,7,4,Arrowhead,"<indent=1em>:play:</indent><indent=2em>If your opponent has at least <nobr>6 :shield:</nobr>, they lose <nobr>-4 :health:</nobr>.</indent>"
+The Colosseum,HRE005,The Roman Empire,History,Rare,6,5,Panem et circenses,"<indent=1em>:play:</indent><indent=2em>Your Gladiator card gains <nobr>+2 :attack:</nobr> this turn, and <nobr>Force :attack:</nobr> both players to Attack.</indent>"
+Robert Louis Stevenson,CLI005,Literature,Culture,Rare,3,2,Hand Played Well,"<indent=1em>:play:</indent><indent=2em>If played on the left, gain <nobr>+3 Hero :attack:</nobr>. If played on the right, gain <nobr>+5 :shield:</nobr>.</indent>"
+Tongue,SAN004,Anatomy,Science,Rare,6,4,Good Taste,"<indent=1em>:play:</indent><indent=2em>If you are <nobr>Attacking :attack:</nobr> this turn, <nobr>force :attack:</nobr> your opponent to Attack this turn.</indent>"
+Kilauea,NNM015,Natural Monuments,Nature,Common,4,3,Shield Volcano,"<indent=1em>:play:</indent><indent=2em>For every time you have played this card, gain <nobr>+2 :shield:</nobr>.</indent>"
+Great White Shark,NHE003,Heroes of Nature,Nature,Hero,0,80,Toothy Smile,Your opponent's cards in hand lose <nobr>-3 :attack:</nobr> this turn. <nobr>[3 :charge:]</nobr>
+Carbon,SPT003,The Periodic Table,Science,Epic,6,5,Covalent Bonding,<indent=1em>:draw:</indent><indent=2em>2 random Common cards in hand gain <nobr>+2 :attack:</nobr> until played.</indent>
+Cherry,CFD013,Food and Drink,Culture,Common,3,1,Drupe,"<indent=1em>:draw:</indent><indent=2em>If you have <nobr>20 :health:</nobr> or less, gain <nobr>+8 :shield:</nobr>.</indent>"
+Clipeus,HRE013,The Roman Empire,History,Common,2,0,... tibi scutum sum,<indent=1em>:play:</indent><indent=2em>Gain <nobr>+3 :shield:</nobr>.</indent>
+Ninja,HFJ001,Feudal Japan,History,Legendary,4,3,Deceiver,"<indent=1em>:draw:</indent><indent=2em>Lose <nobr>-20 :health:</nobr>, and give your cards with 3 or less Base <nobr>:energy:</nobr> +2 <nobr>:attack:</nobr> permanently.</indent>"
+Keelhauling,HAP011,Age of Piracy,History,Common,8,4,Drag,<indent=1em>:turnstart:</indent><indent=2em>This card gains <nobr>+1 :attack:</nobr> until played.</indent>
+Pyjama Shark,NSH010,Sharks,Nature,Common,3,5,Opportunistic,"<indent=1em>:draw:</indent><indent=2em>If your opponent <nobr>Attacked :attack:</nobr> last turn, they gain <nobr>+3 :energy:</nobr>.</indent>"
+Digestive System,SAN010,Anatomy,Science,Common,2,1,In Digestion,"<indent=1em>:play:</indent><indent=2em>If played next to Teeth, gain <nobr>+2 :shield:</nobr>.</indent>"
+Whale Shark,NSH013,Sharks,Nature,Common,8,10,Filter Feeding,<indent=1em>:return:</indent><indent=2em>This card costs <nobr>+1 :energy:</nobr> permanently.</indent>
+Ganymede,SSS011,The Solar System,Science,Common,4,2,Magnetic Field,"<indent=1em>:play:</indent><indent=2em>If you are above 50% <nobr>:health:</nobr>, your Jupiter card in hand gains <nobr>+7 :attack:</nobr> permanently.</indent>"
+Captain Kidd,HAP003,Age of Piracy,History,Epic,5,2,Privateering,"<indent=1em>:play:</indent><indent=2em>For every turn since you last <nobr>Attacked :attack:</nobr>, your Age of Piracy cards gain <nobr>+1 :attack:</nobr> this turn.</indent>"
+Blue Shark,NSH004,Sharks,Nature,Rare,7,5,Ectothermic,"<indent=1em>:play:</indent><indent=2em>If your opponent did not <nobr>Attack :attack:</nobr> last turn, gain <nobr>+5 Hero :attack:</nobr>.</indent>"
+Sir Isaac Newton,SST001,STEM Stars,Science,Legendary,6,4,Law Unto Himself,<indent=1em>:draw:</indent><indent=2em>Your Science cards with 3 or less Base <nobr>:attack:</nobr> gain <nobr>+2 :attack:</nobr> until played.</indent>
+Nurse Shark,NSH014,Sharks,Nature,Common,7,6,Lazy Living,"<indent=1em>:return:</indent><indent=2em>If this is the only card you play this turn, your remaining Sharks cards in-hand gain <nobr>+2 :attack:</nobr> next turn.</indent>"
+Donut,CFD008,Food and Drink,Culture,Common,2,2,Give Yourself a Present,"<indent=1em>:play:</indent><indent=2em>If played next to Coffee, your Nature cards in hand gain <nobr>+1 :attack:</nobr> until played.</indent>"
+La Voisin,CTO012,The Occult,Culture,Common,7,4,Poisoned Promise,"<indent=1em>:return:</indent><indent=2em>For every time you have played La Voisin this game, your opponent loses <nobr>-2 :health:</nobr>.</indent>"
+Bonnethead Shark,NSH006,Sharks,Nature,Rare,5,4,Littoraly,"<indent=1em>:play:</indent><indent=2em>If played adjacent to any non-Aquatic card, that card loses <nobr>-1 :attack:</nobr> this turn and this card gains <nobr>+2 :attack:</nobr> permanently.</indent>"
+Charles Vane,HAP012,Age of Piracy,History,Common,5,5,Pardon Precluded,"<indent=1em>:play:</indent><indent=2em>If it's before Turn 4, both players lose <nobr>-5 :health:</nobr>.</indent>"
+Roman Roads,HRE008,The Roman Empire,History,Common,5,3,Omnes viae Romam ducunt,"<indent=1em>:play:</indent><indent=2em>For every time you have played this card, your The Roman Empire cards in-hand gain <nobr>+1 :attack:</nobr> until played.</indent>"
+Hamburger,CHE002,Heroes of Culture,Culture,Hero,0,70,King of Sandwiches,"For every Culture card in your hand, gain <nobr>+1 :shield:</nobr>, <nobr>+1 :health:</nobr>, and <nobr>+1 Hero :attack:</nobr>. <nobr>[3 :charge:]</nobr>"
+Cornucopia,CFD016,Food and Drink,Culture,Fusion,5,5,Abundance,"<indent=1em>:play:</indent><indent=2em>If your deck contains 2 cards each from Science, Nature and History, your Food and Drink cards gain <nobr>+1 :attack:</nobr> until played.</indent>"
+Thor’s Well,NNM005,Natural Monuments,Nature,Rare,6,4,Drainpipe of the Pacific,<indent=1em>:return:</indent><indent=2em>Your Aquatic cards gain <nobr>+2 :attack:</nobr> for 2 turns.</indent>
+Cobalt,SPT014,The Periodic Table,Science,Common,5,2,Byproduct,"<indent=1em>:draw:</indent><indent=2em>If you have played Copper and Nickel this game, this card gains <nobr>+3 :attack:</nobr> until played.</indent>"
+Blackbeard,HHE003,Heroes of History,History,Hero,0,80,All Cannons Fire!,"Both players <nobr>Force :attack:</nobr> Attack this turn, and your cards in hand gain <nobr>+2 :attack:</nobr> this turn. <nobr>[3 :charge:]</nobr>"
+The Sun,SSS016,The Solar System,Science,Fusion,6,6,Life Support,"<indent=1em>:return:</indent><indent=2em>If your deck contains 4 or more Nature cards, your The Solar System cards gain <nobr>+2 :attack:</nobr> until played.</indent>"
+Helium,SPT006,The Periodic Table,Science,Rare,2,2,Number 2,"<indent=1em>:play:</indent><indent=2em>If you have played Hydrogen this game, gain <nobr>+2 :shield:</nobr>.</indent>"
+Wicker Man,CTO010,The Occult,Culture,Common,5,3,Sacrificial Fire,"<indent=1em>:draw:</indent><indent=2em>Your cards in hand <nobr>Burn :burn: (-1)</nobr> until played, and restore <nobr>+5 :health:</nobr>.</indent>"
+Heracles,CGM007,Greek Mythology,Culture,Rare,6,12,Labors,<indent=1em>:return:</indent><indent=2em>This card loses -12 :attack: permanently.</indent>
+Devil’s Tower,NNM010,Natural Monuments,Nature,Common,5,4,Sheer Drop,"<indent=1em>:return:</indent><indent=2em>If played next to Heaven’s Gate, restore <nobr>+4 :health:</nobr>.</indent>"
+African Lion,NHE002,Heroes of Nature,Nature,Hero,0,70,Pride,"For every card with a Shield ability you have played this game, gain <nobr>+2 :shield:</nobr>. <nobr>[2 :charge:]</nobr>"
+Jaguar,NFE004,Felines,Nature,Rare,5,5,Bite Force,"<indent=1em>:return:</indent><indent=2em>If both players <nobr>Attacked :attack:</nobr> this turn, all cards in both player's hands cost <nobr>-1 :energy:</nobr> until played.</indent>"
+Hadrian’s Wall,HRE011,The Roman Empire,History,Common,5,4,Vallum Hadriani,"<indent=1em>:return:</indent><indent=2em>If your opponent <nobr>Attacked :attack:</nobr> this turn, gain <nobr>+5 :shield:</nobr>.</indent>"
+Bengal Tiger,NFE001,Felines,Nature,Legendary,6,5,Go Get 'Em,"<indent=1em>:play:</indent><indent=2em>If your Hero has at least 50% <nobr>:health:</nobr>, 5 of your random Felines cards gain <nobr>+2 :attack:</nobr> until played.</indent>"
+Treasure of Lima,HAP015,Age of Piracy,History,Common,3,1,Thar Be Treasure!,<indent=1em>:return:</indent><indent=2em>A random opponent's card remaining loses <nobr>-2 :attack:</nobr> next turn.</indent>
+Colette,CLI010,Literature,Culture,Common,3,3,Lady of Letters,<indent=1em>:return:</indent><indent=2em>Gain <nobr>+2 Hero :attack:</nobr>.</indent>
+Gladiator,HRE001,The Roman Empire,History,Legendary,6,7,Morituri te salutant,"<indent=1em>:return:</indent><indent=2em>If you <nobr>Attacked :attack:</nobr> for more than your opponent this turn, this card gains <nobr>+3 :attack:</nobr> permanently, otherwise this card loses <nobr>-3 :attack:</nobr> permanently.</indent>"
+Stede Bonnet,HAP009,Age of Piracy,History,Common,9,9,Riches to Rags,"<indent=1em>:play:</indent><indent=2em>For every time you have <nobr>Attacked :attack:</nobr> this game, this card loses <nobr>-2 :attack:</nobr> permanently.</indent>"
+Legionary Helmet,HRE012,The Roman Empire,History,Common,2,2,In omnia paratus,"<indent=1em>:play:</indent><indent=2em>If played adjacent to Gladius or Clipeus, this card gains <nobr>+4 :attack:</nobr> this turn.</indent>"
+Leopard,NFE005,Felines,Nature,Rare,3,3,From The Shadows,<indent=1em>:return:</indent><indent=2em>Your Ninja card gains <nobr>+3 :attack:</nobr> next turn.</indent>
+Larynx,SAN009,Anatomy,Science,Common,4,3,Voice Box,"<indent=1em>:play:</indent><indent=2em>If played next to Adam's Apple, gain <nobr>+5 :shield:</nobr>.</indent>"
+Jupiter,SSS003,The Solar System,Science,Epic,5,5,Interacting Boundaries,"<indent=1em>:play:</indent><indent=2em>If played in the centre, reduce this card's Attack by <nobr>-5 :attack:</nobr> permanently and restore <nobr>+5 :health:</nobr>.</indent>"
+Cheetah,NFE016,Felines,Nature,Fusion,4,3,Outrun,"<indent=1em>:draw:</indent><indent=2em>If your deck contains 1 card each from Culture and History, your Feline cards gain <nobr>+1 :attack:</nobr> until played.</indent>"
+Gallimimus,NDI012,Dinosaurs,Nature,Common,8,5,Flocking This Way,<indent=1em>:return:</indent><indent=2em>Gain <nobr>+4 :energy:</nobr>.</indent>
+Scottish Fold,NFE013,Felines,Nature,Common,3,2,Intermeowtional,"<indent=1em>:play:</indent><indent=2em>If played next to American Shorthair, gain <nobr>+2 :shield:</nobr> and <nobr>+2 Hero :attack:</nobr>.</indent>"
+River Styx,CGM008,Greek Mythology,Culture,Common,6,5,Boundaries,"<indent=1em>:play:</indent><indent=2em> If you have Attacked this game, your Greek Mythology cards in-hand gain +1 :attack: this turn.</indent>"
+Pizza,CFD001,Food and Drink,Culture,Legendary,3,2,Freshly Baked,<indent=1em>:turnstart:</indent><indent=2em>Your cards <nobr>Burning :burn:</nobr> at the start of this turn gain <nobr>+2 :attack:</nobr> until played.</indent>
+Esophagus,SAN008,Anatomy,Science,Common,3,2,Food Tube,"<indent=1em>:play:</indent><indent=2em>If played next to Digestive System, restore <nobr>+2 :health:</nobr>.</indent>"
+Coffee,CFD009,Food and Drink,Culture,Common,3,2,Moonless Night,"<indent=1em>:play:</indent><indent=2em>If your opponent has <nobr>0 Hero :attack:</nobr>, this card gains <nobr>+3 :attack:</nobr> this turn.</indent>"
+Tutankhamun,HAE001,Ancient Egypt,History,Legendary,4,4,Curse of the Pharaohs,"<indent=1em>:return:</indent><indent=2em>If you are below 50% <nobr>:health:</nobr>, <nobr>Freeze :freeze:</nobr> two random cards in your opponent's hand next turn.</indent>"
+Parasaurolophus,NDI008,Dinosaurs,Nature,Common,7,5,Family Crest,<indent=1em>:play:</indent><indent=2em>Gain <nobr>+3 Hero :attack:</nobr>.</indent>
+Harry Price,CTO014,The Occult,Culture,Common,5,0,Ghost Hunter,"<indent=1em>:draw:</indent><indent=2em>For every time you have played Harry Price this game, this card gains <nobr>+3 :attack:</nobr> and costs <nobr>-1 :energy:</nobr> permanently.</indent>"
+Katherine Johnson,SST014,STEM Stars,Science,Common,3,1,Mission Critical,<indent=1em>:return:</indent><indent=2em>This card gains <nobr>+2 :attack:</nobr> permanently.</indent>
+Pallas Cat,NFE009,Felines,Nature,Common,4,3,Stay Warm,"<indent=1em>:play:</indent><indent=2em>If played between two Felines cards, gain <nobr>+2 :shield:</nobr>.</indent>"
+Zheng Yi Sao,HAP001,Age of Piracy,History,Legendary,7,4,Negotiations,"<indent=1em>:play:</indent><indent=2em>If you did not <nobr>Attack :attack:</nobr> last turn, your opponent loses <nobr>-8 :health:</nobr>.</indent>"
+Dilophosaurus,NDI006,Dinosaurs,Nature,Rare,6,4,Doesn't Play Fetch,"<indent=1em>:return:</indent><indent=2em><nobr>Freeze :freeze:</nobr> 1 opponent card for 2 turns.</indent>
+"
+Gold,SPT016,The Periodic Table,Science,Fusion,7,3,Transition,<indent=1em>:draw:</indent><indent=2em>Copy a random non-Science card from either player's hand until played.</indent>
+Honjo Masamune Sword,HFJ015,Feudal Japan,History,Common,8,4,Slice,<indent=1em>:return:</indent><indent=2em>This card costs <nobr>-4 :energy:</nobr> until played.</indent>
+Thresher Shark,NSH001,Sharks,Nature,Legendary,7,5,School Meal,"<indent=1em>:play:</indent><indent=2em>All cards in both player's hands with a Base Attack of 4 or lower lose <nobr>-1 :attack:</nobr> this turn, and this card gains <nobr>+2 :attack:</nobr> permanently.</indent>"
+Silicon,SPT013,The Periodic Table,Science,Common,5,4,Semiconductor,"<indent=1em>:play:</indent><indent=2em>If played between two Science cards, those cards gain <nobr>+1 :attack:</nobr> this turn.</indent>"
+Pomegranate,CFD015,Food and Drink,Culture,Common,7,6,Seeding,"<indent=1em>:play:</indent><indent=2em>For every time you have played Pomegranate this game, your Food and Drink cards in hand gain <nobr>+1 :attack:</nobr> until played.</indent>"
+Oda Nobunaga,HHE002,Heroes of History,History,Hero,0,70,Great Unifier,"For every card you play this turn with 7 or more Base <nobr>:energy:</nobr>, gain <nobr>+3 Hero :attack:</nobr>. <nobr>[3 :charge:]</nobr>"
+Beowulf,CLI003,Literature,Culture,Epic,6,4,Glory Before Death,"<indent=1em>:play:</indent><indent=2em>For every turn since you last <nobr>Attacked :attack:</nobr>, gain <nobr>+2 Hero :attack:</nobr>.</indent>"
+Thomas Edison,SST013,STEM Stars,Science,Common,6,5,Current Events,<indent=1em>:draw:</indent><indent=2em>Your opponent's cards in hand cost <nobr>+1 :energy:</nobr> for 2 turns.</indent>
+Crystal Ball,CTO006,The Occult,Culture,Rare,4,2,Clear Visions,"<indent=1em>:play:</indent><indent=2em>If your opponent has <nobr>20+ Hero :attack:</nobr>, restore <nobr>+8 :health:</nobr>.</indent>"
+Arthur Conan Doyle,CLI016,Literature,Culture,Fusion,4,3,However Improbable,"<indent=1em>:return:</indent><indent=2em>If your deck contains any The Occult card, your Literature cards gain <nobr>+3 :attack:</nobr> next turn.</indent>"
+Jules Verne,CLI004,Literature,Culture,Rare,5,5,Voyages extraordinaires,"<indent=1em>:draw:</indent><indent=2em>For every time you have played Jules Verne this game, <nobr>+1 :shield:</nobr>.</indent>"
+Miyamoto Musashi,HFJ012,Feudal Japan,History,Common,3,2,Dual Wield,<indent=1em>:draw:</indent><indent=2em>Two random Feudal Japan cards cost <nobr>-1 :energy:</nobr> until played.</indent>
+Ramesses II,HAE002,Ancient Egypt,History,Epic,5,4,Round Two,"<indent=1em>:draw:</indent><indent=2em>If you have played Ramesses II this game, restore <nobr>+5 :health:</nobr>.</indent>"
+Great Fire of Rome,HRE009,The Roman Empire,History,Common,5,6,Magnum Incendium Romae,"<indent=1em>:draw:</indent><indent=2em>Your cards in hand <nobr>Burn :burn: (-1)</nobr> until played, and your opponent's cards in hand <nobr>Burn :burn: (-2)</nobr> until played.</indent>"
+Tokugawa Ieyasu,HFJ002,Feudal Japan,History,Epic,10,10,Bakuhan,"<indent=1em>:draw:</indent><indent=2em>If your opponent <nobr>Attacked :attack:</nobr> last turn, gain <nobr>+5 Hero :attack:</nobr>. If not, your Feudal Japan cards cost <nobr>-1 :energy:</nobr> this turn.</indent>"
+Burrito,CFD005,Food and Drink,Culture,Rare,7,5,Stuffed,"<indent=1em>:return:</indent><indent=2em>If your opponent has <nobr>Attacked :attack:</nobr> 3+ times this game, restore <nobr>+10 :health:</nobr>.</indent>"
+Polonium,SPT008,The Periodic Table,Science,Common,4,3,Extraction,<indent=1em>:play:</indent><indent=2em>Your Marie Curie card gains <nobr>+3 :attack:</nobr> this turn.</indent>
+Hattori Hanzo,HFJ004,Feudal Japan,History,Rare,8,4,Rise to Power,<indent=1em>:return:</indent><indent=2em>Your Tokugawa Ieyasu card costs <nobr>-2 :energy:</nobr> permanently.</indent>
+Earth,SHE004,Heroes of Science,Science,Hero,0,70,Home Turf,"For every turn completed this game, gain <nobr>+2 Hero :attack:</nobr>. <nobr>[2 :charge:]</nobr>"
+Baphomet,CTO002,The Occult,Culture,Epic,5,4,Judgement of Balance,"<indent=1em>:return:</indent><indent=2em>If only you <nobr>Attacked :attack:</nobr> this turn, lose <nobr>-10 :health:</nobr>. If only your opponent <nobr>Attacked :attack:</nobr> this turn, they lose <nobr>-10 :health:</nobr>.</indent>"
+Centaur,CGM014,Greek Mythology,Culture,Common,7,4,Lawless,<indent=1em>:play:</indent><indent=2em>Both players lose -3 :shield:.</indent>
+Pug,NDO002,Dogs,Nature,Legendary,3,2,Companion,"<indent=1em>:play:</indent><indent=2em>If your deck contains 2+ Human cards, your Nature cards in hand gain <nobr>+1 :attack:</nobr> until played.</indent>"
+Paper,SII001,Ingenious Inventions,Science,Legendary,3,2,Legend Has It...,"<indent=1em>:play:</indent><indent=2em>If your deck contains 2+ Deity cards, your Science cards in hand gain <nobr>+1 :attack:</nobr> until played.</indent>"
+Eric Bloodaxe,HVV001,Vicious Vikings,History,Legendary,3,2,Lying in Wait,"<indent=1em>:play:</indent><indent=2em>If your deck contains 2+ Creature cards, your History cards in hand gain <nobr>+1 :attack:</nobr> until played.</indent>"
+Kitsune,CJF001,Japanese Folklore,Culture,Legendary,3,2,Messenger,"<indent=1em>:play:</indent><indent=2em>If your deck contains 2+ Concept cards, your Culture cards in hand gain <nobr>+1 :attack:</nobr> until played.</indent>"
+The Wheel,SII002,Ingenious Inventions,Science,Legendary,5,4,Of Fortune,"<indent=1em>:play:</indent><indent=2em>For every Science card in your hand, up to a maximum of 3, your Deity cards gain <nobr>+1 :attack:</nobr> until played.</indent>"
+Labrador,NDO001,Dogs,Nature,Legendary,5,4,Gun Dog,"<indent=1em>:play:</indent><indent=2em>For every Nature card in your hand, up to a maximum of 3, your Human cards gain <nobr>+1 :attack:</nobr> until played.</indent>"
+Ivar the Boneless,HVV002,Vicious Vikings,History,Legendary,5,4,Exosus,"<indent=1em>:play:</indent><indent=2em>For every History card in your hand, up to a maximum of 3, your Creature cards gain <nobr>+1 :attack:</nobr> until played.</indent>"
+Oni,CJF002,Japanese Folklore,Culture,Legendary,5,4,Shapeshifter,"<indent=1em>:play:</indent><indent=2em>For every Culture card in your hand, up to a maximum of 3, your Concept cards gain <nobr>+1 :attack:</nobr> until played.</indent>"
+Boudica,HHE005,Heroes of History,History,Hero,0,80,Independent Revolt,"Gain <nobr>+10 Hero :attack:</nobr>, and lose <nobr>-4 Hero :attack:</nobr> for every card you play this turn. <nobr>[2 :charge:]</nobr>"
+Cane Toad,NAM004,Amphibians,Nature,Rare,6,4,Toxic,"<indent=1em>:play:</indent><indent=2em>If your opponent <nobr>Attacked :attack:</nobr> last turn, <nobr>force :attack:</nobr> them to Attack this turn.</indent>"
+Birth of Venus,CMA003,Masterpieces,Culture,Rare,5,2,Divine Beauty,"<indent=1em>:play:</indent><indent=2em>If played in the centre, your cards gain <nobr>+2 :attack:</nobr> this turn.</indent>"
+Red Dwarf,SES001,Across the Universe,Science,Legendary,7,3,The Coolest,<indent=1em>:return:</indent><indent=2em>A random card in each player's hand <nobr>Freezes :freeze:</nobr> permanently.</indent>
+P.T. Barnum,HHC004,Hoaxes and Cons,History,Common,5,1,Step Right Up,<indent=1em>:draw:</indent><indent=2em>This card steals <nobr>+1 :attack:</nobr> from your opponent's cards in hand this turn.</indent>
+Fiji Mermaid,HHC008,Hoaxes and Cons,History,Fusion,5,3,Humbug,"<indent=1em>:play:</indent><indent=2em>If played between two Nature cards, your Hoaxes and Cons cards gain <nobr>+1 :attack:</nobr> until played.</indent>"
+Pierre Brassau,HHC006,Hoaxes and Cons,History,Common,5,2,A Natural,"<indent=1em>:play:</indent><indent=2em>If your deck contains 1 or more Nature cards, your Masterpieces cards in hand gain <nobr>+1 :attack:</nobr> until played.</indent>"
+Count of St. Germain,HHC007,Hoaxes and Cons,History,Common,4,0,Wonderman,"<indent=1em>:play:</indent><indent=2em>For every Album in your opponent's deck, this card gains <nobr>+1 :attack:</nobr> permanently.</indent>"
+Pan Am Flight 914,HHC005,Hoaxes and Cons,History,Common,4,0,Rare Sighting,"<indent=1em>:draw:</indent><indent=2em>If you have played Pan Am Flight 914 exactly once this game, this card gains <nobr>+10 :attack:</nobr> this turn.</indent>"
+Spotted Salamander,NAM003,Amphibians,Nature,Rare,4,2,Endosymbiosis,"<indent=1em>:return:</indent><indent=2em>If you were <nobr>Attacked :attack:</nobr> this turn, restore <nobr>+8 :health:</nobr>.</indent>"
+Girl with a Pearl Earring,CMA001,Masterpieces,Culture,Legendary,8,2,Light in Darkness,"<indent=1em>:return:</indent><indent=2em>If your opponent has <nobr>20+ Hero :attack:</nobr>, your cards gain <nobr>+2 :attack:</nobr> until played.</indent>"
+Glass Frog,NAM002,Amphibians,Nature,Epic,5,2,Full Transparency,"<indent=1em>:play:</indent><indent=2em>If played next to an Anatomy card, restore <nobr>+7 :health:</nobr>.</indent>"
+Exomoon,SES002,Across the Universe,Science,Epic,6,4,Beyond,"<indent=1em>:play:</indent><indent=2em>If your deck contains exactly 9 The Solar System cards, give them <nobr>+1 :attack:</nobr> permanently.</indent>"
+The Milkmaid,CMA008,Masterpieces,Culture,Common,2,3,Working Class,<indent=1em>:play:</indent><indent=2em>3 random Common cards in your deck gain <nobr>+1 :attack:</nobr> until played.</indent>
+American Gothic,CMA005,Masterpieces,Culture,Common,4,3,Americana,"<indent=1em>:draw:</indent><indent=2em>For every time you have been <nobr>Attacked :attack:</nobr> this game, restore <nobr>+1 :health:</nobr>.</indent>"
+Whistler's Mother,CMA006,Masterpieces,Culture,Common,6,0,Motherhood,<indent=1em>:play:</indent><indent=2em>Your Masterpieces cards in-hand gain <nobr>+1 :attack:</nobr> permanently.</indent>
+Great Wave Off Kanagawa,CMA007,Masterpieces,Culture,Common,5,3,Floating World,<indent=1em>:draw:</indent><indent=2em>Your Feudal Japan cards in hand cost <nobr>-2 :energy:</nobr> this turn.</indent>
+Mona Lisa,CMA009,Masterpieces,Culture,Fusion,5,3,Smiling Politely,"<indent=1em>:draw:</indent><indent=2em>If your deck contains 6 or more Culture cards, your non-Culture cards gain <nobr>+1 :attack:</nobr> until played.</indent>"
+Hot Jupiter,SES003,Across the Universe,Science,Rare,7,6,Handle the Heat,<indent=1em>:draw:</indent><indent=2em>A random Frozen card in your hand <nobr>Burns :burn: (-1)</nobr> this turn.</indent>
+Charles Ponzi,HHC003,Hoaxes and Cons,History,Rare,3,0,Inverted Funnel System,"<indent=1em>:play:</indent><indent=2em>All other cards in both player’s hands lose <nobr>-1 :attack:</nobr> this turn, and this card gains <nobr>+3 :attack:</nobr> permanently.</indent>"
+Wallace's Flying Frog,NAM001,Amphibians,Nature,Legendary,7,5,Glide,<indent=1em>:play:</indent><indent=2em>This card gains <nobr>:attack:</nobr> equal to the current turn number.</indent>
+European Fire-Bellied Toad,NAM008,Amphibians,Nature,Common,3,1,Fire In Your Belly,<indent=1em>:draw:</indent><indent=2em>Your cards with Burn abilities in hand gain <nobr>+1 :attack:</nobr> this turn.</indent>
+Pacman Frog,NAM006,Amphibians,Nature,Common,5,3,Waka Waka,"<indent=1em>:play:</indent><indent=2em>If your deck contains Cherry, gain <nobr>+4 Hero :attack:</nobr>.</indent>"
+Great Crested Newt,NAM007,Amphibians,Nature,Common,3,3,Regeneration,<indent=1em>:return:</indent><indent=2em>Restore <nobr>+2 :health:</nobr>.</indent>
+Indian Bullfrog,NAM009,Amphibians,Nature,Fusion,4,3,Research,"<indent=1em>:play:</indent><indent=2em>For every Science card in your hand, gain <nobr>+2 Hero :attack:</nobr>.</indent>"
+Red Eyed Tree Frog,NAM005,Amphibians,Nature,Common,4,3,Standing Out,"<indent=1em>:return:</indent><indent=2em>If this is the only card you played this turn, <nobr>Freeze :freeze:</nobr> 2 opponent cards next turn.</indent>"
+Wanderer Above the Sea of Fog,CMA004,Masterpieces,Culture,Rare,4,5,Rise Above,"<indent=1em>:return:</indent><indent=2em>If your opponent <nobr>Attacked :attack:</nobr> this turn, your cards gain <nobr>+2 :attack:</nobr> next turn.</indent>"
+D.B. Cooper,HHC001,Hoaxes and Cons,History,Legendary,8,3,Flew the Coop,"<indent=1em>:play:</indent><indent=2em>If you haven't played D.B. Cooper this game, steal up to <nobr>+7 Hero :attack:</nobr> from your opponent.</indent>"
+Iron Maiden,HHC002,Hoaxes and Cons,History,Epic,6,5,It's a Trap,"<indent=1em>:play:</indent><indent=2em>If you have 15 or less <nobr>Hero :attack:</nobr>, <nobr>force :attack:</nobr> your opponent to Attack this turn.</indent>"
+The Kiss,CMA002,Masterpieces,Culture,Epic,5,4,Golden Period,"<indent=1em>:play:</indent><indent=2em>For every Human card played adjacent to this card this turn, restore <nobr>+3 :health:</nobr>.</indent>"
+Rogue Planet,SES007,Across the Universe,Science,Common,3,0,Free Floating,"<indent=1em>:play:</indent><indent=2em>If played adjacent to no other Science cards, this card gains <nobr>+4 :attack:</nobr> this turn.</indent>"
+Great Conjunction,SES008,Across the Universe,Science,Fusion,6,4,Rare Connection,"<indent=1em>:play:</indent><indent=2em>If your deck contains Jupiter and Saturn, your Across the Universe cards gain <nobr>+1 :attack:</nobr> until played.</indent>"
+Cthonian Planet,SES006,Across the Universe,Science,Common,5,3,Atmospheric Stripping,"<indent=1em>:play:</indent><indent=2em>If played next to Hydrogen or Helium, your cards in hand gain <nobr>+1 :attack:</nobr> this turn.</indent>"
+White Dwarf,SES004,Across the Universe,Science,Common,5,4,No Fusion,<indent=1em>:return:</indent><indent=2em>A random Fusion card in your opponent's deck costs <nobr>+1 :energy:</nobr> permanently.</indent>
+Ocean Worlds,SES005,Across the Universe,Science,Common,4,3,Hydrosphere,"<indent=1em>:play:</indent><indent=2em>If played between 2 Aquatic cards, those cards gain <nobr>+2 :attack:</nobr> this turn.</indent>"
+Tiger Salamander,NAM010,Amphibians,Nature,Rare,4,3,Striped,"<indent=1em>:draw:</indent><indent=2em>If your deck contains Bengal Tiger, this card gains <nobr>+1 :attack:</nobr>. Repeat if your deck contains Sand Tiger Shark.</indent>"
+Tiara of Saitaferne,HHC009,Hoaxes and Cons,History,Rare,5,4,Fool's Gold,"<indent=1em>:play:</indent><indent=2em>If your deck contains Gold, your opponent's History cards in-hand lose <nobr>-1 :attack:</nobr> until played.</indent>"
+Self-Portrait in a Straw Hat,CMA010,Masterpieces,Culture,Rare,3,2,Inspired Imitation,<indent=1em>:draw:</indent><indent=2em>Copy a random Shield ability from either player's deck.</indent>
+Earth Analog,SES009,Across the Universe,Science,Rare,7,4,Looks Familiar,"<indent=1em>:return:</indent><indent=2em>For every turn completed this game, gain <nobr>+1 :energy:</nobr>.</indent>"
+Loki,CHE005,Heroes of Culture,Culture,Hero,0,70,Glorious Purpose,"For every card your opponent plays this turn, Restore <nobr>+5 :health:</nobr>. <nobr>[3 :charge:]</nobr>"
+Dökkálfar,CNM004,Norse Mythology,Culture,Rare,4,0,Blacker than Pitch,<indent=1em>:play:</indent><indent=2em>Lose <nobr>-4 :health:</nobr> and gain <nobr>+8 Hero :attack:</nobr>.</indent>
+"Christina, Queen of Sweden",HUR004,Unruly Rulers,History,Rare,5,3,Baroque Protector,"<indent=1em>:play:</indent><indent=2em>For every Masterpieces card in your hand, Gain <nobr>+1 :shield:</nobr>.</indent>"
+Emperor Penguin,NSB001,Sea Birds,Nature,Legendary,8,5,Waddle You Waiting For?,"<indent=1em>:draw:</indent><indent=2em>If you have not <nobr>Attacked :attack:</nobr> this game, your Sea Birds gain <nobr>+1 :attack:</nobr>.</indent>"
+Empress Suiko,HUR009,Unruly Rulers,History,Common,4,2,Josei Tennō,"<indent=1em>:return:</indent><indent=2em>If played next to any Feudal Japan card, gain <nobr>+1 :charge:</nobr>.</indent>"
+George III,HUR008,Unruly Rulers,History,Common,3,2,Act of Union,"<indent=1em>:play:</indent><indent=2em>If played between cards from 2 different Albums, gain <nobr>+4 :shield:</nobr>.</indent>"
+"Rudolf II, Holy Roman Emperor",HUR010,Unruly Rulers,History,Common,4,2,Occult Sciences,"<indent=1em>:play:</indent><indent=2em>If your deck contains 1+ The Occult cards, your Science cards in hand gain <nobr>+1 :attack:</nobr> until played.</indent>"
+Nzinga of Ndongo and Matamba,HUR011,Unruly Rulers,History,Common,4,3,Diplomancy,"<indent=1em>:play:</indent><indent=2em>If played between two Unruly Rulers cards, gain <nobr>+3 Hero :attack:</nobr>.</indent>"
+Valkyrie,CNM005,Norse Mythology,Culture,Rare,6,4,Battle Ready,"<indent=1em>:play:</indent><indent=2em>If your opponent is <nobr>Attacking :attack:</nobr> this turn, gain <nobr>+5 Hero :attack:</nobr>.</indent>"
+Razorbill,NSB004,Sea Birds,Nature,Rare,2,0,Auk-ward,"<indent=1em>:draw:</indent><indent=2em>If you <nobr>Attacked :attack:</nobr> last turn, your Flying cards in hand gain <nobr>+1 :attack:</nobr>.</indent>"
+Charlemagne,HUR002,Unruly Rulers,History,Epic,5,5,My Armies,"<indent=1em>:turnstart:</indent><indent=2em>For every Nature card in your hand, this card gains <nobr>+1 :attack:</nobr> this turn.</indent>"
+King Penguin,NSB002,Sea Birds,Nature,Epic,5,3,Welcome to the Waddle,<indent=1em>:draw:</indent><indent=2em>Your Common Sea Birds cards cost <nobr>-2 :energy:</nobr> for 2 turns.</indent>
+The Wild Hunt,CNM010,Norse Mythology,Culture,Common,5,0,Buck Wild,"<indent=1em>:draw:</indent><indent=2em>If it's a Wild Turn, this card gains <nobr>+10 :attack:</nobr> until Wild Turns end.</indent>"
+Draugr,CNM009,Norse Mythology,Culture,Common,3,2,Cold Damage,<indent=1em>:draw:</indent><indent=2em>All Frozen cards lose <nobr>-1 :attack:</nobr> until played.</indent>
+Sága,CNM011,Norse Mythology,Culture,Common,4,3,Drinking Buddy,"<indent=1em>:play:</indent><indent=2em>If played next to any Norse Mythology card, gain <nobr>+4 :shield:</nobr>.</indent>"
+Midgard,CNM008,Norse Mythology,Culture,Common,4,2,Middle Earth,<indent=1em>:draw:</indent><indent=2em>Your Common and Rare Norse Mythology cards gain <nobr>+1 :attack:</nobr> this turn.</indent>
+Rockhopper Penguin,NSB005,Sea Birds,Nature,Rare,3,2,Welcome to the Waddle,<indent=1em>:play:</indent><indent=2em>Your Emperor Penguin card gains <nobr>+1 :attack:</nobr>.</indent>
+Ljósálfar,CNM006,Norse Mythology,Culture,Rare,4,0,Fairer Than Sun,<indent=1em>:play:</indent><indent=2em>Lose <nobr>-4 Hero :attack:</nobr> and restore <nobr>+8 :health:</nobr>.</indent>
+Attila the Hun,HUR001,Unruly Rulers,History,Legendary,6,4,Scatter Your Enemy,"<indent=1em>:play:</indent><indent=2em>If you are <nobr>attacking :attack:</nobr> this turn, 8 of your opponent’s cards lose <nobr>-1 :attack:</nobr> until played.</indent>"
+Antarctic Shag,NSB008,Sea Birds,Nature,Common,4,2,Caruncle,<indent=1em>:play:</indent><indent=2em>Your History cards gain <nobr>+1 :attack:</nobr> this turn.</indent>
+Chinstrap Penguin,NSB009,Sea Birds,Nature,Common,5,3,Welcome to the Waddle,<indent=1em>:play:</indent><indent=2em>Your Fiordland Penguin card gains <nobr>+1 :attack:</nobr> until played.</indent>
+Gentoo Penguin,NSB010,Sea Birds,Nature,Common,4,2,Welcome to the Waddle,<indent=1em>:play:</indent><indent=2em>Your Rockhopper Penguin card gains <nobr>+1 :attack:</nobr> until played.</indent>
+Pygmy Cormorant,NSB011,Sea Birds,Nature,Common,4,5,Protected Habitat,"<indent=1em>:play:</indent><indent=2em>For every Human card in your hand, this card loses <nobr>-1 :attack:</nobr> this turn.</indent>"
+Heimdall,CNM007,Norse Mythology,Culture,Rare,6,3,All Seeing,"<indent=1em>:return:</indent><indent=2em>For every Deity card you played this turn, a random Human card in your deck gains <nobr>+2 :attack:</nobr> until played.</indent>"
+Louis XIV,HUR005,Unruly Rulers,History,Rare,8,5,Absolutist,"<indent=1em>:play:</indent><indent=2em>If your opponent’s deck contains 6+ non-History cards, your cards gain <nobr>+1 :attack:</nobr> for 2 turns.</indent>"
+Puffin,NSB003,Sea Birds,Nature,Epic,8,6,Buffin',<indent=1em>:draw:</indent><indent=2em>Your Emperor Penguin card costs <nobr>-4 :energy:</nobr> this turn.</indent>
+Freyja,CNM003,Norse Mythology,Culture,Epic,5,4,The Lady,"<indent=1em>:play:</indent><indent=2em>If played between two Felines cards, your cards in hand gain <nobr>+2 :attack:</nobr> this turn.</indent>"
+Selim III,HUR012,Unruly Rulers,History,Common,3,1,Enlightened Ruler,"<indent=1em>:play:</indent><indent=2em>If your opponent has 6 or more <nobr>:shield:</nobr>, steal <nobr>3 :shield:</nobr>.</indent>"
+Charles II of England,HUR014,Unruly Rulers,History,Common,4,3,Merry Monarch,"<indent=1em>:draw:</indent><indent=2em>If you're above 50% <nobr>:health:</nobr>, 2 random Unruly Rulers cards in your hand gains <nobr>+1 :attack:</nobr>.</indent>"
+Carlota of Mexico,HUR013,Unruly Rulers,History,Common,3,7,Short Reign,<indent=1em>:return:</indent><indent=2em>This card loses <nobr>-2 :attack:</nobr> and costs <nobr>+2 :energy:</nobr>.</indent>
+Pedro II of Brazil,HUR015,Unruly Rulers,History,Common,5,3,Magnanimous,<indent=1em>:draw:</indent><indent=2em>1 random Culture card and 1 random Science card in either player's hand gains <nobr>+1 :attack:</nobr> until played.</indent>
+Henry VIII,HUR016,Unruly Rulers,History,Fusion,6,6,Six,"<indent=1em>:draw:</indent><indent=2em>If your deck contains exactly 6 History cards, your non-History cards gain <nobr>+1 :attack:</nobr> until played.</indent>"
+Fiordland Penguin,NSB006,Sea Birds,Nature,Rare,5,4,Welcome to the Waddle,<indent=1em>:play:</indent><indent=2em>Your King Penguin card gains <nobr>+1 :attack:</nobr>.</indent>
+Ivan the Terrible,HUR006,Unruly Rulers,History,Rare,5,6,Truly Unruly,"<indent=1em>:draw:</indent><indent=2em>Lose <nobr>-2 :energy:</nobr>, and this card gains <nobr>+3 :attack:</nobr> until played.</indent>"
+Thor,CNM001,Norse Mythology,Culture,Legendary,6,4,Worthy,"<indent=1em>:play:</indent><indent=2em>The opposite card loses <nobr>-2 :attack:</nobr> this turn, and this card gains <nobr>+2 :attack:</nobr> permanently.</indent>"
+Tyr,CNM015,Norse Mythology,Culture,Common,5,3,One-Handed,"<indent=1em>:play:</indent><indent=2em>If played on the left, gain <nobr>+2 Hero :attack:</nobr>.</indent>"
+Brunhild,CNM014,Norse Mythology,Culture,Common,2,3,Shieldmaiden,"<indent=1em>:play:</indent><indent=2em>If played next to Valkyrie, gain <nobr>+4 :shield:</nobr>.</indent>"
+Jotunheim,CNM012,Norse Mythology,Culture,Common,4,2,Giant Country,<indent=1em>:draw:</indent><indent=2em>Your Epic and Legendary Norse Mythology cards gain <nobr>+1 :attack:</nobr> until played.</indent>
+Fáfnir,CNM013,Norse Mythology,Culture,Common,4,2,Embrace Yourself,<indent=1em>:return:</indent><indent=2em>This card gains <nobr>+2 :attack:</nobr>.</indent>
+Bifröst,CNM016,Norse Mythology,Culture,Fusion,4,3,Rainbow Road,"<indent=1em>:draw:</indent><indent=2em>If your deck contains at least 1 card from each album, gain <nobr>+5 Hero :attack:</nobr>.</indent>"
+Wu Zetian,HUR007,Unruly Rulers,History,Rare,4,3,Her Story,<indent=1em>:draw:</indent><indent=2em>This card steals <nobr>1 :attack:</nobr> from both Heroes.</indent>
+Arctic Tern,NSB007,Sea Birds,Nature,Rare,4,8,Long Migration,"<indent=1em>:turnstart:</indent><indent=2em>If it is before Turn 7, this card <nobr>Freezes :freeze:</nobr> this turn.</indent>"
+Sif,CNM002,Norse Mythology,Culture,Epic,5,5,Fields of Gold,<indent=1em>:draw:</indent><indent=2em>2 random Nature cards in your hand gain <nobr>+2 :attack:</nobr> until played.</indent>
+Elizabeth I,HUR003,Unruly Rulers,History,Epic,5,3,Offspring,<indent=1em>:return:</indent><indent=2em>Your Unruly Rulers cards gain <nobr>+1 :attack:</nobr> until played. Repeat if you have played Henry VIII.</indent>
+Fulmar,NSB012,Sea Birds,Nature,Common,6,5,Cliffside,"<indent=1em>:play:</indent><indent=2em>If played between two Natural Monuments cards, this card gains <nobr>+2 :attack:</nobr>.</indent>"
+European Herring Gull,NSB013,Sea Birds,Nature,Common,3,0,Pecking Order,"<indent=1em>:draw:</indent><indent=2em>If you have played 8+ Sea Birds cards this game, this card gains <nobr>+2 :attack:</nobr>.</indent>"
+Gannet,NSB015,Sea Birds,Nature,Common,4,3,Dive,<indent=1em>:play:</indent><indent=2em>Your opponent's Aquatic cards lose <nobr>-1 :attack:</nobr> this turn.</indent>
+Black Guillemot,NSB014,Sea Birds,Nature,Common,5,3,Swallowed Whole,<indent=1em>:play:</indent><indent=2em>A random card with 3 or less Base <nobr>:energy:</nobr> loses <nobr>-3 :attack:</nobr> this turn.</indent>
+Royal Penguin,NSB016,Sea Birds,Nature,Fusion,8,7,God Save the 'Guin,"<indent=1em>:draw:</indent><indent=2em>If your deck contains exactly 6 History cards, your History cards gain <nobr>+1 :attack:</nobr> until played.</indent>"
+Green Sea Turtle,NHE005,Heroes of Nature,Nature,Hero,0,80,In a Half-Shell,"For every 10 <nobr>:health:</nobr> you have lost, gain <nobr>+5 :shield:</nobr>. <nobr>[3 :charge:]</nobr>"
+Friar Tuck,CRH004,Legend of Robin Hood,Culture,Rare,6,5,Curtal,"<indent=1em>:draw:</indent><indent=2em>If you have not played this card before, your Robin Hood cards gain <nobr>+1 :attack:</nobr> until played.</indent>"
+Monsoon,SWW007,Wicked Weather,Science,Rare,6,3,Downpour,"<indent=1em>:return:</indent><indent=2em>For every turn completed this game, gain <nobr>+1 Hero :attack:</nobr>.</indent>"
+Reef Manta Ray,NAR001,Around the Reef,Nature,Legendary,7,5,Shallow,"<indent=1em>:turnstart:</indent><indent=2em>If you have 10 or less <nobr>Hero :attack:</nobr>, gain <nobr>+3 Hero :attack:</nobr>.</indent>"
+Rainbow Parrotfish,NAR009,Around the Reef,Nature,Common,4,3,Beak,<indent=1em>:return:</indent><indent=2em>Your remaining cards in hand gain +2 Attack next turn.</indent>
+Snakelocks Anemone,NAR015,Around the Reef,Nature,Common,5,3,Attachment,"<indent=1em>:play:</indent><indent=2em>If played adjacent to any Natural Monuments card, this card gains <nobr>+4 :attack:</nobr> this turn.</indent>"
+Hedgehog Seahorse,NAR014,Around the Reef,Nature,Common,6,4,Land and Sea,<indent=1em>:draw:</indent><indent=2em>A random Creature and random Aquatic card in your hand gain <nobr>+1 :attack:</nobr> this turn.</indent>
+Grooved Brain Coral,NAR008,Around the Reef,Nature,Common,4,0,Sea Smarts,<indent=1em>:draw:</indent><indent=2em>Restore <nobr>+5 :health:</nobr>.</indent>
+Prince John,CRH005,Legend of Robin Hood,Culture,Rare,7,7,Heavy Reign,"<indent=1em>:play:</indent><indent=2em>If either player plays an Unruly Rulers card this turn, this card loses -7 Attack.</indent>"
+Heat Wave,SWW005,Wicked Weather,Science,Rare,5,2,Hot Turn,<indent=1em>:turnstart:</indent><indent=2em>A random card in either player’s hand Burns (-1) until played.</indent>
+Volcanic Eruption,SWW003,Wicked Weather,Science,Epic,6,2,Fissure,<indent=1em>:draw:</indent><indent=2em>Burn (-1) all cards in both player's hands until this card is played.</indent>
+Blue Tang,NAR003,Around the Reef,Nature,Epic,5,4,Surgeon's Palette,"<indent=1em>:play:</indent><indent=2em>For every Anatomy card in your hand, gain <nobr>+2 :shield:</nobr>.</indent>"
+Will Scarlet,CRH008,Legend of Robin Hood,Culture,Common,6,4,Hot-Headed,"<indent=1em>:return:</indent><indent=2em>If your opponent <nobr>Attacked :attack:</nobr> this turn, gain <nobr>+1 :charge:</nobr>.</indent>"
+Gilbert Whitehand,CRH009,Legend of Robin Hood,Culture,Common,4,2,Early Appearance,"<indent=1em>:draw:</indent><indent=2em>If it is Turn 3 or before, this card gains <nobr>+2 :attack:</nobr>.</indent>"
+Much the Miller's Son,CRH010,Legend of Robin Hood,Culture,Common,4,1,Rescue,<indent=1em>:draw:</indent><indent=2em>Your Robin Hood card costs <nobr>-3 :energy:</nobr> this turn.</indent>
+Allan-a-Dale,CRH011,Legend of Robin Hood,Culture,Common,6,3,Wandering,<indent=1em>:play:</indent><indent=2em>Your Robin Hood cards in hand gain <nobr>+1 :attack:</nobr> until played.</indent>
+Giant Clam,NAR007,Around the Reef,Nature,Rare,7,0,Filtered,"<indent=1em>:draw:</indent><indent=2em>For every Around the Reef card in your hand, this card gains <nobr>+1 :attack:</nobr> permanently.</indent>"
+Elegant Sea Star,NAR006,Around the Reef,Nature,Rare,5,3,Five-Point,<indent=1em>:return:</indent><indent=2em>Disarm 5 random cards in either player's deck until the end of next turn.</indent>
+Robin Hood,CRH001,Legend of Robin Hood,Culture,Legendary,4,5,Rob From The Rich,"<indent=1em>:play:</indent><indent=2em>All cards with 5 or more Base <nobr>:attack:</nobr> lose <nobr>-1 :attack:</nobr>, and all cards with 4 or less Base <nobr>:attack:</nobr> gain <nobr>+1 :attack:</nobr>.</indent>"
+Great Barrier Reef,NAR016,Around the Reef,Nature,Fusion,4,3,Good Reef!,"<indent=1em>:play:</indent><indent=2em>If played between two Science cards, your Around the Reef cards gain +2 Power until played.</indent>"
+Sea Whip,NAR013,Around the Reef,Nature,Common,3,2,Whip It,<indent=1em>:play:</indent><indent=2em>The card opposite loses -1 Attack this turn.</indent>
+Bubble Coral,NAR012,Around the Reef,Nature,Common,2,1,Juicy,<indent=1em>:play:</indent><indent=2em>Your Food and Drink cards in hand gain <nobr>+1 :attack:</nobr> this turn.</indent>
+Gorgonian Wrapper,NAR010,Around the Reef,Nature,Common,4,4,Unwrapped,"<indent=1em>:play:</indent><indent=2em>Your other cards in-hand gain <nobr>+1 :attack:</nobr> until played, and this card loses <nobr>-4 :attack:</nobr> permanently.</indent>"
+Red Sea Urchin,NAR011,Around the Reef,Nature,Common,6,5,The Test,"<indent=1em>:play:</indent><indent=2em>If you have not played this card before, gain <nobr>+8 :shield:</nobr>.</indent>"
+Perfect Storm,SWW004,Wicked Weather,Science,Rare,3,0,Worst Case Scenario,"<indent=1em>:turnstart:</indent><indent=2em>For every Wicked Weather card in either player's hand, this card gains <nobr>+1 :attack:</nobr> this turn.</indent>"
+Sheriff of Nottingham,CRH007,Legend of Robin Hood,Culture,Rare,5,6,That's Going to Cost You,"<indent=1em>:play:</indent><indent=2em>For every time you have played Robin Hood this game, the opposite card loses <nobr>-1 :attack:</nobr> this turn.</indent>"
+Clownfish,NAR002,Around the Reef,Nature,Epic,6,4,Finding...,"<indent=1em>:play:</indent><indent=2em>For every Aquatic card in either player's hand, this card gains <nobr>+1 :attack:</nobr> this turn.</indent>"
+Little John,CRH002,Legend of Robin Hood,Culture,Epic,8,0,Misnomer,"<indent=1em>:draw:</indent><indent=2em>For every Robin Hood card in your hand, this card gains <nobr>+1 :attack:</nobr>.</indent>"
+Sunshine,SWW013,Wicked Weather,Science,Common,4,2,Life Affirming,<indent=1em>:draw:</indent><indent=2em>Your Nature cards in hand gain +1 Attack until played.</indent>
+Brinicle,SWW015,Wicked Weather,Science,Common,6,5,Underside,"<indent=1em>:draw:</indent><indent=2em>If you have less Hero Attack than your opponent this turn, gain +4 Hero Attack.</indent>"
+Fog,SWW014,Wicked Weather,Science,Common,5,3,Low Visibility,<indent=1em>:draw:</indent><indent=2em>A random card in your opponent's hand loses between -1 and -3 Attack this turn.</indent>
+Hail,SWW012,Wicked Weather,Science,Common,3,3,Solid,<indent=1em>:draw:</indent><indent=2em>Reset this card.</indent>
+Lightning,SWW017,Wicked Weather,Science,Common,6,8,,
+Asteroid,SES010,Across the Universe,Science,Common,4,3,Smackdown,"<indent=1em>:play:</indent><indent=2em>If played next to Pterodactyl, gain <nobr>+5 Hero :attack:</nobr>.</indent>"
+Empire State Building,SAA001,Awesome Architecture,Science,Rare,4,3,Kong Along,"<indent=1em>:play:</indent><indent=2em>If played next to Gorilla, both cards gain <nobr>+3 :attack:</nobr> this turn.</indent>"
+First Aid Kit,SMM001,Medical Marvels,Science,Common,3,2,Heal Up,<indent=1em>:play:</indent><indent=2em>Restore <nobr>+2 :health:</nobr>.</indent>
+Grizzly Bear,NMA001,Mammals,Nature,Rare,5,4,Paw Power,<indent=1em>:play:</indent><indent=2em>Gain <nobr>+1 Hero :attack:</nobr>.</indent>
+Moai Statues,HAM001,Archaeological Marvels,History,Rare,5,4,Rock Solid,<indent=1em>:play:</indent><indent=2em>Your Culture cards in hand gain <nobr>+2 :attack:</nobr> this turn.</indent>
+Gorilla,NPR001,Primates,Nature,Rare,8,6,,
+Pterodactyl,NAB001,Ancient Beasts,Nature,Common,5,5,Natural Flier,<indent=1em>:play:</indent><indent=2em>Your Nature cards gain <nobr>+1 :attack:</nobr> for 2 turns.</indent>
+Ajax,CGM017,Greek Mythology,Culture,Epic,6,5,Body-Shield,<indent=1em>:play:</indent><indent=2em>Gain <nobr>+5 :shield:</nobr>.</indent>
+Michelangelo's David,CMA011,Masterpieces,Culture,Legendary,3,1,Artistic Merit,<indent=1em>:play:</indent><indent=2em>Your Masterpieces cards gain <nobr>+1 :attack:</nobr> permanently.</indent>
+Benjamin Franklin,HAR001,The American Revolution,History,Epic,4,4,Common Friend,"<indent=1em>:return:</indent><indent=2em>If played alone, your Common cards cost <nobr>-2 :energy:</nobr> next turn.</indent>"
+Honey,CFD017,Food and Drink,Culture,Common,3,2,No Bother,"<indent=1em>:play:</indent><indent=2em>When played with Grizzly Bear, both cards gain <nobr>+1 :attack:</nobr> this turn.</indent>"
+The Creation of Adam,CMA012,Masterpieces,Culture,Rare,5,4,Genesis,<indent=1em>:return:</indent><indent=2em>Your remaining Culture cards in-hand gain <nobr>+1 :attack:</nobr> next turn.</indent>
+Stone Axe,HAM002,Archaeological Marvels,History,Rare,5,4,Back To Basics,<indent=1em>:return:</indent><indent=2em>Your remaining History cards in-hand gain <nobr>+1 :attack:</nobr> next turn.</indent>
+The Declaration of Independence,HSS001,Signed & Sealed,History,Common,3,2,Unanimous,"<indent=1em>:play:</indent><indent=2em>When played with Benjamin Franklin, both cards gain <nobr>+1 :attack:</nobr> this turn.</indent>"
+Biplane,STF001,Take Flight,Science,Common,3,2,Rampage,"<indent=1em>:play:</indent><indent=2em>When played with Gorilla, both cards gain <nobr>+1 :attack:</nobr> this turn.</indent>"
+Goliath Frog,NAM011,Amphibians,Nature,Common,3,2,Versus,"<indent=1em>:play:</indent><indent=2em>When played with Michelangelo's David, both cards gain <nobr>+1 :attack:</nobr> this turn.</indent>"
+Ginkgo Biloba,NGG001,Go Green,Nature,Rare,5,4,Roots,<indent=1em>:return:</indent><indent=2em>Your remaining Nature cards in-hand gain <nobr>+1 :attack:</nobr> next turn.</indent>
+Microscope,SII004,Ingenious Inventions,Science,Rare,5,4,I See,<indent=1em>:return:</indent><indent=2em>Your remaining Science cards in-hand gain <nobr>+1 :attack:</nobr> next turn.</indent>
+Pom-pom Crab,NAR004,Around the Reef,Nature,Rare,8,7,Cheerleader,"<indent=1em>:play:</indent><indent=2em>If it is before Turn 4, this card gains <nobr>+3 :attack:</nobr>.</indent>"
+Guy of Gisbourne,CRH006,Legend of Robin Hood,Culture,Rare,3,2,Love Triangle,<indent=1em>:return:</indent><indent=2em>Three random Robin Hood cards cost <nobr>-1 :energy:</nobr> until played.</indent>
+Thunderstorms,SWW001,Wicked Weather,Science,Legendary,8,3,Strike,<indent=1em>:return:</indent><indent=2em>Fully charge both Heroes.</indent>
+Will Stutly,CRH014,Legend of Robin Hood,Culture,Common,4,3,Godfather,<indent=1em>:return:</indent><indent=2em>Your Little John card costs -1 Energy until played.</indent>
+Arthur a Bland,CRH015,Legend of Robin Hood,Culture,Common,5,4,a Flavoursome,<indent=1em>:play:</indent><indent=2em>Your Food and Drink cards gain <nobr>+1 :attack:</nobr> this turn.</indent>
+Sir Richard of Verysdale,CRH012,Legend of Robin Hood,Culture,Common,5,4,Lording It,"<indent=1em>:play:</indent><indent=2em>Your ""Place"" cards in-hand gain <nobr>+1 :attack:</nobr> until played.</indent>"
+Merry Men,CRH016,Legend of Robin Hood,Culture,Fusion,6,4,Band Together,<indent=1em>:play:</indent><indent=2em>Your Common cards with 4 or less Base <nobr>:attack:</nobr> gain <nobr>+4 :attack:</nobr> this turn.</indent>
+Bishop of Hereford,CRH013,Legend of Robin Hood,Culture,Common,6,8,Greedy,<indent=1em>:return:</indent><indent=2em>This card costs <nobr>+1 :energy:</nobr> permanently.</indent>
+Tornado,SWW006,Wicked Weather,Science,Rare,5,3,Whirlwind,<indent=1em>:draw:</indent><indent=2em>Reset a random card in each player's hand.</indent>
+Sea Sponge,NAR005,Around the Reef,Nature,Rare,5,3,I'm Ready!,<indent=1em>:turnstart:</indent><indent=2em>A random Around the Reef card in your hand costs -1 Energy this turn.</indent>
+Avalanche,SWW002,Wicked Weather,Science,Epic,5,2,Cascade,<indent=1em>:turnstart:</indent><indent=2em>This card gains +1 Attack until played.</indent>
+Maid Marian,CRH003,Legend of Robin Hood,Culture,Epic,7,5,Made of Honor,"<indent=1em>:draw:</indent><indent=2em>For every Common card you have played this game, gain <nobr>+1 :shield:</nobr>.</indent>"
+Rainbow,SWW016,Wicked Weather,Science,Fusion,6,4,All the Colors,<indent=1em>:play:</indent><indent=2em>A random card from each Album in your hand gains <nobr>+2 :attack:</nobr> until played.</indent>
+Frost,SWW010,Wicked Weather,Science,Common,3,2,Bite,<indent=1em>:draw:</indent><indent=2em><nobr>Freeze :freeze:</nobr> 1 card in your opponent's hand this turn.</indent>
+Snowflakes,SWW008,Wicked Weather,Science,Common,3,6,Winter Confetti,<indent=1em>:return:</indent><indent=2em><nobr>Freeze :freeze:</nobr> 1 card in your hand next turn.</indent>
+Clouds,SWW009,Wicked Weather,Science,Common,3,3,Aerosol,<indent=1em>:draw:</indent><indent=2em>Three random cards in your deck gain <nobr>+1 :attack:</nobr> until played.</indent>
+Rain,SWW011,Wicked Weather,Science,Common,4,8,Falls,<indent=1em>:turnstart:</indent><indent=2em>This card loses <nobr>-1 :attack:</nobr>.</indent>
+Homer,CLI017,Literature,Culture,Epic,6,0,Poeta Epicus,"<indent=1em>:draw:</indent><indent=2em>For every Epic Greek Mythology card you've played before this turn, this card gains <nobr>+1 :attack:</nobr> this turn.</indent>"
+Calcium,SPT017,The Periodic Table,Science,Rare,4,0,Healthy Bones,<indent=1em>:draw:</indent><indent=2em>Disarm your Femur and Humerus cards this turn.</indent>
+Nefertiti,HAE017,Ancient Egypt,History,Legendary,6,3,Exclusivist,"<indent=1em>:draw:</indent><indent=2em>If you have less Hero Attack than your opponent this turn, gain <nobr>+6 :shield:</nobr>.</indent>"
+Odysseus,CGM018,Greek Mythology,Culture,Epic,5,2,Sole Survivor,"<indent=1em>:play:</indent><indent=2em>This card gains <nobr>+3 :attack:</nobr> permanently, and your other cards in play lose <nobr>-1 :attack:</nobr> permanently.</indent>"
+Greenland Shark,NSH017,Sharks,Nature,Rare,5,3,Toxic Skin,<indent=1em>:play:</indent><indent=2em>The card opposite loses <nobr>-2 :attack:</nobr> this turn.</indent>
+Harry Houdini,HHC010,Hoaxes and Cons,History,Legendary,9,1,Reappearance,<indent=1em>:turnstart:</indent><indent=2em>This card costs <nobr>-1 :energy:</nobr> and gains <nobr>+1 :attack:</nobr> until played.</indent>
+Abraham Lincoln,HUR017,Unruly Rulers,History,Epic,6,4,"Fairness, and Fairness Only",<indent=1em>:play:</indent><indent=2em>2 random Common cards in either player's deck gain <nobr>+2 :attack:</nobr> permanently.</indent>
+Napoleon,HUR018,Unruly Rulers,History,Rare,6,3,Triomphe Napoleon!,"<indent=1em>:play:</indent><indent=2em>If played between two Commons, this card gains <nobr>+2 :attack:</nobr> permanently.</indent>"
+Wright Brothers,SST017,STEM Stars,Science,Rare,5,1,Fly-oneers,"<indent=1em>:draw:</indent><indent=2em>For every Flying card in your hand, this card gains <nobr>+1 :attack:</nobr> this turn.</indent>"
+Doc Holliday,HOW001,The Old West,History,Common,3,4,I'm Your Huckleberry,<indent=1em>:draw:</indent><indent=2em>This card gains <nobr>+2 :attack:</nobr> this turn.</indent>
+Electric Guitar,CPP001,Pitch Perfect,Culture,Epic,5,2,Epic Solo,"<indent=1em>:play:</indent><indent=2em>If played alone, gain <nobr>+8 Hero :attack:</nobr>.</indent>"
+Grand Piano,CPP002,Pitch Perfect,Culture,Rare,4,0,Tuning,<indent=1em>:play:</indent><indent=2em>8 random Culture cards from either player's deck gain <nobr>+1 :attack:</nobr> until played.</indent>
+Grim Reaper,CTO017,The Occult,Culture,Legendary,10,0,When Next We Meet...,"<indent=1em>:play:</indent><indent=2em>If you have played Grim Reaper once, 1 random card from either player's hand loses <nobr>-30 :attack:</nobr> and is Disarmed permanently.</indent>"
+Chainsaw,SII003,Ingenious Inventions,Science,Rare,0,0,RRRRRRRRRRR!!!,<indent=1em>:turnstart:</indent><indent=2em>Your opponent loses <nobr>-2 :shield:</nobr>.</indent>
+Wooly Mammoth,NAB002,Ancient Beasts,Nature,Rare,5,4,Adaptation,<indent=1em>:play:</indent><indent=2em>This card gains <nobr>+1 :attack:</nobr> permanently.</indent>
+Goldfish,NSF001,Something Fishy,Nature,Common,2,4,Remind Me,<indent=1em>:draw:</indent><indent=2em>Reset this card.</indent>
+John Carter of Mars,CHE006,Heroes of Culture,Culture,Hero,0,80,Martian Warlord,"For every Human or Creature in your hand, gain <nobr>+2 Hero :attack:</nobr>. <nobr>[3 :charge:]</nobr>"
+Utahraptor,NDI017,Dinosaurs,Nature,Rare,3,1,Ambush Predator,"<indent=1em>:return:</indent><indent=2em>If you <nobr>Attacked :attack:</nobr> this turn, restore <nobr>+5 :health:</nobr>.</indent>"
+Neil Armstrong,SBG001,To Boldly Go,Science,Epic,6,5,Moonwalk,<indent=1em>:draw:</indent><indent=2em>Your The Moon card costs <nobr>-5 :energy:</nobr> until played.</indent>
+Nellie Bly,HEX001,Exploration,History,Rare,4,3,Around the World,"<indent=1em>:return:</indent><indent=2em>If played adjacent to any Place card, this card gains <nobr>+3 :attack:</nobr>.</indent>"
+Yuri Gagarin,SBG002,To Boldly Go,Science,Legendary,5,5,First!,"<indent=1em>:play:</indent><indent=2em>If you have not played any To Boldly Go cards this game, your To Boldly Go cards gain <nobr>+1 :attack:</nobr>.</indent>"
+Iguanodon ,NDI019,Dinosaurs,Nature,Common,3,4,Facultative Biped,"<indent=1em>:return:</indent><indent=2em>If played on the left, gain <nobr>+2 Hero :attack:</nobr>. If played on the right, restore <nobr>+4 :health:</nobr>.</indent>"
+Styracosaurus,NDI020,Dinosaurs,Nature,Common,2,3,Spiked,<indent=1em>:play:</indent><indent=2em>The opposite card loses <nobr>-1 :attack:</nobr> this turn.</indent>
+Deinonychus,NDI018,Dinosaurs,Nature,Common,3,4,Renaissance,<indent=1em>:return:</indent><indent=2em>This card gains <nobr>+2 :attack:</nobr> permanently.</indent>
+Einiosaurus,NDI021,Dinosaurs,Nature,Common,4,3,Forward Curve,<indent=1em>:draw:</indent><indent=2em>Gain <nobr>+2 :energy:</nobr>.</indent>
+Space Shuttle,SBG003,To Boldly Go,Science,Rare,7,4,Orbital,"<indent=1em>:return:</indent><indent=2em>For every turn completed this game, restore <nobr>+2 :health:</nobr></indent>"
+Pachycephalosaurus,NDI022,Dinosaurs,Nature,Rare,4,3,Thick Skull,"<indent=1em>:play:</indent><indent=2em>If you are <nobr>attacking :attack:</nobr> this turn, gain <nobr>+5 :shield:</nobr>.</indent>"
+Sir Walter Raleigh,HEX002,Exploration,History,Epic,5,0,Golden Opportunity,<indent=1em>:turnstart:</indent><indent=2em>A random card in your deck gains <nobr>+5 :attack:</nobr> this turn.</indent>
+Sally Ride,SBG004,To Boldly Go,Science,Common,4,4,Mission Specialist,<indent=1em>:play:</indent><indent=2em>A random STEM Stars card in your deck gains <nobr>+1 :attack:</nobr>.</indent>
+Mars Rover Opportunity,SBG006,To Boldly Go,Science,Common,4,5,Distant Study,<indent=1em>:draw:</indent><indent=2em>Your Artifact cards in-hand gain <nobr>+1 :attack:</nobr> this turn.</indent>
+Luna 1,SBG007,To Boldly Go,Science,Common,5,5,Missed Moon,"<indent=1em>:play:</indent><indent=2em>If you are at or below 45 <nobr>:health:</nobr>, gain <nobr>+5 Hero :attack:</nobr> this turn.</indent>"
+Eileen Collins,SBG005,To Boldly Go,Science,Common,7,3,Pitch Maneuver,"<indent=1em>:return:</indent><indent=2em>If you have not played this card before, it gains <nobr>+4 :attack:</nobr> and costs <nobr>-4 :energy:</nobr>.</indent>"
+Edmund Hillary,HEX003,Exploration,History,Rare,5,5,Peaking,"<indent=1em>:draw:</indent><indent=2em>If it is a Wild Turn, your Exploration cards cost <nobr>-1 :energy:</nobr> until played.</indent>"
+Mae Jemison,SBG008,To Boldly Go,Science,Epic,5,3,Flying Doctors,"<indent=1em>:play:</indent><indent=2em>If played adjacent to any Flying card, your Human cards gain <nobr>+1 :attack:</nobr> for 3 turns.</indent>"
+Tenzing Norgay,HEX004,Exploration,History,Rare,5,5,Summit,"<indent=1em>:play:</indent><indent=2em>When played next to Edmund Hillary, your Exploration cards in-hand gain <nobr>+1 :attack:</nobr> until played.</indent>"
+Allosaurus,NDI023,Dinosaurs,Nature,Legendary,7,3,Pack Hunter,"<indent=1em>:play:</indent><indent=2em>For every Dinosaur card in your hand, your opponent loses <nobr>-2 Hero :attack:</nobr>.</indent>"
