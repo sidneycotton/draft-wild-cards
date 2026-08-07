@@ -459,6 +459,29 @@
   .inspect-details h3 { font-family: 'Anton', sans-serif; font-size: 32px; color: var(--gold); margin-bottom: 8px;}
   .inspect-details p { color: var(--text); font-size: 17px; line-height: 1.5; margin-bottom: 8px; font-family: 'Barlow', sans-serif;}
 
+  /* CLOSE BUTTON FOR MODAL */
+  .close-modal-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: var(--text);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: background 0.2s;
+  }
+  .close-modal-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+
   /* EXPORT */
   #screen-export .export-box{
     background:var(--panel); border:1px solid var(--line); border-radius:10px;
@@ -649,6 +672,7 @@
 <!-- INSPECT MODAL -->
 <div id="inspect-modal" class="modal" onclick="closeInspect(event)">
   <div class="modal-content" onclick="event.stopPropagation()">
+    <button class="close-modal-btn" onclick="closeInspect(event)" aria-label="Close modal">✕</button>
     <div id="inspect-card-wrap"></div>
     <div class="inspect-details">
        <h3 id="inspect-name"></h3>
