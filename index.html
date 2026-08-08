@@ -1250,7 +1250,7 @@ function buildPool(){
   state.sortBy = null; state.sortDir = 0;
   
   const heroWrap = document.getElementById("deckbuild-hero-wrap");
-  heroWrap.innerHTML = buildCardHTML(state.hero) + `<div class="pick-badge">✓</div>`;
+  heroWrap.innerHTML = buildCardHTML(state.hero);
   heroWrap.className = "pool-card picked";
   heroWrap.onclick = () => openInspect(state.hero, false);
   heroWrap.style.cursor = "pointer";
