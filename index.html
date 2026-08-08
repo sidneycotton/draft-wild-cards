@@ -475,6 +475,23 @@
     position:absolute; top:6px; left:6px; background:rgba(0,0,0,0.7); color:var(--text);
     font-size:11px; font-weight:700; padding:2px 8px; border-radius:10px; z-index:5;
   }
+  /* ENERGY CURVE */
+  .curve-container {
+    display: flex; gap: 8px; align-items: flex-end; justify-content: center;
+    height: 90px; margin: 16px auto; padding: 14px; background: var(--bg2);
+    border: 1px solid var(--line); border-radius: 8px; max-width: 320px;
+  }
+  .curve-col {
+    display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+    flex: 1; height: 100%; gap: 6px;
+  }
+  .curve-bar {
+    width: 100%; background: var(--rare); border-radius: 4px 4px 0 0;
+    min-height: 2px; transition: height 0.3s ease;
+    box-shadow: 0 0 10px rgba(58,176,255,0.2);
+  }
+  .curve-lbl { font-family: 'Anton', sans-serif; font-size: 14px; color: var(--muted); }
+  .curve-count { font-size: 12px; color: var(--text); font-weight: 700; }
 </style>
 </head>
 <body>
@@ -748,6 +765,7 @@
     <!-- Mini Deck View -->
     <div class="slots-config-wrap" style="max-width: 800px; margin: 0 auto; text-align: left;">
       <h4>Your Drafted Deck</h4>
+      <div id="arena-energy-curve" class="curve-container" style="margin: 10px 0; max-width: 100%;"></div>
       <div class="export-strip" id="arena-deck-strip" style="margin-top: 10px; min-height: 100px; border: 1px dashed var(--line); border-radius: 8px;"></div>
     </div>
 
@@ -817,7 +835,7 @@
           <button class="btn secondary sort-btn sort-btn-pool" id="sort-btn-power" data-default="Power" onclick="cycleSortPool('power')">Power</button>
        </div>
     </div>
-
+<div id="build-energy-curve" class="curve-container"></div>
     <div class="pool-grid" id="pool-grid"></div>
     <div class="center">
       <button class="btn pink" id="finish-btn" disabled onclick="showExport()">Finish Deck</button>
@@ -955,6 +973,56 @@
 </div>
 
 <script>
+  /* =========================================================
+   AUDIO & ENERGY CURVE SETUP
+   ========================================================= */
+const sfx = {
+  rip: new Audio('https://assets.mixkit.co/active_storage/sfx/2570/2570-preview.mp3'), // Digital clack
+  shiny: new Audio('https://assets.mixkit.co/active_storage/sfx/2574/2574-preview.mp3'), // Neon ping
+  click: new Audio('https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3')  // UI click
+};
+sfx.rip.volume = 0.6;
+sfx.shiny.volume = 0.5;
+sfx.click.volume = 0.3;
+
+function playSound(type) {
+  if (!sfx[type]) return;
+  const sound = sfx[type].cloneNode(); 
+  sound.volume = sfx[type].volume;
+  sound.play().catch(e => {}); 
+}
+
+function renderEnergyCurve(containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  const counts = {0:0, 1:0, 2:0, 3:0, 4:0, "5+":0};
+  let maxCount = 0;
+
+  state.picked.forEach(c => {
+    let cost = c.energy || 0;
+    if (cost >= 5) counts["5+"]++;
+    else counts[cost]++;
+  });
+
+  for (let key in counts) {
+    if (counts[key] > maxCount) maxCount = counts[key];
+  }
+
+  container.innerHTML = "";
+  for (let key in counts) {
+    const count = counts[key];
+    const heightPct = maxCount === 0 ? 0 : (count / Math.max(maxCount, 5)) * 100;
+    
+    container.innerHTML += `
+      <div class="curve-col">
+        <div class="curve-count">${count > 0 ? count : ''}</div>
+        <div class="curve-bar" style="height: ${heightPct}%;"></div>
+        <div class="curve-lbl">${key}</div>
+      </div>
+    `;
+  }
+}
 /* =========================================================
    PRNG UTILITIES & GLOBALS
    ========================================================= */
@@ -1068,6 +1136,7 @@ function pickArenaCard(card, isHero) {
    } else {
        state.picked.push(card);
    }
+   playSound('click'); // <--- ADDED AUDIO
    // Immediately re-render the next 4 options
    renderArenaPick();
 }
@@ -1080,12 +1149,14 @@ function renderArenaDeckStrip() {
   stripCards = stripCards.concat(state.picked);
 
   strip.innerHTML = "";
-  stripCards.forEach(c => {
+stripCards.forEach(c => {
     const el = document.createElement("div");
     el.className = `mini-card${c.rarity && c.rarity!=='hero' ? ' r-'+c.rarity : ''}${c.shiny?' shiny':''}`;
     el.innerHTML = `<img src="${c.image}" title="${c.name}"><div class="mini-name">${c.name}</div>`;
     strip.appendChild(el);
   });
+  
+  renderEnergyCurve('arena-energy-curve'); // <--- ADDED CURVE
 }
   
 function xmur3(str) {
@@ -1582,9 +1653,11 @@ function openPack(){
   const stage = document.getElementById("pack-stage"); if(stage.classList.contains("ripping")) return;
   const pulled = pullPack(); state.packs.push(pulled);
   stage.classList.add("ripping"); document.getElementById("pack-burst").classList.add("go");
+  playSound('rip'); // <--- ADDED AUDIO
 
   const tier = bestRarityInPack(pulled);
   if(tier==="shiny" || tier==="legendary" || tier==="fusion" || tier==="epic"){
+    playSound('shiny'); // <--- ADDED AUDIO
     const flash = document.getElementById("screen-flash");
     flash.className = "screen-flash go " + (tier==="epic" || tier==="fusion" ? "purple" : "gold");
     fireParticles(tier); setTimeout(()=>{ flash.className = "screen-flash"; }, 550);
@@ -1809,9 +1882,11 @@ function togglePick(c){
   const idx = state.picked.findIndex(p=>p.id===c.id);
   if (idx >= 0) { 
       state.picked.splice(idx, 1); 
+      playSound('click'); // <--- ADDED AUDIO
   } else { 
       if (state.picked.length < state.config.deckSize) {
           state.picked.push(c);
+          playSound('click'); // <--- ADDED AUDIO
       }
   }
   
@@ -1828,6 +1903,8 @@ function updateCounter(){
   
   const canFinish = state.picked.length === state.config.deckSize && state.hero !== null;
   document.getElementById("finish-btn").disabled = !canFinish;
+
+  renderEnergyCurve('build-energy-curve'); // <--- ADDED CURVE
 }
 
 function showExport(){
@@ -2101,13 +2178,15 @@ function bngOpenPackAnim(emoji, pulled) {
   
   resetPackVisual();
   
-  stage.onclick = () => {
+stage.onclick = () => {
     if(stage.classList.contains("ripping")) return;
     stage.classList.add("ripping"); 
     document.getElementById("pack-burst").classList.add("go");
+    playSound('rip'); // <--- ADDED AUDIO
 
     const tier = bestRarityInPack(pulled);
     if(tier==="shiny" || tier==="legendary" || tier==="fusion" || tier==="epic"){
+      playSound('shiny'); // <--- ADDED AUDIO
       const flash = document.getElementById("screen-flash");
       flash.className = "screen-flash go " + (tier==="epic" || tier==="fusion" ? "purple" : "gold");
       fireParticles(tier); setTimeout(()=>{ flash.className = "screen-flash"; }, 550);
