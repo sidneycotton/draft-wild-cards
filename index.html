@@ -2288,6 +2288,7 @@ function updateShardsStats() {
   document.getElementById("shards-stats").innerHTML = `
     <div class="stat"><div class="val">${shardsState.packsOpened}</div><div class="lbl">Packs Opened</div></div>
     <div class="stat coins"><div class="val">${shardsState.shardsSpent.toLocaleString()}</div><div class="lbl">Shards Spent</div></div>
+    <div class="stat" style="border-color: var(--green);"><div class="val" style="color: var(--green);">${shardsState.creditsSpent.toLocaleString()}</div><div class="lbl">Credits Spent</div></div>
     <div class="stat"><div class="val">${uniqueCount}</div><div class="lbl">Unique Cards</div></div>`;
 }
 
@@ -2354,24 +2355,23 @@ function purchaseShardsPack() {
     document.getElementById("shards-buy-again-btn").style.display = "inline-flex";
     document.getElementById("shards-buy-again-btn").onclick = () => purchaseShardsPack();
     
-    // THIS CLOSES THE purchaseShardsPack FUNCTION PROPERLY
     updateShardsStats(); 
     grid.scrollIntoView({behavior:"smooth", block:"nearest"});
-}
-
-function updateShardsStats() {
-  const uniqueCount = Object.keys(shardsState.collection).length;
-  document.getElementById("shards-stats").innerHTML = `
-    <div class="stat"><div class="val">${shardsState.packsOpened}</div><div class="lbl">Packs Opened</div></div>
-    <div class="stat coins"><div class="val">${shardsState.shardsSpent.toLocaleString()}</div><div class="lbl">Shards Spent</div></div>
-    <div class="stat" style="border-color: var(--green);"><div class="val" style="color: var(--green);">${shardsState.creditsSpent.toLocaleString()}</div><div class="lbl">Credits Spent</div></div>
-    <div class="stat"><div class="val">${uniqueCount}</div><div class="lbl">Unique Cards</div></div>`;
 }
 
 function generateFromJSON(packId, collectionChoice) {
     const pack = PACK_DEFS[packId];
     let pulled = [];
     
+    // 1. Create a "clean" base pool right at the start based on the pack rules
+    let basePool = CARD_POOL_RAW.filter(c => c.rarity !== 'hero');
+    if (pack.rules && pack.rules.allowFusions === false) {
+        basePool = basePool.filter(c => c.rarity !== 'fusion');
+    }
+    if (pack.rules && pack.rules.allowLevelUps === false) {
+        basePool = basePool.filter(c => !c.isLevelUp);
+    }
+
     const rollOdds = (oddsObj) => {
         let total = Object.values(oddsObj).reduce((a, b) => a + b, 0);
         let r = Math.random() * total;
@@ -2386,32 +2386,30 @@ function generateFromJSON(packId, collectionChoice) {
         if (slot.type === 'random') {
             for (let i = 0; i < slot.count; i++) {
                 const r = rollOdds(slot.odds);
-                let pool = CARD_POOL_RAW.filter(c => c.rarity === r && c.rarity !== 'hero');
-                if (pack.rules && pack.rules.allowFusions === false) {
-                pool = pool.filter(c => c.rarity !== 'fusion');
-                }
-                if (pack.rules && pack.rules.allowLevelUps === false) {
-                    pool = pool.filter(c => !c.isLevelUp);
-                }
-                if (pool.length === 0) pool = CARD_POOL_RAW.filter(c => c.rarity !== 'hero');
+                // Use basePool instead of CARD_POOL_RAW
+                let pool = basePool.filter(c => c.rarity === r);
+                
+                // If the fallback happens, it safely falls back to basePool!
+                if (pool.length === 0) pool = basePool; 
+                
                 pulled.push(cloneCardBNG(pool[Math.floor(Math.random() * pool.length)]));
             }
         } 
         else if (slot.type === 'pool') {
             if (slot.guaranteed || (Math.random() * 100 < slot.chance)) {
-                let pool = CARD_POOL_RAW.filter(c => slot.pool.includes(c.name));
+                let pool = basePool.filter(c => slot.pool.includes(c.name));
                 if (pool.length > 0) pulled.push(cloneCardBNG(pool[Math.floor(Math.random() * pool.length)]));
             }
         } 
         else if (slot.type === 'rarity_guarantee') {
             for (let i = 0; i < slot.count; i++) {
-                let pool = CARD_POOL_RAW.filter(c => c.rarity !== 'hero' && RARITY_ORDER[c.rarity] <= RARITY_ORDER[slot.minRarity]);
+                let pool = basePool.filter(c => RARITY_ORDER[c.rarity] <= RARITY_ORDER[slot.minRarity]);
                 if (pool.length > 0) pulled.push(cloneCardBNG(pool[Math.floor(Math.random() * pool.length)]));
             }
         } 
         else if (slot.type === 'special_tag') {
             if (!slot.guaranteed && (Math.random() * 100 < slot.chance)) {
-                let pool = CARD_POOL_RAW.filter(c => c.rarity === slot.rarity);
+                let pool = basePool.filter(c => c.rarity === slot.rarity);
                 if (pool.length > 0) {
                     let card = cloneCardBNG(pool[Math.floor(Math.random() * pool.length)]);
                     card.shiny = true;
@@ -2423,18 +2421,20 @@ function generateFromJSON(packId, collectionChoice) {
         else if (slot.type === 'selected_collection') {
             for (let i = 0; i < slot.count; i++) {
                 const r = rollOdds(slot.odds);
-                let pool = CARD_POOL_RAW.filter(c => c.rarity === r && c.collection === collectionChoice);
-                if (pool.length === 0) pool = CARD_POOL_RAW.filter(c => c.collection === collectionChoice);
+                let pool = basePool.filter(c => c.rarity === r && c.collection === collectionChoice);
+                if (pool.length === 0) pool = basePool.filter(c => c.collection === collectionChoice);
                 if (pool.length > 0) pulled.push(cloneCardBNG(pool[Math.floor(Math.random() * pool.length)]));
             }
         } 
         else if (slot.type === 'selected_album') {
+            // We still use CARD_POOL_RAW just to safely look up the theme string
             const sample = CARD_POOL_RAW.find(c => c.collection === collectionChoice);
             const album = sample ? sample.theme : "";
+            
             for (let i = 0; i < slot.count; i++) {
                 const r = rollOdds(slot.odds);
-                let pool = CARD_POOL_RAW.filter(c => c.rarity === r && c.theme === album);
-                if (pool.length === 0) pool = CARD_POOL_RAW.filter(c => c.theme === album);
+                let pool = basePool.filter(c => c.rarity === r && c.theme === album);
+                if (pool.length === 0) pool = basePool.filter(c => c.theme === album);
                 if (pool.length > 0) pulled.push(cloneCardBNG(pool[Math.floor(Math.random() * pool.length)]));
             }
         }
@@ -2472,7 +2472,7 @@ function showShardsCollection(){
   
   // THIS IS THE UPDATED STATS BLOCK FOR THE COLLECTION MENU
   document.getElementById("shards-collection-stats").innerHTML = `
-    <div class="stat"><div class="val">${shardsState.packsOpened}</div><ddocument.getElementById("shards-buy-again-btn").onclick = () => purchaseShardsPack();iv class="lbl">Packs Opened</div></div>
+    <div class="stat"><div class="val">${shardsState.packsOpened}</div><div class="lbl">Packs Opened</div></div>
     <div class="stat coins"><div class="val">${shardsState.shardsSpent.toLocaleString()}</div><div class="lbl">Shards Spent</div></div>
     <div class="stat" style="border-color: var(--green);"><div class="val" style="color: var(--green);">${shardsState.creditsSpent.toLocaleString()}</div><div class="lbl">Credits Spent</div></div>
     <div class="stat"><div class="val">${totalCards}</div><div class="lbl">Total Cards</div></div>`;
