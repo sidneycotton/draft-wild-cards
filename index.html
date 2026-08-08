@@ -1,1912 +1,4012 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Sidney's Wild Simulator</title>
+
 <style>
+
   @import url('https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600;700;800&display=swap');
 
+
+
   :root{
+
     --bg:#050912;
+
     --bg2:#0a1420;
+
     --panel:#0e1626;
+
     --line:#1c2c42;
+
     --green:#39ff8f;
+
     --green2:#0be07a;
+
     --pink:#ff2e6a;
+
     --gold:#f4c542;
+
     --silver:#c9d3de;
+
     --teal:#2ee6c8;
+
     --text:#f1f5f4;
+
     --muted:#93a5ac;
+
     --common:#8b95a8;
+
     --rare:#3ab0ff;
+
     --epic:#c355f0;
+
     --legendary:#f0a83a;
+
     --fusion:#ff5fa8;
+
     --hero:#39ff8f;
+
   }
+
   *{box-sizing:border-box; margin:0; padding:0;}
+
   body{
+
     background:
+
       radial-gradient(ellipse at top, #0e2a22 0%, var(--bg) 55%);
+
     color:var(--text);
+
     font-family:'Barlow', sans-serif;
+
     min-height:100vh;
+
     padding-bottom:80px;
+
     position:relative;
+
     overflow-x:hidden;
+
   }
+
   body::before{
+
     content:"";
+
     position:fixed; inset:0;
+
     background-image:radial-gradient(rgba(57,255,143,0.07) 1px, transparent 1px);
+
     background-size:6px 6px;
+
     pointer-events:none;
+
     z-index:0;
+
   }
+
   h1,h2,h3,.display{
+
     font-family:'Anton', sans-serif;
+
     letter-spacing:0.5px;
+
     text-transform:uppercase;
+
   }
+
   .wrap{max-width:1100px; margin:0 auto; padding:0 20px; position:relative; z-index:1;}
 
+
+
   /* HEADER */
+
   header{
+
     padding:36px 20px 24px;
+
     text-align:center;
+
     border-bottom:1px solid var(--line);
+
     background:
+
       linear-gradient(180deg, rgba(57,255,143,0.08), transparent 70%);
+
     position:relative; z-index:1;
+
   }
+
   header h1{
+
     font-size:56px;
+
     font-weight:400;
+
     letter-spacing:1px;
+
     background:linear-gradient(90deg, var(--green), var(--teal) 45%, var(--pink) 100%);
+
     -webkit-background-clip:text;
+
     background-clip:text;
+
     color:transparent;
+
     line-height:1;
+
     text-shadow:0 0 40px rgba(57,255,143,0.15);
+
   }
+
   header p{color:var(--muted); font-size:15px; margin-top:8px; letter-spacing:.5px;}
 
+
+
   /* SCREENS */
+
   .screen{display:none; padding-top:36px;}
+
   .screen.active{display:block;}
 
+
+
   /* BUTTONS */
+
   .btn{
+
     font-family:'Anton', sans-serif;
+
     font-size:22px;
+
     letter-spacing:1.5px;
+
     text-transform:uppercase;
+
     background:linear-gradient(90deg, var(--green), var(--green2));
+
     color:#04140c;
+
     border:none;
+
     padding:13px 34px;
+
     border-radius:6px;
+
     cursor:pointer;
+
     transition:transform .15s ease, box-shadow .15s ease;
+
     box-shadow:0 0 0 rgba(57,255,143,0);
+
     position:relative;
+
     overflow:hidden;
+
     display: inline-flex; justify-content: center; align-items: center; gap: 8px;
+
   }
+
   .btn::after{
+
     content:"";
+
     position:absolute; inset:0;
+
     background-image:radial-gradient(rgba(0,0,0,0.15) 1px, transparent 1px);
+
     background-size:5px 5px;
+
     opacity:.5;
+
   }
+
   .btn:hover{transform:translateY(-2px); box-shadow:0 6px 24px rgba(57,255,143,0.35);}
+
   .btn:disabled{opacity:.35; cursor:not-allowed; transform:none; box-shadow:none;}
+
   .btn.secondary{
+
     background:transparent;
+
     color:var(--teal);
+
     border:1px solid var(--teal);
+
   }
+
   .btn.pink{background:linear-gradient(90deg, var(--pink), #c8264f); color:#1a0409;}
+
   .btn.gold{background:linear-gradient(90deg, var(--gold), #d4a62c); color:#1a0409;}
+
   .center{text-align:center;}
 
+
+
   .back-btn-wrap {
+
     margin-top: 32px; display: flex; justify-content: center;
+
   }
+
+
 
   /* INTRO */
+
   .intro-body{max-width:640px; margin:40px auto; text-align:center;}
+
   .intro-body p{color:var(--muted); line-height:1.6; margin-bottom:28px; font-size:16px;}
+
   .odds-table{
+
     text-align:left;
+
     background:var(--panel);
+
     border:1px solid var(--line);
+
     border-radius:10px;
+
     padding:20px 24px;
+
     margin:28px 0;
+
     font-size:14px;
+
   }
+
   .odds-table div{display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid var(--line); color:var(--muted);}
+
   .odds-table div:last-child{border-bottom:none;}
+
   .odds-table span:last-child{color:var(--text); font-weight:600;}
 
+
+
   /* CUSTOM DRAFT CONFIG */
+
   .config-grid {
+
     display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;
+
     background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 24px;
+
     margin: 24px auto; text-align: left; max-width: 800px;
+
   }
+
   .config-row { display: flex; flex-direction: column; gap: 6px; }
+
   .config-row label { font-family: 'Anton', sans-serif; font-size: 16px; letter-spacing: 1px; color: var(--gold); }
+
   .config-row input[type="number"], .config-row input[type="text"], .config-row select {
+
     padding: 10px 14px; border-radius: 6px; border: 1px solid var(--line);
+
     background: var(--bg2); color: var(--text); font-family: 'Barlow', sans-serif; font-size: 15px; width: 100%;
+
   }
+
   .config-row input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--green); cursor: pointer; }
+
   .checkbox-row { flex-direction: row; align-items: center; gap: 12px; }
+
   
+
   .slots-config-wrap {
+
     background: rgba(0,0,0,0.3); border: 1px solid var(--line); border-radius: 10px; padding: 16px;
+
     margin-top: 16px; grid-column: 1 / -1;
+
   }
+
   .slots-config-wrap h4 { font-family: 'Anton', sans-serif; font-size: 18px; color: var(--teal); margin-bottom: 12px; }
+
   .slots-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+
   .slot-item { display: flex; align-items: center; gap: 10px; }
+
   .slot-item label { font-size: 14px; color: var(--muted); font-weight: 600; white-space: nowrap; }
 
+
+
   .code-area {
+
     display: flex; gap: 10px; margin: 24px auto; max-width: 800px; justify-content: center;
+
   }
+
   .code-area input { flex: 1; max-width: 400px; text-align: center; font-family: monospace; }
 
-  /* PACK OPENING */
-  .hero-chip{
-    display:flex; align-items:center; gap:10px;
-    max-width:280px; margin:0 auto 18px;
-    background:var(--panel); border:1px solid var(--gold); border-radius:40px;
-    padding:6px 16px 6px 6px;
+
+
+  /* HERO PICK */
+
+  .hero-grid{display:flex; gap:20px; justify-content:center; flex-wrap:wrap; margin:32px 0;}
+
+  .hero-card {
+
+    width:200px;
+
+    position:relative;
+
+    border-radius:14px;
+
+    cursor:pointer;
+
+    transition:.2s ease;
+
+    animation:heroFloat 4s ease-in-out infinite; will-change:transform;
+
   }
+
+  .hero-card:nth-child(2) {animation-delay:.4s;}
+
+  .hero-card:nth-child(3) {animation-delay:.8s;}
+
+  .hero-card .ring {
+
+    position:absolute; inset: -4px; border-radius:16px; pointer-events:none;
+
+    box-shadow:inset 0 0 0 2px transparent; transition:box-shadow .2s ease; z-index: 10;
+
+  }
+
+  .hero-card .card { height: 100%; pointer-events: none; }
+
+  .hero-card:hover .ring {
+
+    box-shadow:inset 0 0 0 2px var(--hero-color, var(--gold)), 0 0 18px var(--hero-color, rgba(244,197,66,.4));
+
+  }
+
+  .hero-card.selected .ring {
+
+    box-shadow:inset 0 0 0 4px var(--hero-color, var(--gold)), 0 0 24px var(--hero-color, rgba(244,197,66,.6));
+
+  }
+
+  @keyframes heroFloat{
+
+    0%,100%{transform:translateY(0) scale(1.0);}
+
+    50%{transform:translateY(-6px) scale(1.02);}
+
+  }
+
+
+
+  /* PACK OPENING */
+
+  .hero-chip{
+
+    display:flex; align-items:center; gap:10px;
+
+    max-width:280px; margin:0 auto 18px;
+
+    background:var(--panel); border:1px solid var(--gold); border-radius:40px;
+
+    padding:6px 16px 6px 6px;
+
+  }
+
   .hero-chip img{width:38px; height:38px; border-radius:50%; object-fit:cover; display:block; border:2px solid var(--gold);}
+
   .hero-chip .hc-label{font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--muted);}
+
   .hero-chip .hc-name{font-family:'Anton',sans-serif; font-size:16px; letter-spacing:.5px; color:var(--gold); line-height:1.1;}
+
   #screen-packs .pack-status{text-align:center; color:var(--muted); margin-bottom:16px; font-size:14px; letter-spacing:1px; text-transform:uppercase;}
+
   .pack-deck{display:flex; justify-content:center; align-items:center; margin:60px 0; min-height:280px; position:relative;}
 
+
+
   .pack-stage{position:relative; width:220px; height:300px; cursor:pointer;}
+
   .pack-stage:hover .pack-body{transform:scale(1.03);}
 
+
+
   .pack-flap{
+
     position:absolute; top:-46px; left:6px; right:6px; height:110px;
+
     background:
+
       repeating-linear-gradient(115deg, rgba(255,255,255,0.05) 0 2px, transparent 2px 6px),
+
       linear-gradient(120deg, var(--teal), #1a2f66 40%, var(--pink) 75%, var(--gold));
+
     border-radius:10px 10px 0 0;
+
     clip-path:polygon(4% 30%, 100% 0%, 96% 70%, 0% 100%);
+
     box-shadow:0 6px 20px rgba(0,0,0,0.5);
+
     transform-origin:bottom center;
+
     transition:transform .55s cubic-bezier(.4,0,.2,1), opacity .55s ease;
+
     z-index:2;
+
   }
+
+
 
   .pack-body{
+
     position:absolute; top:24px; left:0; right:0; bottom:0;
+
     background:
+
       radial-gradient(circle at 30% 20%, rgba(255,255,255,0.08), transparent 55%),
+
       linear-gradient(155deg, #0c1420 0%, #182234 55%, #0c1420 100%);
+
     border:2px solid var(--green);
+
     border-radius:14px;
+
     display:flex; align-items:center; justify-content:center;
+
     box-shadow:0 0 0 3px rgba(57,255,143,0.08), 0 14px 40px rgba(0,0,0,0.55), 0 0 30px rgba(57,255,143,0.15);
+
     transition:transform .2s ease;
+
     overflow:hidden;
+
   }
+
   .pack-face{
+
     width:78%; aspect-ratio:1/1;
+
     background:conic-gradient(from 90deg, var(--gold) 0 90deg, var(--green) 90deg 180deg, var(--teal) 180deg 270deg, var(--pink) 270deg 360deg);
+
     clip-path:polygon(10% 0, 90% 0, 100% 15%, 100% 100%, 0 100%, 0 15%);
+
     position:relative;
+
     display:flex; align-items:center; justify-content:center;
+
     box-shadow:inset 0 0 40px rgba(0,0,0,0.35);
+
   }
+
   .pack-face::before{
+
     content: var(--pack-emoji, "😈");
+
     font-size:64px;
+
     filter:drop-shadow(0 3px 4px rgba(0,0,0,.5));
+
   }
+
   .pack-label{
+
     position:absolute; bottom:14px; left:0; right:0; text-align:center;
+
     font-family:'Anton',sans-serif; font-size:20px; letter-spacing:3px; color:#fff;
+
     text-shadow:0 2px 8px rgba(0,0,0,0.6); z-index:3;
+
   }
+
+
 
   .pack-stage.ripping .pack-flap{ transform:rotate(-95deg) translateY(-30px) translateX(-40px); opacity:0; }
+
   .pack-stage.ripping .pack-body{ animation:packShake .35s ease; }
+
   @keyframes packShake{ 0%,100%{transform:rotate(0deg);} 25%{transform:rotate(-2deg);} 75%{transform:rotate(2deg);} }
+
   
+
   .burst{
+
     position:absolute; top:50%; left:50%; width:10px; height:10px; border-radius:50%;
+
     background:radial-gradient(circle, #fff 0%, var(--green) 35%, transparent 70%);
+
     transform:translate(-50%,-50%) scale(0); opacity:0; pointer-events:none; z-index:1;
+
   }
+
   .burst.go{ animation:burstOut .6s ease-out forwards; }
+
   .screen-flash{
+
     position:fixed; inset:0; pointer-events:none; z-index:50;
+
     background:radial-gradient(circle at 50% 45%, rgba(255,255,255,0.9), transparent 60%); opacity:0;
+
   }
+
   .screen-flash.go{animation:screenFlash .5s ease-out forwards;}
+
   .screen-flash.gold.go{background:radial-gradient(circle at 50% 45%, rgba(244,197,66,0.95), rgba(255,255,255,0.5) 40%, transparent 65%);}
+
   .screen-flash.purple.go{background:radial-gradient(circle at 50% 45%, rgba(195,85,240,0.85), rgba(255,255,255,0.35) 40%, transparent 65%);}
+
   @keyframes screenFlash{ 0%{opacity:0;} 15%{opacity:1;} 100%{opacity:0;} }
+
   .particle{
+
     position:absolute; top:50%; left:50%; width:6px; height:6px; border-radius:50%;
+
     background:var(--gold); pointer-events:none; opacity:0; z-index:4;
+
   }
+
   .particle.go{animation:particleFly .8s ease-out forwards;}
+
   @keyframes particleFly{
+
     0%{opacity:1; transform:translate(-50%,-50%) translate(0,0) scale(1);}
+
     100%{opacity:0; transform:translate(-50%,-50%) translate(var(--px), var(--py)) scale(.3);}
+
   }
+
   @keyframes burstOut{
+
     0%{transform:translate(-50%,-50%) scale(0); opacity:1;}
+
     70%{opacity:.9;}
+
     100%{transform:translate(-50%,-50%) scale(22); opacity:0;}
+
   }
+
+
 
   /* REVEAL GRID FIXED FOR SMALL PACKS */
+
   .reveal-grid{ display:flex; flex-wrap:wrap; justify-content:center; gap:16px; margin:24px 0 40px; }
+
   .reveal-grid .card{ width:160px; max-width:100%; flex:0 0 160px; }
+
   
+
   /* BNG SHOP STYLES */
+
   .shop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 30px auto; max-width: 1000px; }
+
   .shop-item { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 24px; text-align: center; cursor: pointer; transition: transform .2s, border-color .2s; }
+
   .shop-item:hover { transform: translateY(-4px); border-color: var(--gold); }
+
   .shop-item .emoji { font-size: 54px; margin-bottom: 12px; }
+
   .shop-item .name { font-family: 'Anton', sans-serif; font-size: 24px; color: var(--gold); letter-spacing: 1px; margin-bottom: 6px; }
+
   .shop-item .desc { font-size: 15px; color: var(--muted); line-height: 1.5; margin-bottom: 18px; height: 65px; display: flex; align-items: center; justify-content: center; }
+
   .shop-item .cost { font-weight: 700; color: var(--green); font-size: 18px; font-family: 'Anton', sans-serif; letter-spacing: 1px;}
+
   
+
   /* BNG MODAL COLLECTION GRID */
+
   #bng-purchased-grid {
+
     display: flex; flex-wrap: wrap; justify-content: center; gap: 14px;
+
   }
+
   #bng-purchased-grid .pool-card {
+
     width: 140px; flex: 0 0 140px;
+
   }
+
+
 
   /* CARD UI UPDATES */
+
   .card{
+
     background:#0a1018; border-radius:12px; overflow:hidden; border:2px solid var(--line);
+
     animation:cardShoot .5s cubic-bezier(.2,.8,.3,1.15) backwards;
+
     display: flex; flex-direction: column; position:relative; cursor: pointer; width: 100%;
+
   }
+
   .card.shiny{ border-image:linear-gradient(135deg, var(--gold), var(--silver), var(--gold)) 1; box-shadow:0 0 24px rgba(244,197,66,0.4); }
+
   @keyframes cardShoot{ from{opacity:0; transform:scale(.4) translateY(60px) rotate(-8deg);} 60%{opacity:1;} to{opacity:1; transform:scale(1) translateY(0) rotate(0deg);} }
+
   
+
   .card .stats-bar {
+
     position: absolute; top: 6px; left: 6px; right: 6px; display: flex; justify-content: space-between;
+
     z-index: 2; font-family: 'Anton', sans-serif; font-size: 14px; pointer-events: none;
+
   }
+
   .card .stat-cost {
+
     background: var(--rare); color: #fff; width: 26px; height: 26px; border-radius: 50%;
+
     display: flex; align-items: center; justify-content: center; border: 2px solid #04140c; box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+
   }
+
   .card .stat-power {
+
     background: var(--pink); color: #fff; width: 26px; height: 26px; border-radius: 50%;
+
     display: flex; align-items: center; justify-content: center; border: 2px solid #04140c; box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+
   }
+
   .card img{width:100%; aspect-ratio:3/4; object-fit:cover; display:block; background:#000; z-index: 1;}
+
   .card .meta{padding:8px 10px; position:relative; z-index:1; flex: 1; display: flex; flex-direction: column;}
+
   .card .name{font-family:'Anton',sans-serif; font-size:17px; letter-spacing:.3px; line-height:1.15;}
+
   .card .theme{font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin-top:1px;}
+
   .card .rarity{font-size:11px; text-transform:uppercase; letter-spacing:1px; font-weight:700; margin-top:3px;}
+
   .card .ability-text { font-size: 11px; color: var(--muted); margin-top: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: 'Barlow', sans-serif; }
+
   
+
   .r-common .rarity{color:var(--common);}
+
   .r-rare .rarity{color:var(--rare);}
+
   .r-epic .rarity{color:var(--epic);}
+
   .r-legendary .rarity{color:var(--legendary);}
+
   .r-fusion .rarity{color:var(--fusion);}
+
   .r-hero .rarity{color:var(--hero);}
 
+
+
   .card.r-rare::after, .card.r-epic::after, .card.r-legendary::after, .card.r-fusion::after{
+
     content:""; position:absolute; inset:0;
+
     background:linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.16) 45%, rgba(255,255,255,0.28) 50%, rgba(255,255,255,0.16) 55%, transparent 70%);
+
     background-size:220% 220%; background-position:120% 0%; pointer-events:none; mix-blend-mode:screen;
+
     animation:holoSheen 3.2s ease-in-out infinite; z-index:3;
+
   }
+
   .card.r-rare::after{animation-duration:4.4s;}
+
   @keyframes holoSheen{ 0%{background-position:130% -10%;} 50%{background-position:-10% 110%;} 100%{background-position:130% -10%;} }
 
+
+
   .card.r-rare{border-color:var(--rare); box-shadow:0 0 10px rgba(58,176,255,0.25);}
+
   .card.r-epic{border-color:var(--epic); animation:cardShoot .5s cubic-bezier(.2,.8,.3,1.15) backwards, glowEpic 2.6s ease-in-out infinite;}
+
   .card.r-legendary{border-color:var(--legendary); animation:cardShoot .5s cubic-bezier(.2,.8,.3,1.15) backwards, glowLegendary 2.2s ease-in-out infinite;}
+
   .card.r-fusion{border-color:var(--fusion); animation:cardShoot .5s cubic-bezier(.2,.8,.3,1.15) backwards, glowEpic 2.6s ease-in-out infinite;}
+
   .card.r-hero{border-color:var(--hero); box-shadow:0 0 10px rgba(57,255,143,0.25);}
+
   @keyframes glowEpic{ 0%,100%{box-shadow:0 0 10px rgba(195,85,240,0.25);} 50%{box-shadow:0 0 22px rgba(195,85,240,0.55);} }
+
   @keyframes glowLegendary{ 0%,100%{box-shadow:0 0 12px rgba(240,168,58,0.35);} 50%{box-shadow:0 0 28px rgba(240,168,58,0.7);} }
+
   .card.shiny::after{animation-duration:2.4s;}
+
   .card.shiny{animation:cardShoot .5s cubic-bezier(.2,.8,.3,1.15) backwards, glowShiny 1.8s ease-in-out infinite;}
+
   @keyframes glowShiny{ 0%,100%{box-shadow:0 0 18px rgba(244,197,66,0.4);} 50%{box-shadow:0 0 34px rgba(244,197,66,0.75);} }
+
   .shiny-tag{
+
     display:inline-block; margin-top:4px; font-size:10px; letter-spacing:1px;
+
     background:linear-gradient(90deg,var(--gold),var(--silver)); color:#1a1408; padding:2px 7px; border-radius:4px; font-weight:700;
+
   }
+
+
 
   /* DECKBUILDER UI */
+
   #screen-build .build-header{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px; flex-wrap:wrap; gap:10px;}
+
   .counter{font-family:'Anton',sans-serif; font-size:26px; color:var(--green);}
+
   .counter.full{color:var(--pink);}
+
   .theme-filters{display:flex; gap:8px; flex-wrap:wrap; margin:14px 0 8px; align-items:center;}
+
   .theme-filters button{
+
     background:var(--panel); border:1px solid var(--line); color:var(--muted);
+
     padding:6px 14px; border-radius:20px; font-size:13px; cursor:pointer; letter-spacing:.3px;
+
     font-family:'Barlow',sans-serif; font-weight:600; display:inline-flex; align-items:center; gap:6px;
+
   }
+
   .theme-filters button.active{border-color:var(--green); color:var(--green); background:rgba(57,255,143,0.08);}
+
   .theme-count-badge{
+
     background:rgba(255,255,255,0.1); color:var(--text); font-size:11px; font-weight:700; padding:1px 7px; border-radius:10px; line-height:1.5;
+
   }
+
   .theme-filters button.active .theme-count-badge{background:rgba(57,255,143,0.2); color:var(--green);}
+
   .sort-btn{
+
     background:var(--panel); border:1px solid var(--line); color:var(--muted);
+
     padding:6px 14px; border-radius:20px; font-size:13px; cursor:pointer; letter-spacing:.3px;
+
     font-family:'Barlow',sans-serif; font-weight:600; display:inline-flex; align-items:center; gap:6px;
+
     min-width: 90px; justify-content: center;
+
   }
+
   .sort-btn.active{border-color:var(--gold); color:var(--gold); background:rgba(244,197,66,0.1);}
+
   #reveal-controls .sort-btn{border-radius:20px;}
 
+
+
   .filter-select {
+
     background: var(--panel) url('data:image/svg+xml;utf8,<svg fill="%2393a5ac" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>') no-repeat right 6px center;
+
     border: 1px solid var(--line); color: var(--muted);
+
     padding: 7px 30px 7px 14px; border-radius: 20px; font-size: 13px; cursor: pointer; letter-spacing: .3px;
+
     font-family: 'Barlow', sans-serif; font-weight: 600; outline: none; appearance: none; -webkit-appearance: none;
+
   }
+
   .filter-select:hover { border-color: var(--gold); color: var(--gold); }
+
   .filter-select option { background: var(--bg2); color: var(--text); }
 
+
+
   .pool-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(140px,1fr)); gap:14px; margin:20px 0 40px; }
+
   .pool-card{position:relative; transition:transform .15s ease;}
+
   .pool-card:hover{transform:translateY(-3px);}
+
   .pool-card.picked .card{outline:3px solid var(--green); box-shadow:0 0 18px rgba(57,255,143,0.4);}
+
   .pool-card.disabled{opacity:.3; cursor:not-allowed; pointer-events:none;}
+
   .pool-card.hidden{display:none;}
+
   .pick-badge{
+
     position:absolute; top:6px; right:6px; background:var(--green); color:#04140c;
+
     width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+
     font-weight:700; font-size:13px; opacity:0; transition:.15s; z-index:4; pointer-events:none;
+
   }
+
   .pool-card.picked .pick-badge{opacity:1;}
+
   
+
   /* MODALS (Inspect & Tutorial & BNG Shop) */
+
   .modal {
+
     position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px);
+
   }
+
   .modal.active { display: flex; }
+
   .modal-content {
+
     background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 30px;
+
     max-width: 440px; width: 90%; display: flex; flex-direction: column; align-items: center; gap: 20px;
+
     text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.8); position: relative; max-height: 90vh; overflow-y: auto;
+
   }
+
   .modal-content.wide { max-width: 600px; }
+
   
+
   .close-modal-btn {
+
     position: absolute; top: 12px; right: 12px; background: rgba(255, 255, 255, 0.1); border: none;
+
     color: var(--text); width: 32px; height: 32px; border-radius: 50%; font-size: 18px; display: flex;
+
     align-items: center; justify-content: center; cursor: pointer; z-index: 10; transition: background 0.2s;
+
   }
+
   .close-modal-btn:hover { background: rgba(255, 255, 255, 0.25); }
 
+
+
   /* Inspect Modal Specific */
+
   .modal-content .card { width: 220px; font-size: 1.1em; pointer-events: none; }
+
   .modal-content .card .ability-text { white-space: normal; overflow: visible; display: none; }
+
   .inspect-details h3 { font-family: 'Anton', sans-serif; font-size: 32px; color: var(--gold); margin-bottom: 8px;}
+
   .inspect-details p { color: var(--text); font-size: 17px; line-height: 1.5; margin-bottom: 8px; font-family: 'Barlow', sans-serif;}
 
+
+
   /* Tutorial Modal Specific */
+
   .tutorial-steps { text-align: left; margin-top: 10px; }
+
   .tutorial-step { margin-bottom: 20px; display: flex; gap: 14px; align-items: flex-start; }
+
   .tutorial-step .num { background: var(--teal); color: #000; font-family: 'Anton', sans-serif; font-size: 20px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; border-radius: 50%; flex-shrink: 0; }
+
   .tutorial-step .text h4 { font-family: 'Anton', sans-serif; color: var(--gold); font-size: 20px; letter-spacing: 0.5px; margin-bottom: 4px; }
+
   .tutorial-step .text p { color: var(--muted); font-size: 15px; line-height: 1.5; }
 
+
+
   /* EXPORT */
+
   #screen-export .export-box{
+
     background:var(--panel); border:1px solid var(--line); border-radius:10px;
+
     padding:24px; max-width:520px; margin:24px auto; font-family:monospace; font-size:15px; line-height:1.9; white-space:pre-line;
+
   }
+
   .export-box .rarity-tag{color:var(--muted); font-size:12px;}
+
   .export-strip{
+
     display:flex; gap:8px; overflow-x:auto; max-width:640px; margin:24px auto 0; padding:4px 2px 14px; scrollbar-width:thin;
+
   }
+
   .export-strip .mini-card{
+
     flex:0 0 auto; width:64px; border-radius:8px; overflow:hidden; border:2px solid var(--line); background:#0a1018; display:flex; flex-direction:column;
+
   }
+
   .export-strip .mini-card img{width:100%; aspect-ratio:3/4; object-fit:cover; display:block; background:#000; flex:1;}
+
   .export-strip .mini-card .mini-name{font-size:10px; text-align:center; padding:3px 2px; background:#04140c; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+
   .export-strip .mini-card.r-rare{border-color:var(--rare);}
+
   .export-strip .mini-card.r-epic{border-color:var(--epic);}
+
   .export-strip .mini-card.r-legendary{border-color:var(--legendary);}
+
   .export-strip .mini-card.r-fusion{border-color:var(--fusion);}
+
   .export-strip .mini-card.shiny{border-image:linear-gradient(135deg, var(--gold), var(--silver), var(--gold)) 1; box-shadow:0 0 10px rgba(244,197,66,0.4);}
 
+
+
   .anarchy-stats{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:20px; }
+
   .anarchy-stats .stat{ background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:12px 20px; text-align:center; min-width:120px; }
+
   .anarchy-stats .stat .val{font-family:'Anton',sans-serif; font-size:24px; color:var(--green);}
+
   .anarchy-stats .stat.coins .val{color:var(--gold);}
+
   .anarchy-stats .stat .lbl{font-size:11px; letter-spacing:1px; text-transform:uppercase; color:var(--muted); margin-top:2px;}
+
   .pool-card .dupe-badge{
+
     position:absolute; top:6px; left:6px; background:rgba(0,0,0,0.7); color:var(--text);
+
     font-size:11px; font-weight:700; padding:2px 8px; border-radius:10px; z-index:5;
+
   }
+
 </style>
+
 </head>
+
 <body>
 
+
+
 <header>
+
   <h1>Sidney's Wild Simulator</h1>
+
   <p>Open packs to your heart's desire or match another player for a draft!</p>
+
 </header>
+
+
 
 <div class="wrap">
 
+
+
   <!-- MAIN MENU SCREEN -->
+
   <section id="screen-main" class="screen active">
+
     <div class="intro-body">
+
       <div style="display:flex; flex-direction:column; gap:20px; justify-content:center; max-width: 400px; margin: 40px auto;">
+
         <button class="btn" id="main-draft-btn" onclick="show('screen-draft-select')" disabled>Start Draft</button>
+
         <button class="btn secondary" id="main-anarchy-btn" onclick="openAnarchyHub()" disabled>Open Packs</button>
+
       </div>
+
     </div>
+
   </section>
+
+
 
   <!-- DRAFT SELECTION SCREEN -->
+
   <section id="screen-draft-select" class="screen">
+
     <h2 class="center" style="font-size:34px; margin-bottom: 30px;">Select Draft Type</h2>
+
     <div style="display:flex; flex-direction:column; gap:20px; justify-content:center; max-width: 400px; margin: 0 auto;">
+
       <button class="btn" onclick="show('screen-sidney-draft')">Sidney 6-Pack</button>
+
       <button class="btn gold" onclick="show('screen-bng-intro')">BNG's Credits Draft</button>
+
       <button class="btn pink" onclick="setupCustomDraftUI(); show('screen-custom-draft')">Custom Draft</button>
+
     </div>
+
     <div class="back-btn-wrap">
+
       <button class="btn secondary" style="font-size: 16px; padding: 8px 20px;" onclick="show('screen-main')">Back</button>
+
     </div>
+
   </section>
+
+
 
   <!-- SIDNEY DRAFT SCREEN -->
+
   <section id="screen-sidney-draft" class="screen">
+
     <div class="intro-body">
+
       <h2 style="font-size:34px; margin-bottom: 8px;">Sidney 6-Pack Draft</h2>
+
       <p>The standard competitive format. 6 Packs, 12-card deck.</p>
+
       
+
       <div style="margin: 24px 0;">
+
         <input type="text" id="draft-seed-input-sidney" placeholder="Enter Draft Seed (Optional)" style="padding: 12px 14px; border-radius: 6px; border: 1px solid var(--line); background: var(--bg2); color: var(--text); font-family: 'Barlow', sans-serif; font-size: 16px; width: 100%; max-width: 280px; text-align: center; text-transform: uppercase;">
+
       </div>
 
+
+
       <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
+
         <button class="btn gold" onclick="openTutorial('sidney')">How to Play</button>
+
         <button class="btn" onclick="startSidneyDraft()">Start Draft</button>
+
       </div>
+
     </div>
+
     <div class="back-btn-wrap">
+
       <button class="btn secondary" style="font-size: 16px; padding: 8px 20px;" onclick="show('screen-draft-select')">Back</button>
+
     </div>
+
   </section>
+
+
 
   <!-- BNG INTRO SCREEN -->
+
   <section id="screen-bng-intro" class="screen">
+
     <div class="intro-body">
+
       <h2 style="font-size:34px; margin-bottom: 8px; color:var(--gold);">BNG's Credits Draft</h2>
+
       <p>Start with a budget of 1000 credits to buy packs from the shop.</p>
+
       
+
       <div style="margin: 24px 0;">
+
         <input type="text" id="draft-seed-input-bng" placeholder="Enter Draft Seed (Optional)" style="padding: 12px 14px; border-radius: 6px; border: 1px solid var(--line); background: var(--bg2); color: var(--text); font-family: 'Barlow', sans-serif; font-size: 16px; width: 100%; max-width: 280px; text-align: center; text-transform: uppercase;">
+
       </div>
+
+
 
       <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
+
         <button class="btn gold" onclick="openTutorial('bng')">How to Play</button>
+
         <button class="btn" onclick="startBNGDraft()">Go to Shop</button>
+
       </div>
+
     </div>
+
     <div class="back-btn-wrap">
+
       <button class="btn secondary" style="font-size: 16px; padding: 8px 20px;" onclick="show('screen-draft-select')">Back</button>
+
     </div>
+
   </section>
+
+
 
   <!-- BNG SHOP SCREEN -->
+
   <section id="screen-bng-shop" class="screen">
+
     <div class="build-header">
+
       <h2 style="font-size:34px;">BNG's Credits Draft</h2>
+
       <div class="counter" style="color:var(--gold);">Credits: <span id="bng-credits-display">1000</span></div>
+
     </div>
+
     <p style="color:var(--muted); text-align:center; margin-bottom: 20px;">Use your credits to buy packs and build your draft pool. When you are out of credits (or satisfied), click Done.</p>
+
     <div class="center" style="margin-bottom: 20px; display: flex; gap: 10px; justify-content: center;">
+
         <button class="btn secondary" style="font-size: 14px; padding: 6px 16px;" onclick="openTutorial('bng')">How to Play</button>
+
         <button class="btn secondary" style="font-size: 14px; padding: 6px 16px;" onclick="openBNGCollectionModal()">Check Collection</button>
+
     </div>
+
     
+
     <div class="shop-grid">
+
       <div class="shop-item" onclick="openBNGModal('anarchy')">
+
         <div class="emoji">😈</div>
+
         <div class="name">Anarchy Pack</div>
+
         <div class="desc">3 Random cards<br><small>(No Fusions/Level Ups)</small></div>
+
         <div class="cost">50 Credits</div>
+
       </div>
+
       <div class="shop-item" onclick="openBNGModal('collection')">
+
         <div class="emoji">📦</div>
+
         <div class="name">Collection Pack</div>
+
         <div class="desc">Choose a collection. Get 2 from it, 2 from its album.</div>
+
         <div class="cost">100 Credits</div>
+
       </div>
+
       <div class="shop-item" onclick="openBNGModal('starstruck')">
+
         <div class="emoji">⭐</div>
+
         <div class="name">Starstruck</div>
+
         <div class="desc">1 Guaranteed Legendary + 2 Random Epic or below.</div>
+
         <div class="cost">150 Credits</div>
+
       </div>
+
       <div class="shop-item" onclick="openBNGModal('fuse')">
+
         <div class="emoji">🧨</div>
+
         <div class="name">Light the Fuse</div>
+
         <div class="desc">1 Guaranteed Fusion card.</div>
+
         <div class="cost">300 Credits</div>
+
       </div>
+
       <div class="shop-item" onclick="openBNGModal('amplified')">
+
         <div class="emoji">⚡</div>
+
         <div class="name">Amplified</div>
+
         <div class="desc">4 Cards + 25% chance of a bonus random Shiny.</div>
+
         <div class="cost">175 Credits</div>
+
       </div>
+
       <div class="shop-item" onclick="openBNGModal('season')">
+
         <div class="emoji">🎟️</div>
+
         <div class="name">Season Pass</div>
+
         <div class="desc">Who knows what could be on it?</div>
+
         <div class="cost">1000 Credits</div>
+
       </div>
+
     </div>
+
     
+
     <div class="center" style="margin-top: 30px;">
+
        <button class="btn pink" onclick="finishBNGShop()">Done Purchasing</button>
+
     </div>
+
     <div class="back-btn-wrap">
+
       <button class="btn secondary" style="font-size: 16px; padding: 8px 20px;" onclick="show('screen-draft-select')">Abandon Draft</button>
+
     </div>
+
   </section>
+
+
 
   <!-- CUSTOM DRAFT SCREEN -->
+
   <section id="screen-custom-draft" class="screen">
+
     <h2 class="center" style="font-size:34px;">Custom Draft</h2>
+
     <p class="center" style="color:var(--muted); margin-top:6px;">Create your own rules or paste a code from a friend!</p>
+
     
+
     <div class="code-area">
+
       <input type="text" id="custom-rule-code" placeholder="Paste Rule Code Here...">
+
       <button class="btn secondary" onclick="loadCustomRules()" style="font-size: 14px; padding: 0 16px;">Load Rules</button>
+
     </div>
+
+
 
     <div class="config-grid">
+
       <div class="config-row">
+
         <label>Total Packs (1-20)</label>
+
         <input type="number" id="custom-packs" value="6" min="1" max="20" onchange="updateSlotsUI()">
+
       </div>
+
       <div class="config-row">
+
         <label>Cards Per Pack (1-10)</label>
+
         <input type="number" id="custom-cards-pack" value="5" min="1" max="10" onchange="updateSlotsUI()">
+
       </div>
+
       <div class="config-row">
+
         <label>Final Deck Size</label>
+
         <input type="number" id="custom-deck-size" value="12" min="1" max="40">
+
       </div>
+
       <div class="config-row">
+
         <label>Shiny Chance (%)</label>
+
         <input type="number" id="custom-shiny-chance" value="10" min="0" max="100">
+
+      </div>
+
+
+
+      <div class="config-row checkbox-row" style="margin-top: 10px;">
+
+        <input type="checkbox" id="custom-fusions" checked>
+
+        <label for="custom-fusions">Allow Fusions</label>
+
       </div>
 
       <div class="config-row checkbox-row" style="margin-top: 10px;">
-        <input type="checkbox" id="custom-fusions" checked>
-        <label for="custom-fusions">Allow Fusions</label>
-      </div>
-      <div class="config-row checkbox-row" style="margin-top: 10px;">
+
         <input type="checkbox" id="custom-levelups" checked>
+
         <label for="custom-levelups">Allow Level-Up Cards</label>
+
       </div>
+
       <div class="config-row checkbox-row" style="margin-top: 10px;">
+
         <input type="checkbox" id="custom-shiny" checked>
+
         <label for="custom-shiny">Enable Extra Shiny Card Drop</label>
+
       </div>
+
       
+
       <div class="slots-config-wrap">
+
         <h4>Pack Slot Configuration</h4>
+
         <div class="slots-grid" id="custom-slots-container">
+
           <!-- Populated by JS -->
+
         </div>
+
       </div>
+
       
+
       <div class="config-row" style="grid-column: 1 / -1; margin-top: 10px;">
+
         <label>Draft Seed (Optional)</label>
+
         <input type="text" id="draft-seed-input-custom" placeholder="Leave empty for random seed..." style="text-transform: uppercase;">
+
       </div>
+
     </div>
+
+
 
     <div class="center" style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:20px;">
+
       <button class="btn secondary" onclick="exportCustomRules()">Copy Rule Code</button>
-      <button class="btn pink" onclick="startCustomDraft()">Start Custom Draft</button>
+
+      <button class="btn pink" onclick="startHeroPick('custom')">Start Custom Draft</button>
+
     </div>
+
     
+
     <div class="back-btn-wrap">
+
       <button class="btn secondary" style="font-size: 16px; padding: 8px 20px;" onclick="show('screen-draft-select')">Back</button>
+
     </div>
+
   </section>
+
+
 
   <!-- ANARCHY PACKS HUB -->
+
   <section id="screen-anarchy" class="screen">
+
     <h2 class="center" style="font-size:34px; background:linear-gradient(90deg, var(--pink), var(--gold)); -webkit-background-clip:text; background-clip:text; color:transparent;">Anarchy Packs</h2>
+
     <p class="center" style="color:var(--muted); margin-top:6px;">3 cards per pack &middot; duplicates allowed &middot; 10,000 coins per pack</p>
+
     <div class="anarchy-stats" id="anarchy-stats"></div>
+
     <div class="odds-table" style="max-width:420px; margin:24px auto;">
+
       <div><span>Common</span><span>97.0%</span></div>
+
       <div><span>Rare</span><span>60.0%</span></div>
+
       <div><span>Epic</span><span>12.5%</span></div>
+
       <div><span>Legendary</span><span>3.5%</span></div>
+
     </div>
+
     <div class="center" style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin:28px 0;">
+
       <button class="btn" id="anarchy-open1-btn" onclick="anarchyOpen(1)">Open 1 Pack (10,000)</button>
+
       <button class="btn pink" id="anarchy-open10-btn" onclick="anarchyOpen(10)">Open 10 Packs (100,000)</button>
+
     </div>
+
     <div class="center" style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
+
       <button class="btn secondary" onclick="showAnarchyCollection()">View Collection</button>
+
     </div>
+
     <div class="back-btn-wrap">
+
       <button class="btn secondary" style="font-size: 16px; padding: 8px 20px;" onclick="show('screen-main')">Back</button>
+
     </div>
+
     <div class="screen-flash" id="anarchy-screen-flash"></div>
+
     <div id="anarchy-particle-field"></div>
+
     <div class="reveal-grid" id="anarchy-reveal-grid" style="margin-top:32px;"></div>
+
   </section>
+
+
 
   <!-- ANARCHY COLLECTION -->
+
   <section id="screen-anarchy-collection" class="screen">
+
     <div class="build-header">
+
       <h2 style="font-size:28px;">Your Collection</h2>
+
       <div class="counter" id="anarchy-collection-counter">0 unique</div>
+
     </div>
+
     <div class="anarchy-stats" id="anarchy-collection-stats"></div>
+
     <div class="pool-grid" id="anarchy-collection-grid" style="margin-top:24px;"></div>
+
     <div class="back-btn-wrap">
+
       <button class="btn secondary" style="font-size: 16px; padding: 8px 20px;" onclick="show('screen-anarchy')">Back to Packs</button>
+
     </div>
+
   </section>
+
+
+
+  <!-- HERO PICK SCREEN -->
+
+  <section id="screen-hero" class="screen">
+
+    <h2 class="center" style="font-size:30px;">Choose Your Hero</h2>
+
+    <p class="center" style="color:var(--muted); margin-top:6px;">This card goes straight into your deck afterward. Left click to select, Right click to inspect.</p>
+
+    <div class="hero-grid" id="hero-grid"></div>
+
+    <div class="center">
+
+      <button class="btn" id="hero-confirm" disabled onclick="startPacks()">Confirm Hero</button>
+
+    </div>
+
+  </section>
+
+
 
   <!-- PACK OPENING SCREEN -->
+
   <section id="screen-packs" class="screen">
-    <div class="hero-chip" id="hero-chip" style="display:none;">
+
+    <div class="hero-chip" id="hero-chip">
+
       <img id="hero-chip-img" src="" alt="">
+
       <div>
+
         <div class="hc-label">Your Hero</div>
+
         <div class="hc-name" id="hero-chip-name"></div>
+
       </div>
+
     </div>
+
     <div class="pack-status" id="pack-status">Pack 1 of 6</div>
+
     <div class="pack-deck" id="pack-deck">
+
       <div class="pack-stage" id="pack-stage" onclick="openPack()">
+
         <div class="burst" id="pack-burst"></div>
+
         <div class="pack-flap"></div>
+
         <div class="pack-body">
+
           <div class="pack-face"></div>
+
           <div class="pack-label">TAP TO RIP</div>
+
         </div>
+
       </div>
+
     </div>
+
     <div class="screen-flash" id="screen-flash"></div>
+
     <div id="particle-field"></div>
+
     <div class="center" id="reveal-controls" style="display:none; margin-bottom:6px;">
+
       <button class="btn secondary sort-btn" id="sort-toggle-packs" onclick="cycleSortPacks()">Sort by Rarity</button>
+
     </div>
+
     <div class="reveal-grid" id="reveal-grid"></div>
+
     <div class="center" id="pack-next-wrap" style="display:none;">
+
       <button class="btn" onclick="nextPackOrBuild()" id="pack-next-btn">Next Pack</button>
+
     </div>
+
   </section>
+
+
 
   <!-- DECKBUILD SCREEN -->
+
   <section id="screen-build" class="screen">
+
     <div class="build-header">
+
       <h2 style="font-size:28px;">Build Your Deck</h2>
+
       <div class="counter" id="pick-counter">0 / 12</div>
+
     </div>
-    <p id="build-subtitle" style="color:var(--muted); font-size:14px;"></p>
+
+    <p id="build-subtitle" style="color:var(--muted); font-size:14px;">Your hero is already locked into the deck. Pick cards from the pool below.<br><b>Left Click</b> to inspect, <b>Right Click</b> to quick-add/remove.</p>
+
     
-    <div class="filters-container" style="display:flex; flex-direction:column; gap:12px; margin: 16px 0;">
-       <div class="theme-filters center" id="theme-filters" style="justify-content:center; margin:0;"></div>
-       
-       <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:center;">
-          <select id="filter-collection" onchange="updateDropdownFilters()" class="filter-select">
-             <option value="all">All Collections</option>
-          </select>
-          <select id="filter-trigger" onchange="updateDropdownFilters()" class="filter-select">
-             <option value="all">All Triggers</option>
-             <option value="play">Play</option>
-             <option value="draw">Draw</option>
-             <option value="return">Return</option>
-             <option value="turnstart">Turn Start</option>
-             <option value="none">No Trigger</option>
-          </select>
-          
-          <div style="width:1px; height:24px; background:var(--line); margin:0 4px;"></div>
-          
-          <button class="btn secondary sort-btn sort-btn-pool" id="sort-btn-rarity" data-default="Rarity" onclick="cycleSortPool('rarity')">Rarity</button>
-          <button class="btn secondary sort-btn sort-btn-pool" id="sort-btn-energy" data-default="Energy" onclick="cycleSortPool('energy')">Energy</button>
-          <button class="btn secondary sort-btn sort-btn-pool" id="sort-btn-power" data-default="Power" onclick="cycleSortPool('power')">Power</button>
-       </div>
+
+    <div class="deckbuild-hero-container" style="display:flex; flex-direction:column; align-items:center; margin: 24px 0;">
+
+      <div style="color:var(--gold); font-family:'Anton',sans-serif; letter-spacing:1px; margin-bottom: 8px;">YOUR HERO</div>
+
+      <div id="deckbuild-hero-wrap" style="width: 180px; transition: transform .15s ease;"></div>
+
     </div>
+
+
+
+    <div class="filters-container" style="display:flex; flex-direction:column; gap:12px; margin: 16px 0;">
+
+       <div class="theme-filters center" id="theme-filters" style="justify-content:center; margin:0;"></div>
+
+       
+
+       <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:center;">
+
+          <select id="filter-collection" onchange="updateDropdownFilters()" class="filter-select">
+
+             <option value="all">All Collections</option>
+
+          </select>
+
+          <select id="filter-trigger" onchange="updateDropdownFilters()" class="filter-select">
+
+             <option value="all">All Triggers</option>
+
+             <option value="play">Play</option>
+
+             <option value="draw">Draw</option>
+
+             <option value="return">Return</option>
+
+             <option value="turnstart">Turn Start</option>
+
+             <option value="none">No Trigger</option>
+
+          </select>
+
+          
+
+          <div style="width:1px; height:24px; background:var(--line); margin:0 4px;"></div>
+
+          
+
+          <button class="btn secondary sort-btn sort-btn-pool" id="sort-btn-rarity" data-default="Rarity" onclick="cycleSortPool('rarity')">Rarity</button>
+
+          <button class="btn secondary sort-btn sort-btn-pool" id="sort-btn-energy" data-default="Energy" onclick="cycleSortPool('energy')">Energy</button>
+
+          <button class="btn secondary sort-btn sort-btn-pool" id="sort-btn-power" data-default="Power" onclick="cycleSortPool('power')">Power</button>
+
+       </div>
+
+    </div>
+
+
 
     <div class="pool-grid" id="pool-grid"></div>
+
     <div class="center">
+
       <button class="btn pink" id="finish-btn" disabled onclick="showExport()">Finish Deck</button>
+
     </div>
+
   </section>
+
+
 
   <!-- EXPORT SCREEN -->
+
   <section id="screen-export" class="screen">
+
     <h2 class="center" style="font-size:30px;">Your List</h2>
+
     <p class="center" style="color:var(--muted);">Use this to build the deck in-game.</p>
+
     <div class="export-strip" id="export-strip"></div>
+
     <div class="export-box" id="export-box"></div>
+
     <div class="center" style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
+
       <button class="btn" id="copy-btn" onclick="copyList()">Copy List</button>
+
       <button class="btn secondary" onclick="location.reload()">New Draft</button>
+
     </div>
+
   </section>
 
+
+
 </div>
+
+
 
 <!-- TUTORIAL MODAL -->
+
 <div id="tutorial-modal" class="modal" onclick="closeTutorial(event)">
+
   <div class="modal-content wide" onclick="event.stopPropagation()">
+
     <button class="close-modal-btn" onclick="closeTutorial(event)" aria-label="Close modal">✕</button>
+
     <h3 id="tutorial-title" style="font-family:'Anton',sans-serif; font-size:32px; color:var(--gold); text-transform:uppercase;">How to Play</h3>
+
     
+
     <div class="tutorial-steps" id="tutorial-content-sidney">
+
       <div class="tutorial-step">
+
         <div class="num">1</div>
+
         <div class="text">
+
           <h4>Open Packs</h4>
+
           <p>Rip open your packs! Every card you open gets added to a big pool that you can use to build your deck.</p>
+
         </div>
+
       </div>
+
       <div class="tutorial-step">
+
         <div class="num">2</div>
+
         <div class="text">
+
           <h4>Wild Shinies</h4>
+
           <p>Packs may contain an extra shiny card. It can be of <b>ANY</b> rarity. Muahahaha, totally wild! 😈</p>
+
         </div>
+
       </div>
+
       <div class="tutorial-step">
+
         <div class="num">3</div>
+
         <div class="text">
+
           <h4>Build Your Deck</h4>
+
           <p>After opening all packs, pick exactly your required amount of cards from your pool to create your final deck strategy. This includes picking exactly one Hero for your lineup.</p>
+
         </div>
+
       </div>
+
       <div class="tutorial-step">
+
         <div class="num">4</div>
+
         <div class="text">
+
           <h4>Battle!</h4>
+
           <p>To play, you need to have someone else also draft a deck and match up with them in a custom game inside Wild Cards.</p>
+
         </div>
+
       </div>
+
     </div>
+
+
 
     <!-- BNG specific tutorial wrapper -->
+
     <div class="tutorial-steps" id="tutorial-content-bng" style="display:none;">
+
       <div class="tutorial-step">
+
         <div class="num">1</div>
+
         <div class="text">
+
           <h4>Start with 1000 Credits</h4>
+
           <p>You have a budget to purchase any combination of packs you desire from the shop.</p>
+
         </div>
+
       </div>
+
       <div class="tutorial-step">
+
         <div class="num">2</div>
+
         <div class="text">
+
           <h4>Drafting Packs</h4>
+
           <p>Each pack has a distinct price and unique set of drops. Manage your credits wisely to build the best pool possible.</p>
+
         </div>
+
       </div>
+
       <div class="tutorial-step">
+
         <div class="num">3</div>
+
         <div class="text">
+
           <h4>Finish Purchasing</h4>
+
           <p>When you have run out of credits, or are happy with the pool you've accumulated, click Done.</p>
+
         </div>
+
       </div>
+
       <div class="tutorial-step">
+
         <div class="num">4</div>
+
         <div class="text">
-          <h4>Build Your Deck</h4>
-          <p>After finalizing your pool, you will proceed directly to deckbuilding. You will need to select exactly 1 Hero from the 3 options drafted into your pool.</p>
+
+          <h4>Choose Your Hero & Build</h4>
+
+          <p>After finalizing your pool, you will select 1 of 3 random Heroes and proceed directly to deckbuilding.</p>
+
         </div>
+
       </div>
+
     </div>
+
     
+
     <button class="btn" onclick="closeTutorial(event)">Got it!</button>
+
   </div>
+
 </div>
+
+
 
 <!-- BNG SHOP PURCHASE MODAL -->
+
 <div id="bng-modal" class="modal" onclick="closeBNGModal()">
+
   <div class="modal-content" onclick="event.stopPropagation()">
+
     <button class="close-modal-btn" onclick="closeBNGModal()">✕</button>
+
     <h3 id="bng-modal-title" style="font-family:'Anton',sans-serif; font-size:28px; color:var(--gold); text-transform:uppercase;">Pack</h3>
+
     <p id="bng-modal-desc" style="color:var(--text); font-size:16px; margin: 10px 0; line-height: 1.5; font-family:'Barlow', sans-serif;"></p>
+
     
+
     <div id="bng-modal-collection-wrap" style="display:none; width:100%; margin: 10px 0; text-align: left;">
+
        <label style="display:block; color:var(--gold); margin-bottom:6px; font-size:15px; font-weight:bold; font-family:'Anton', sans-serif; letter-spacing:1px;">Select Collection:</label>
+
        <select id="bng-modal-collection-select" class="filter-select" style="width:100%;"></select>
+
     </div>
+
     
+
     <div id="bng-modal-cost" style="font-family:'Anton',sans-serif; font-size:22px; color:var(--green); margin: 15px 0;">Cost</div>
+
     
+
     <button class="btn" id="bng-modal-buy-btn" onclick="buyBNGPack()">Buy Pack</button>
+
   </div>
+
 </div>
+
+
 
 <!-- BNG COLLECTION MODAL -->
+
 <div id="bng-collection-modal" class="modal" onclick="closeBNGCollectionModal()">
+
   <div class="modal-content wide" onclick="event.stopPropagation()">
+
     <button class="close-modal-btn" onclick="closeBNGCollectionModal()">✕</button>
+
     <h3 style="font-family:'Anton',sans-serif; font-size:28px; color:var(--gold); text-transform:uppercase;">Purchased Cards (<span id="bng-purchased-count">0</span>)</h3>
+
     <div id="bng-purchased-grid" style="width:100%; max-height:60vh; overflow-y:auto; margin-top:15px;"></div>
+
     <button class="btn secondary" onclick="closeBNGCollectionModal()">Close</button>
+
   </div>
+
 </div>
+
+
 
 <!-- INSPECT MODAL -->
+
 <div id="inspect-modal" class="modal" onclick="closeInspect(event)">
+
   <div class="modal-content" onclick="event.stopPropagation()">
+
     <button class="close-modal-btn" onclick="closeInspect(event)" aria-label="Close modal">✕</button>
+
     <div id="inspect-card-wrap"></div>
+
     <div class="inspect-details">
+
        <h3 id="inspect-name"></h3>
+
        <p id="inspect-collection" style="color: var(--teal); font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;"></p>
+
        <p id="inspect-stats"></p>
+
        <p id="inspect-ability"></p>
+
     </div>
+
     <button class="btn pink" id="inspect-action-btn" style="display:none;" onclick="handleInspectAction()">Add to Deck</button>
+
   </div>
+
 </div>
 
+
+
 <script>
-/* =========================================================
-   PRNG UTILITIES
-   ========================================================= */
-let rng = Math.random;
-function xmur3(str) {
-    for(var i = 0, h = 1779033703 ^ str.length; i < str.length; i++) {
-        h = Math.imul(h ^ str.charCodeAt(i), 3432918353); h = h << 13 | h >>> 19;
-    } return function() {
-        h = Math.imul(h ^ (h >>> 16), 2246822507); h = Math.imul(h ^ (h >>> 13), 3266489909);
-        return (h ^= h >>> 16) >>> 0;
-    }
-}
-function sfc32(a, b, c, d) {
-    return function() {
-      a >>>= 0; b >>>= 0; c >>>= 0; d >>>= 0; 
-      var t = (a + b) | 0;
-      a = b ^ b >>> 9; b = c + (c << 3) | 0; c = (c << 21 | c >>> 11);
-      d = d + 1 | 0; t = t + d | 0; c = c + t | 0;
-      return (t >>> 0) / 4294967296;
-    }
-}
 
 /* =========================================================
-   DATA LOADING & PARSING 
+
+   PRNG UTILITIES
+
    ========================================================= */
+
+let rng = Math.random;
+
+function xmur3(str) {
+
+    for(var i = 0, h = 1779033703 ^ str.length; i < str.length; i++) {
+
+        h = Math.imul(h ^ str.charCodeAt(i), 3432918353); h = h << 13 | h >>> 19;
+
+    } return function() {
+
+        h = Math.imul(h ^ (h >>> 16), 2246822507); h = Math.imul(h ^ (h >>> 13), 3266489909);
+
+        return (h ^= h >>> 16) >>> 0;
+
+    }
+
+}
+
+function sfc32(a, b, c, d) {
+
+    return function() {
+
+      a >>>= 0; b >>>= 0; c >>>= 0; d >>>= 0; 
+
+      var t = (a + b) | 0;
+
+      a = b ^ b >>> 9; b = c + (c << 3) | 0; c = (c << 21 | c >>> 11);
+
+      d = d + 1 | 0; t = t + d | 0; c = c + t | 0;
+
+      return (t >>> 0) / 4294967296;
+
+    }
+
+}
+
+
+
+/* =========================================================
+
+   DATA LOADING & PARSING 
+
+   ========================================================= */
+
 const RARITIES = ["common","rare","epic","legendary","fusion"];
+
 const RARITY_ORDER = {legendary:0, fusion:1, epic:2, rare:3, common:4};
 
+
+
 function sortByRarity(cards, dir = 1){ 
+
   return [...cards].sort((a,b)=> (RARITY_ORDER[a.rarity]-RARITY_ORDER[b.rarity]) * dir); 
+
 }
 
+
+
 const rarityColor = {common:"#3a3f52", rare:"#124a63", epic:"#4a2166", legendary:"#7a4a12", fusion:"#6b1a4a"};
+
 const THEMES = {
+
   culture: {label:"Culture", accent:"#39ff8f"}, history: {label:"History", accent:"#f4c542"},
+
   science: {label:"Science", accent:"#3ab0ff"}, nature:  {label:"Nature",  accent:"#2ee6c8"}
+
 };
+
 const HERO_COLORS = ["#ff2e6a","#2ee6c8","#f4c542","#3ab0ff","#c355f0","#39ff8f","#ff8a3d","#f05a5a","#8a6bff","#e0e0e0"];
 
+
+
 let CARD_POOL_RAW = [];
+
 let HERO_POOL_RAW = [];
+
 const EXCLUDED_CARDS = ["kitsune", "oni", "eric bloodaxe", "ivar the boneless", "labrador", "pug", "paper", "the wheel", "ivar"];
+
+
 
 window.addEventListener('DOMContentLoaded', loadCardData);
 
+
+
 async function loadCardData() {
+
   const btn1 = document.getElementById("main-draft-btn");
+
   const btn2 = document.getElementById("main-anarchy-btn");
+
   try {
+
     const res = await fetch("WC Card Data (07082026).csv");
+
     if (!res.ok) throw new Error("Could not fetch CSV");
+
     const text = await res.text();
+
     parseCSV(text);
+
     if(btn1) { btn1.disabled = false; }
+
     if(btn2) { btn2.disabled = false; }
+
   } catch(e) {
+
     console.error("Error Loading CSV:", e);
+
     if(btn1) btn1.textContent = "Error Loading Data";
+
   }
+
 }
+
+
 
 function csvToArray(text) {
+
     let p = '', row = [''], ret = [row], i = 0, r = 0, s = !0, l;
+
     for (l of text) {
+
         if ('"' === l) { if (s && l === p) row[i] += l; s = !s; }
+
         else if (',' === l && s) l = row[++i] = '';
+
         else if ('\n' === l && s) { if ('\r' === p) row[i] = row[i].slice(0, -1); row = ret[++r] = [l = '']; i = 0; }
+
         else row[i] += l;
+
         p = l;
+
     } return ret;
+
 }
+
+
 
 function parseAbilityText(text) {
+
   if(!text) return "";
+
   return text
+
     .replace(/<[^>]*>/g, "")
+
     .replace(/:draw:/gi, "✦ DRAW:")
+
     .replace(/:return:/gi, "↩ RETURN:")
+
     .replace(/:play:/gi, "▶ PLAY:")
+
     .replace(/:turnstart:/gi, "⏳ TURN START:")
+
     .replace(/:energy:/gi, "Energy")
+
     .replace(/:attack:/gi, "Attack")
+
     .replace(/:health:/gi, "HP")
+
     .replace(/:shield:/gi, "shield")
+
     .replace(/:charge:/gi, "charge")
+
     .replace(/:ept:/gi, "energy per turn")
+
     .replace(/:freeze:/gi, "Freeze")
+
     .replace(/:burn:/gi, "Burn")
+
     .trim();
+
 }
+
+
 
 function placeholderImg(seed, color, accent){
+
   return `data:image/svg+xml;utf8,` + encodeURIComponent(`
+
     <svg xmlns="http://www.w3.org/2000/svg" width="300" height="400"><defs><pattern id="dots" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="${accent}" opacity="0.25"/></pattern></defs><rect width="300" height="400" fill="${color}"/><rect width="300" height="400" fill="url(#dots)"/></svg>`);
+
 }
+
+
 
 function parseCSV(text) {
+
   const data = csvToArray(text.trim());
+
   let heroes = [];
+
   let cards = [];
+
   for(let i=1; i<data.length; i++) {
+
     const row = data[i];
+
     if(row.length < 9) continue;
+
     const name = row[0].trim();
+
     if(EXCLUDED_CARDS.some(ex => name.toLowerCase().includes(ex))) continue;
+
     const abilityTitle = row[7].trim();
+
     const abilityParsed = parseAbilityText(row[8].trim());
+
     const isLevelUp = name.toLowerCase().includes("level up") || abilityParsed.toLowerCase().includes("level up");
 
+
+
     const c = {
+
       name: name, code: row[1].trim(), collection: row[2].trim(),
+
       theme: row[3].trim().toLowerCase(), themeLabel: row[3].trim(),
+
       rarity: row[4].trim().toLowerCase(), energy: parseInt(row[5].trim()) || 0,
+
       power: parseInt(row[6].trim()) || 0, abilityTitle: abilityTitle,
+
       ability: abilityParsed, isLevelUp: isLevelUp
+
     };
+
     
+
     const themeData = THEMES[c.theme] || {label:c.themeLabel, accent:"#8b95a8"};
+
     c.image = placeholderImg(c.code, rarityColor[c.rarity] || "#3a3f52", themeData.accent);
+
     
+
     if(c.rarity === "hero") {
+
       c.color = HERO_COLORS[heroes.length % HERO_COLORS.length];
+
       c.image = placeholderImg(c.code, "#0c1420", "#39ff8f");
+
       heroes.push({id: "h"+i+"_"+c.code, ...c});
+
     } else {
+
       cards.push({id: "c"+i+"_"+c.code, ...c});
+
     }
+
   }
+
   CARD_POOL_RAW = cards;
+
   HERO_POOL_RAW = heroes;
+
 }
 
+
+
 /* =========================================================
+
    UI HELPERS & MODAL 
+
    ========================================================= */
+
 function buildCardHTML(c) {
+
   return `
+
     <div class="card r-${c.rarity}${c.shiny?' shiny':''}">
+
       <div class="stats-bar">
+
         ${c.rarity !== 'hero' ? `<div class="stat-cost">${c.energy}</div>` : '<div></div>'}
+
         <div class="stat-power">${c.power}</div>
+
       </div>
+
       <img src="${c.image}">
+
       <div class="meta">
+
         <div class="name">${c.name}</div>
+
         <div class="theme">${c.themeLabel}</div>
+
         <div class="rarity">${c.rarity}</div>
+
         ${c.shiny ? '<div class="shiny-tag">BONUS SHINY CARD</div>' : ''}
+
         <div class="ability-text">${c.ability}</div>
+
       </div>
+
     </div>`;
+
 }
+
+
 
 let inspectTargetCard = null;
+
 function openInspect(c, deckBuilderMode) {
+
   inspectTargetCard = c;
+
   const modal = document.getElementById("inspect-modal");
+
   modal.classList.add("active");
+
   document.getElementById("inspect-card-wrap").innerHTML = buildCardHTML(c);
+
   document.getElementById("inspect-name").textContent = c.name;
+
   const collectionText = c.collection ? `Collection: ${c.collection}` : "";
+
   document.getElementById("inspect-collection").textContent = collectionText;
+
   document.getElementById("inspect-stats").innerHTML = c.rarity === 'hero' ? `<b>Power:</b> ${c.power}` : `<b>Cost:</b> ${c.energy} &nbsp;|&nbsp; <b>Power:</b> ${c.power}`;
+
   document.getElementById("inspect-ability").textContent = c.ability || "(No Ability)";
 
+
+
   const btn = document.getElementById("inspect-action-btn");
+
   if(deckBuilderMode) {
+
     btn.style.display = "inline-block";
+
     const isPicked = state.picked.some(p => p.id === c.id);
+
     btn.textContent = isPicked ? "Remove from Deck" : "Add to Deck";
+
     btn.className = isPicked ? "btn secondary" : "btn pink";
+
   } else { btn.style.display = "none"; }
+
 }
+
+
 
 function closeInspect(e) { document.getElementById("inspect-modal").classList.remove("active"); inspectTargetCard = null; }
+
 function handleInspectAction() { if (inspectTargetCard) togglePick(inspectTargetCard); }
 
+
+
 function openTutorial(mode = 'sidney') { 
+
   document.getElementById("tutorial-modal").classList.add("active");
+
   if (mode === 'bng') {
+
     document.getElementById("tutorial-content-sidney").style.display = "none";
+
     document.getElementById("tutorial-content-bng").style.display = "block";
+
   } else {
+
     document.getElementById("tutorial-content-sidney").style.display = "block";
+
     document.getElementById("tutorial-content-bng").style.display = "none";
+
   }
+
 }
+
 function closeTutorial(e) { document.getElementById("tutorial-modal").classList.remove("active"); }
 
+
+
 /* =========================================================
+
    DRAFT LOGIC & STATE
+
    ========================================================= */
+
 let state = {
+
   draftMode: 'sidney',
-  config: null, activePool: [], heroOptions:[],
+
+  config: null, activePool: [], hero:null, heroOptions:[],
+
   packs:[], currentPack:0, pulledIds: new Set(), poolAll:[], picked:[],
+
   themeFilter: "all", collectionFilter: "all", triggerFilter: "all",
+
   sortBy: null, sortDir: 0, sortRarity: {packs: 0}
+
 };
+
+
 
 const SIDNEY_CONFIG = {
+
   packs: 6, deckSize: 12, shiny: true, shinyChance: 10, fusions: true, levelups: true,
+
   slots: ['std1','std2','std3','std4','std5']
+
 };
 
+
+
 function show(screenId){
+
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+
   document.getElementById(screenId).classList.add("active");
+
   window.scrollTo({top:0, behavior:"smooth"});
+
 }
+
+
 
 /* CUSTOM DRAFT BUILDER */
+
 function setupCustomDraftUI() { updateSlotsUI(); }
+
 function updateSlotsUI() {
+
   const cardsPerPack = parseInt(document.getElementById("custom-cards-pack").value) || 5;
+
   const container = document.getElementById("custom-slots-container");
+
   const existingSelects = Array.from(container.querySelectorAll("select")).map(s => s.value);
+
   container.innerHTML = "";
+
   
+
   for(let i=0; i<cardsPerPack; i++) {
+
     const defaultVal = existingSelects[i] || (i < 5 ? `std${i+1}` : "rnd");
+
     const div = document.createElement("div");
+
     div.className = "slot-item";
+
     div.innerHTML = `
+
       <label>Slot ${i+1}</label>
+
       <select id="custom-slot-${i}">
+
         <option value="rnd" ${defaultVal==="rnd"?"selected":""}>Totally Random</option>
+
         <option value="std1" ${defaultVal==="std1"?"selected":""}>Standard 1 (Leg/Epic 50%)</option>
+
         <option value="std2" ${defaultVal==="std2"?"selected":""}>Standard 2 (Epic/Rare 75%)</option>
+
         <option value="std3" ${defaultVal==="std3"?"selected":""}>Standard 3 (Rare/Com 75%)</option>
+
         <option value="std4" ${defaultVal==="std4"?"selected":""}>Standard 4 (Com/Rare 75%)</option>
+
         <option value="std5" ${defaultVal==="std5"?"selected":""}>Standard 5 (Common)</option>
+
         <option value="g_leg" ${defaultVal==="g_leg"?"selected":""}>Guaranteed Legendary</option>
+
         <option value="g_epi" ${defaultVal==="g_epi"?"selected":""}>Guaranteed Epic</option>
+
         <option value="g_rar" ${defaultVal==="g_rar"?"selected":""}>Guaranteed Rare</option>
+
         <option value="g_com" ${defaultVal==="g_com"?"selected":""}>Guaranteed Common</option>
+
         <option value="g_fus" ${defaultVal==="g_fus"?"selected":""}>Guaranteed Fusion</option>
+
       </select>`;
+
     container.appendChild(div);
+
   }
+
 }
+
+
 
 function getCustomConfig() {
+
   const packs = parseInt(document.getElementById("custom-packs").value) || 6;
+
   const deckSize = parseInt(document.getElementById("custom-deck-size").value) || 12;
+
   const shiny = document.getElementById("custom-shiny").checked;
+
   const shinyChance = parseInt(document.getElementById("custom-shiny-chance").value) || 0;
+
   const fusions = document.getElementById("custom-fusions").checked;
+
   const levelups = document.getElementById("custom-levelups").checked;
+
   
+
   const cardsPerPack = parseInt(document.getElementById("custom-cards-pack").value) || 5;
+
   const slots = [];
+
   for(let i=0; i<cardsPerPack; i++) { slots.push(document.getElementById(`custom-slot-${i}`).value); }
 
+
+
   return { packs, deckSize, shiny, shinyChance, fusions, levelups, slots };
+
 }
+
+
 
 function exportCustomRules() {
+
   const config = getCustomConfig();
+
   const codeObj = { p: config.packs, d: config.deckSize, s: config.shiny?1:0, sc: config.shinyChance, f: config.fusions?1:0, l: config.levelups?1:0, sl: config.slots };
+
   const str = btoa(JSON.stringify(codeObj));
+
   navigator.clipboard.writeText(str).then(() => { alert("Rule code copied to clipboard!"); });
+
 }
+
+
 
 function loadCustomRules() {
+
   const str = document.getElementById("custom-rule-code").value.trim();
+
   if(!str) return;
+
   try {
+
     const codeObj = JSON.parse(atob(str));
+
     document.getElementById("custom-packs").value = codeObj.p || 6;
+
     document.getElementById("custom-deck-size").value = codeObj.d || 12;
+
     document.getElementById("custom-shiny").checked = codeObj.s === 1;
+
     document.getElementById("custom-shiny-chance").value = codeObj.sc !== undefined ? codeObj.sc : 10;
+
     document.getElementById("custom-fusions").checked = codeObj.f === 1;
+
     document.getElementById("custom-levelups").checked = codeObj.l === 1;
+
     
+
     const slots = codeObj.sl || [];
+
     document.getElementById("custom-cards-pack").value = slots.length;
+
     updateSlotsUI();
+
     slots.forEach((val, i) => {
+
       const sel = document.getElementById(`custom-slot-${i}`);
+
       if(sel) sel.value = val;
+
     });
+
     alert("Rules loaded successfully!");
+
   } catch(e) {
+
     alert("Invalid Rule Code.");
+
   }
+
 }
+
+
 
 function generatePoolBasedOnConfig(config) {
+
   let pool = [...CARD_POOL_RAW];
+
   if(!config.fusions) pool = pool.filter(c => c.rarity !== "fusion");
+
   if(!config.levelups) pool = pool.filter(c => !c.isLevelUp);
+
   return pool;
+
 }
+
+
 
 function startSidneyDraft() {
+
   state.draftMode = 'sidney';
+
   const seedInput = document.getElementById("draft-seed-input-sidney").value.trim().toUpperCase();
+
   state.config = SIDNEY_CONFIG;
+
   
+
   state.seed = seedInput || Math.random().toString(36).substring(2, 8).toUpperCase();
+
   document.getElementById("draft-seed-input-sidney").value = state.seed;
+
   
+
   const seedGen = xmur3(state.seed);
+
   rng = sfc32(seedGen(), seedGen(), seedGen(), seedGen());
 
+
+
   state.activePool = generatePoolBasedOnConfig(state.config);
+
+
 
   // Roll 3 heroes, append directly to pool later
+
   let shuffled = [...HERO_POOL_RAW].sort(()=>rng()-0.5);
+
   state.heroOptions = shuffled.slice(0,3);
+
   
+
   startPacks();
+
 }
 
-function startCustomDraft() {
-  state.draftMode = 'custom';
-  const seedInput = document.getElementById("draft-seed-input-custom").value.trim().toUpperCase();
-  state.config = getCustomConfig();
+
+
+function startHeroPick(mode){
+
+  state.draftMode = mode;
+
+  let seedInput = "";
+
+  if (mode === 'custom') {
+
+    seedInput = document.getElementById("draft-seed-input-custom").value.trim().toUpperCase();
+
+    state.config = getCustomConfig();
+
+  }
+
   
+
   state.seed = seedInput || Math.random().toString(36).substring(2, 8).toUpperCase();
-  document.getElementById("draft-seed-input-custom").value = state.seed;
+
+  if(mode==='custom') document.getElementById("draft-seed-input-custom").value = state.seed;
+
   
+
   const seedGen = xmur3(state.seed);
+
   rng = sfc32(seedGen(), seedGen(), seedGen(), seedGen());
 
-  state.activePool = generatePoolBasedOnConfig(state.config);
+
+
+  if (mode !== 'bng') {
+
+    state.activePool = generatePoolBasedOnConfig(state.config);
+
+  }
+
+
 
   let shuffled = [...HERO_POOL_RAW].sort(()=>rng()-0.5);
+
   state.heroOptions = shuffled.slice(0,3);
+
+  const grid = document.getElementById("hero-grid");
+
+  grid.innerHTML = "";
+
   
-  startPacks();
+
+  state.heroOptions.forEach(h=>{
+
+    const div = document.createElement("div"); div.className = "hero-card"; div.style.setProperty("--hero-color", h.color || "var(--gold)");
+
+    div.innerHTML = buildCardHTML(h) + `<div class="ring"></div>`;
+
+    div.onclick = ()=>{ document.querySelectorAll(".hero-card").forEach(c=>c.classList.remove("selected")); div.classList.add("selected"); state.hero = h; document.getElementById("hero-confirm").disabled = false; };
+
+    div.oncontextmenu = (e)=>{ e.preventDefault(); openInspect(h, false); };
+
+    grid.appendChild(div);
+
+  });
+
+  show("screen-hero");
+
 }
+
 
 
 /* PULL LOGIC */
+
 function weightedPickFromPool(tierA, tierB, pctA, excludeIds){
+
   const useTierA = rng()*100 < pctA; const tier = useTierA ? tierA : tierB;
+
   const pickFrom = (t) => state.activePool.filter(c => c.rarity===t && !state.pulledIds.has(c.id) && !excludeIds.has(c.id));
+
   let available = pickFrom(tier);
+
   if(available.length===0){ available = pickFrom(tier===tierA ? tierB : tierA); }
+
   if(available.length===0){ available = state.activePool.filter(c=>!state.pulledIds.has(c.id) && !excludeIds.has(c.id)); }
+
   if(available.length===0){ available = state.activePool.filter(c=>!excludeIds.has(c.id)); }
+
   if(available.length===0){ available = state.activePool; }
+
   return available[Math.floor(rng()*available.length)];
+
 }
+
+
 
 function guaranteedPickFromPool(tier, excludeIds) {
+
   let available = state.activePool.filter(c => c.rarity===tier && !state.pulledIds.has(c.id) && !excludeIds.has(c.id));
+
   if(available.length===0){ available = state.activePool.filter(c=>!state.pulledIds.has(c.id) && !excludeIds.has(c.id)); }
+
   if(available.length===0){ available = state.activePool.filter(c=>!excludeIds.has(c.id)); }
+
   if(available.length===0){ available = state.activePool; }
+
   return available[Math.floor(rng()*available.length)];
+
 }
+
+
 
 function randomPickFromPool(excludeIds) {
+
   let available = state.activePool.filter(c => !state.pulledIds.has(c.id) && !excludeIds.has(c.id));
+
   if(available.length===0){ available = state.activePool.filter(c=>!excludeIds.has(c.id)); }
+
   if(available.length===0){ available = state.activePool; }
+
   return available[Math.floor(rng()*available.length)];
+
 }
+
+
 
 function pullPack(){
+
   const excludeIds = new Set();
+
   let pulled = state.config.slots.map(slotType => {
+
     let c;
+
     switch(slotType) {
+
       case "std1": c = weightedPickFromPool("legendary","epic",50,excludeIds); break;
+
       case "std2": c = weightedPickFromPool("epic","rare",75,excludeIds); break;
+
       case "std3": c = weightedPickFromPool("rare","common",75,excludeIds); break;
+
       case "std4": c = weightedPickFromPool("common","rare",75,excludeIds); break;
+
       case "std5": c = weightedPickFromPool("common","common",100,excludeIds); break;
+
       case "g_leg": c = guaranteedPickFromPool("legendary", excludeIds); break;
+
       case "g_epi": c = guaranteedPickFromPool("epic", excludeIds); break;
+
       case "g_rar": c = guaranteedPickFromPool("rare", excludeIds); break;
+
       case "g_com": c = guaranteedPickFromPool("common", excludeIds); break;
+
       case "g_fus": c = guaranteedPickFromPool("fusion", excludeIds); break;
+
       case "rnd": default: c = randomPickFromPool(excludeIds); break;
+
     }
+
     excludeIds.add(c.id); return c;
+
   });
+
   pulled.forEach(c => state.pulledIds.add(c.id));
 
+
+
   if(state.config.shiny && rng()*100 < state.config.shinyChance){
+
     const shinySource = state.activePool[Math.floor(rng()*state.activePool.length)];
+
     const shinyCard = {...shinySource, id: shinySource.id + "-shiny-" + rng().toString(36).slice(2,7), shiny:true};
+
     pulled.push(shinyCard);
+
   }
+
   return pulled;
+
 }
+
+
 
 function startPacks(){
+
   if (state.draftMode === 'bng') {
+
     state.packs = [bngState.purchasedCards];
+
     buildPool();
+
     show('screen-build');
+
     return;
+
   }
+
+
 
   document.getElementById('pack-status').style.display = 'block';
+
   document.getElementById('pack-stage').onclick = openPack;
+
   document.getElementById('pack-stage').style.setProperty('--pack-emoji', '"😈"');
 
+
+
   state.currentPack = 0; state.packs = [];
+
   document.getElementById("reveal-grid").innerHTML = "";
+
   document.getElementById("pack-next-wrap").style.display = "none";
+
   document.getElementById("pack-deck").style.display = "flex";
+
   
-  // Hero chip hidden in all modes since it's drafted alongside the pool now
-  document.getElementById("hero-chip").style.display = 'none';
+
+  if (state.draftMode === 'sidney') {
+
+      document.getElementById("hero-chip").style.display = 'none';
+
+  } else {
+
+      document.getElementById("hero-chip").style.display = 'flex';
+
+      document.getElementById("hero-chip-img").src = state.hero.image;
+
+      document.getElementById("hero-chip-name").textContent = state.hero.name;
+
+  }
+
   
+
   resetPackVisual(); updatePackStatus(); show("screen-packs");
+
 }
+
+
 
 function resetPackVisual(){ document.getElementById("pack-stage").classList.remove("ripping"); document.getElementById("pack-burst").classList.remove("go"); }
+
 function updatePackStatus(){ document.getElementById("pack-status").textContent = `Pack ${state.currentPack+1} of ${state.config.packs}`; }
 
+
+
 function bestRarityInPack(pulled){
+
   if(pulled.some(c=>c.shiny)) return "shiny";
+
   let best = "common"; pulled.forEach(c=>{ if(RARITY_ORDER[c.rarity] < RARITY_ORDER[best]) best = c.rarity; }); return best;
+
 }
+
+
 
 function fireParticles(tier){
+
   const field = document.getElementById("particle-field"); if(!field) return;
+
   const stage = document.getElementById("pack-stage"); const rect = stage.getBoundingClientRect();
+
   const count = tier==="shiny" ? 28 : tier==="legendary" ? 22 : tier==="fusion" ? 18 : tier==="epic" ? 14 : 0; if(count===0) return;
+
   const colorMap = {shiny:"#f4c542", legendary:"#f0a83a", fusion:"#ff5fa8", epic:"#c355f0"};
+
   for(let i=0;i<count;i++){
+
     const p = document.createElement("div"); p.className = "particle go";
+
     const angle = Math.random()*Math.PI*2; const dist = 60 + Math.random()*120;
+
     p.style.setProperty("--px", (Math.cos(angle)*dist)+"px"); p.style.setProperty("--py", (Math.sin(angle)*dist)+"px");
+
     p.style.left = (rect.left + rect.width/2) + "px"; p.style.top = (rect.top + rect.height/2) + "px";
+
     p.style.position = "fixed"; p.style.background = colorMap[tier]; field.appendChild(p); setTimeout(()=>p.remove(), 850);
+
   }
+
 }
+
+
 
 function openPack(){
+
   const stage = document.getElementById("pack-stage"); if(stage.classList.contains("ripping")) return;
+
   const pulled = pullPack(); state.packs.push(pulled);
+
   stage.classList.add("ripping"); document.getElementById("pack-burst").classList.add("go");
 
+
+
   const tier = bestRarityInPack(pulled);
+
   if(tier==="shiny" || tier==="legendary" || tier==="fusion" || tier==="epic"){
+
     const flash = document.getElementById("screen-flash");
+
     flash.className = "screen-flash go " + (tier==="epic" || tier==="fusion" ? "purple" : "gold");
+
     fireParticles(tier); setTimeout(()=>{ flash.className = "screen-flash"; }, 550);
+
   }
+
   setTimeout(()=>{
+
     document.getElementById("pack-deck").style.display = "none";
+
     document.getElementById("reveal-controls").style.display = "block";
+
     renderReveal(pulled);
+
     document.getElementById("pack-next-wrap").style.display = "block";
+
     document.getElementById("pack-next-btn").textContent = state.currentPack < state.config.packs - 1 ? "Next Pack" : "Go to Deckbuilder";
+
     document.getElementById("pack-next-btn").onclick = nextPackOrBuild;
+
   }, 480);
+
 }
+
+
 
 function renderReveal(pulled){
+
   const grid = document.getElementById("reveal-grid"); grid.innerHTML = "";
+
   let ordered = [...pulled];
+
   if(state.sortRarity.packs !== 0) {
+
       ordered = sortByRarity(pulled, state.sortRarity.packs);
+
   }
+
   ordered.forEach((c,i)=>{
+
     const wrapper = document.createElement('div'); wrapper.innerHTML = buildCardHTML(c).trim();
+
     const el = wrapper.firstChild; el.style.animationDelay = (i*0.09)+"s"; el.onclick = () => openInspect(c, false); grid.appendChild(el);
+
   });
+
 }
+
+
 
 function cycleSortPacks() {
+
    if (state.sortRarity.packs === 0) state.sortRarity.packs = 1;
+
    else if (state.sortRarity.packs === 1) state.sortRarity.packs = -1;
+
    else state.sortRarity.packs = 0;
+
    
+
    const btn = document.getElementById("sort-toggle-packs");
+
    if (state.sortRarity.packs === 0) {
+
       btn.classList.remove('active');
+
       btn.textContent = "Sort by Rarity";
+
    } else {
+
       btn.classList.add('active');
+
       btn.textContent = "Rarity " + (state.sortRarity.packs === 1 ? '↓' : '↑');
+
    }
+
    
+
    let pulled;
+
    if (state.draftMode === 'bng') {
+
        pulled = bngState.purchasedCards.slice(-document.getElementById("reveal-grid").children.length);
+
    } else {
+
        pulled = state.packs[state.currentPack];
+
    }
+
    renderReveal(pulled);
+
 }
+
+
 
 function nextPackOrBuild() {
+
   state.currentPack++;
+
   
+
   if (state.currentPack < state.config.packs) {
+
     document.getElementById("reveal-grid").innerHTML = "";
+
     document.getElementById("reveal-controls").style.display = "none";
+
     document.getElementById("pack-next-wrap").style.display = "none";
+
     document.getElementById("pack-deck").style.display = "flex";
+
     
+
     resetPackVisual();
+
     updatePackStatus();
+
   } else {
+
     buildPool();
+
     show("screen-build");
+
   }
+
 }
+
+
 
 function buildPool(){
+
   state.poolAll = state.packs.flat(); state.picked = [];
+
   state.themeFilter = "all"; state.collectionFilter = "all"; state.triggerFilter = "all";
+
   state.sortBy = null; state.sortDir = 0;
+
   
+
+  const heroWrapContainer = document.querySelector(".deckbuild-hero-container");
+
   const buildSubtitle = document.getElementById("build-subtitle");
 
-  // All modes now draft heroes directly from the pool (Sidney style)
-  state.poolAll = [...state.poolAll, ...state.heroOptions];
-  buildSubtitle.innerHTML = `You must pick exactly 1 Hero and ${state.config.deckSize - 1} other cards to complete your deck.<br><b>Left Click</b> to inspect, <b>Right Click</b> to quick-add/remove.`;
+
+
+  if (state.draftMode === 'sidney') {
+
+      state.poolAll = [...state.poolAll, ...state.heroOptions];
+
+      heroWrapContainer.style.display = 'none';
+
+      buildSubtitle.innerHTML = `You must pick exactly 1 Hero and 11 other cards to complete your deck.<br><b>Left Click</b> to inspect, <b>Right Click</b> to quick-add/remove.`;
+
+  } else {
+
+      heroWrapContainer.style.display = 'flex';
+
+      buildSubtitle.innerHTML = `Your hero is already locked into the deck. Pick cards from the pool below.<br><b>Left Click</b> to inspect, <b>Right Click</b> to quick-add/remove.`;
+
+      
+
+      const heroWrap = document.getElementById("deckbuild-hero-wrap");
+
+      heroWrap.innerHTML = buildCardHTML(state.hero);
+
+      heroWrap.className = "pool-card picked";
+
+      heroWrap.onclick = () => openInspect(state.hero, false);
+
+      heroWrap.style.cursor = "pointer";
+
+  }
+
+
 
   renderAdvancedFilters();
+
   renderPool();
+
 }
+
+
 
 function renderAdvancedFilters() {
+
    renderThemeFilters();
+
    
+
    const collections = [...new Set(state.poolAll.map(c => c.collection))].filter(Boolean).sort();
+
    const collSelect = document.getElementById("filter-collection");
+
    collSelect.innerHTML = `<option value="all">All Collections</option>` + 
+
       collections.map(c => `<option value="${c}">${c}</option>`).join('');
+
    collSelect.value = state.collectionFilter;
 
+
+
    document.getElementById("filter-trigger").value = state.triggerFilter;
+
    
+
    document.querySelectorAll('.sort-btn-pool').forEach(btn => {
+
       btn.classList.remove('active');
+
       btn.textContent = btn.getAttribute('data-default');
+
    });
+
 }
+
+
 
 function updateDropdownFilters() {
+
    state.collectionFilter = document.getElementById("filter-collection").value;
+
    state.triggerFilter = document.getElementById("filter-trigger").value;
+
    renderPool();
+
 }
+
+
 
 function renderThemeFilters(){
+
   const wrap = document.getElementById("theme-filters"); const themesPresent = [...new Set(state.poolAll.map(c=>c.theme))];
+
   wrap.innerHTML = "";
+
   const pickedCount = (t) => state.picked.filter(c=>c.theme===t).length;
+
   
+
   const allBtn = document.createElement("button");
+
   allBtn.innerHTML = `All ${state.picked.length ? `<span class="theme-count-badge">${state.picked.length}</span>` : ""}`;
+
   allBtn.className = state.themeFilter==="all" ? "active" : "";
+
   allBtn.onclick = ()=>{ state.themeFilter="all"; renderThemeFilters(); renderPool(); }; wrap.appendChild(allBtn);
+
   
+
   themesPresent.forEach(t=>{
+
     const label = THEMES[t] ? THEMES[t].label : t; const n = pickedCount(t); const b = document.createElement("button");
+
     b.innerHTML = `${label} ${n ? `<span class="theme-count-badge">${n}</span>` : ""}`;
+
     b.className = state.themeFilter===t ? "active" : ""; b.onclick = ()=>{ state.themeFilter=t; renderThemeFilters(); renderPool(); }; wrap.appendChild(b);
+
   });
+
 }
+
+
 
 function cycleSortPool(field) {
+
    if (state.sortBy !== field) {
+
       state.sortBy = field;
+
       state.sortDir = 1; 
+
    } else {
+
       if (state.sortDir === 1) state.sortDir = -1;
+
       else if (state.sortDir === -1) state.sortDir = 0;
+
       else state.sortDir = 1;
+
    }
+
    
+
    document.querySelectorAll('.sort-btn-pool').forEach(btn => {
+
       btn.classList.remove('active');
+
       btn.textContent = btn.getAttribute('data-default');
+
    });
+
    
+
    if (state.sortDir !== 0) {
+
       const activeBtn = document.getElementById(`sort-btn-${field}`);
+
       activeBtn.classList.add('active');
+
       activeBtn.textContent = activeBtn.getAttribute('data-default') + (state.sortDir === 1 ? ' ↓' : ' ↑');
+
    }
+
    renderPool();
+
 }
+
+
 
 function renderPool(){
+
   const grid = document.getElementById("pool-grid"); grid.innerHTML = "";
+
   
+
   let displayCards = [...state.poolAll];
+
   
+
   if (state.sortDir !== 0) {
+
     displayCards.sort((a,b) => {
+
        if (state.sortBy === 'rarity') {
+
           return (RARITY_ORDER[a.rarity] - RARITY_ORDER[b.rarity]) * state.sortDir;
+
        } else if (state.sortBy === 'energy') {
+
           return (b.energy - a.energy) * state.sortDir;
+
        } else if (state.sortBy === 'power') {
+
           return (b.power - a.power) * state.sortDir;
+
        }
+
        return 0;
+
     });
+
   }
+
+
 
   displayCards.forEach(c=>{
+
     const wrap = document.createElement("div"); wrap.className = "pool-card";
+
     
+
     let isHidden = false;
+
     if(state.themeFilter !== "all" && c.theme !== state.themeFilter) isHidden = true;
+
     if(state.collectionFilter !== "all" && c.collection !== state.collectionFilter) isHidden = true;
+
     if(state.triggerFilter !== "all") {
+
        const ab = c.ability || "";
+
        if(state.triggerFilter === 'play' && !ab.includes("▶ PLAY:")) isHidden = true;
+
        if(state.triggerFilter === 'draw' && !ab.includes("✦ DRAW:")) isHidden = true;
+
        if(state.triggerFilter === 'return' && !ab.includes("↩ RETURN:")) isHidden = true;
+
        if(state.triggerFilter === 'turnstart' && !ab.includes("⏳ TURN START:")) isHidden = true;
+
        if(state.triggerFilter === 'none' && (ab.includes("▶ PLAY:") || ab.includes("✦ DRAW:") || ab.includes("↩ RETURN:") || ab.includes("⏳ TURN START:"))) isHidden = true;
+
     }
+
     
+
     if(isHidden) wrap.classList.add("hidden");
+
     
+
     const isPicked = state.picked.some(p=>p.id===c.id);
+
     if(isPicked) wrap.classList.add("picked");
+
     if(!isPicked && state.picked.length >= state.config.deckSize) wrap.classList.add("disabled");
+
     
+
     wrap.innerHTML = buildCardHTML(c) + `<div class="pick-badge">✓</div>`;
+
     wrap.onclick = (e) => { openInspect(c, true); }; wrap.oncontextmenu = (e) => { e.preventDefault(); togglePick(c); };
+
     grid.appendChild(wrap);
+
   });
+
   updateCounter();
+
 }
+
+
 
 function togglePick(c){
+
   const idx = state.picked.findIndex(p=>p.id===c.id);
+
   
+
   if (idx >= 0) { 
+
       state.picked.splice(idx, 1); 
+
   } else { 
-      if (c.rarity === 'hero') {
+
+      if (state.draftMode === 'sidney' && c.rarity === 'hero') {
+
           const existingHeroIdx = state.picked.findIndex(p => p.rarity === 'hero');
+
           if (existingHeroIdx >= 0) {
+
               state.picked.splice(existingHeroIdx, 1);
+
               state.picked.push(c);
+
           } else if (state.picked.length < state.config.deckSize) {
+
               state.picked.push(c);
+
           }
+
       } else if (state.picked.length < state.config.deckSize) {
+
           state.picked.push(c);
+
       }
+
   }
+
   
+
   renderThemeFilters(); renderPool();
+
   if(inspectTargetCard && inspectTargetCard.id === c.id) {
+
      const isPicked = state.picked.some(p => p.id === c.id); const btn = document.getElementById("inspect-action-btn");
+
      btn.textContent = isPicked ? "Remove from Deck" : "Add to Deck"; btn.className = isPicked ? "btn secondary" : "btn pink";
+
   }
+
 }
+
+
 
 function updateCounter(){
+
   const el = document.getElementById("pick-counter"); el.textContent = `${state.picked.length} / ${state.config.deckSize}`;
+
   el.classList.toggle("full", state.picked.length === state.config.deckSize);
+
   
+
   let canFinish = state.picked.length === state.config.deckSize;
-  const hasHero = state.picked.some(c => c.rarity === 'hero');
-  if (!hasHero) canFinish = false;
+
+  if (state.draftMode === 'sidney') {
+
+      const hasHero = state.picked.some(c => c.rarity === 'hero');
+
+      if (!hasHero) canFinish = false;
+
+  }
+
   
+
   document.getElementById("finish-btn").disabled = !canFinish;
+
 }
+
+
 
 function showExport(){
+
   const box = document.getElementById("export-box");
+
   let lines = [`SEED: ${state.seed}`];
+
   
-  let exportedHero = state.picked.find(c => c.rarity === 'hero');
-  let exportedPool = state.picked.filter(c => c.rarity !== 'hero');
+
+  let exportedHero = state.hero;
+
+  let exportedPool = state.picked;
+
   
+
+  if (state.draftMode === 'sidney') {
+
+      exportedHero = state.picked.find(c => c.rarity === 'hero');
+
+      exportedPool = state.picked.filter(c => c.rarity !== 'hero');
+
+  }
+
+  
+
   lines.push(`HERO: ${exportedHero ? exportedHero.name : 'None'}`, "");
+
   
+
   exportedPool.forEach(c=>{ lines.push(`${c.name} - ${c.themeLabel}${c.shiny?' ✦ SHINY':''}  <span class="rarity-tag">(${c.rarity})</span>`); });
+
   box.innerHTML = lines.join("\n");
+
   
+
   const strip = document.getElementById("export-strip");
+
   let stripCards = [];
+
   if (exportedHero) stripCards.push({...exportedHero, rarity:"hero", themeLabel:"Hero"});
+
   stripCards = stripCards.concat(exportedPool);
+
   
+
   strip.innerHTML = "";
+
   stripCards.forEach(c=>{
+
     const el = document.createElement("div"); el.className = `mini-card${c.rarity && c.rarity!=='hero' ? ' r-'+c.rarity : ''}${c.shiny?' shiny':''}`;
+
     el.innerHTML = `<img src="${c.image}" title="${c.name}"><div class="mini-name">${c.name}</div>`; strip.appendChild(el);
+
   });
+
   show("screen-export");
+
 }
+
+
 
 function copyList() {
+
   let lines = [`SEED: ${state.seed}`];
+
   
-  let exportedHero = state.picked.find(c => c.rarity === 'hero');
-  let exportedPool = state.picked.filter(c => c.rarity !== 'hero');
+
+  let exportedHero = state.hero;
+
+  let exportedPool = state.picked;
+
+  if (state.draftMode === 'sidney') {
+
+      exportedHero = state.picked.find(c => c.rarity === 'hero');
+
+      exportedPool = state.picked.filter(c => c.rarity !== 'hero');
+
+  }
+
   
+
   lines.push(`HERO: ${exportedHero ? exportedHero.name : 'None'}`, "");
+
   exportedPool.forEach(c => { lines.push(`${c.name} - ${c.themeLabel}${c.shiny ? ' ✦ SHINY' : ''} (${c.rarity})`); });
+
   
+
   const textToCopy = lines.join("\n");
+
   navigator.clipboard.writeText(textToCopy).then(() => {
+
     const copyBtn = document.getElementById("copy-btn"); const originalText = copyBtn.textContent; copyBtn.textContent = "Copied!";
+
     setTimeout(() => { copyBtn.textContent = originalText; }, 2000);
+
   }).catch(err => { alert("Could not copy to clipboard."); });
+
 }
 
 
+
+
+
 /* =========================================================
+
    BNG'S CREDITS DRAFT
+
    ========================================================= */
+
 const BNG_PACKS = {
+
   'anarchy': { name: 'Anarchy Pack', emoji: '😈', cost: 50, desc: '3 Random cards (No Fusions/Level Ups)' },
+
   'collection': { name: 'Collection Pack', emoji: '📦', cost: 100, desc: 'Choose a collection. Get 2 from it, 2 from its album.' },
+
   'starstruck': { name: 'Starstruck', emoji: '⭐', cost: 150, desc: '1 Guaranteed Legendary + 2 Random Epic or below.' },
+
   'fuse': { name: 'Light the Fuse', emoji: '🧨', cost: 300, desc: '1 Guaranteed Fusion card.' },
+
   'amplified': { name: 'Amplified', emoji: '⚡', cost: 175, desc: '4 Cards + 25% chance of a bonus random Shiny.' },
+
   'season': { name: 'Season Pass', emoji: '🎟️', cost: 1000, desc: 'Who knows what could be on it?' }
+
 };
+
+
 
 let bngState = {
+
   credits: 1000,
+
   purchasedCards: [],
+
   selectedPack: null
+
 };
 
+
+
 function startBNGDraft() {
+
   state.draftMode = 'bng';
+
   bngState.credits = 1000;
+
   bngState.purchasedCards = [];
+
   
+
   const seedInput = document.getElementById("draft-seed-input-bng").value.trim().toUpperCase();
+
   state.seed = seedInput || Math.random().toString(36).substring(2, 8).toUpperCase();
+
   document.getElementById("draft-seed-input-bng").value = state.seed;
+
   
+
   const seedGen = xmur3(state.seed);
+
   rng = sfc32(seedGen(), seedGen(), seedGen(), seedGen());
 
+
+
   updateBNGShopUI();
+
   show('screen-bng-shop');
+
 }
+
+
 
 function updateBNGShopUI() {
+
   document.getElementById('bng-credits-display').textContent = bngState.credits;
+
 }
+
+
 
 function openBNGCollectionModal() {
+
   document.getElementById('bng-purchased-count').textContent = bngState.purchasedCards.length;
+
   const grid = document.getElementById('bng-purchased-grid');
+
   grid.innerHTML = '';
+
   if (bngState.purchasedCards.length === 0) {
+
     grid.innerHTML = `<p style="color:var(--muted); width:100%; text-align:center;">No cards purchased yet.</p>`;
+
   } else {
+
     bngState.purchasedCards.forEach(c => {
+
       const wrap = document.createElement('div');
+
       wrap.className = 'pool-card';
+
       wrap.innerHTML = buildCardHTML(c);
+
       wrap.onclick = () => openInspect(c, false);
+
       grid.appendChild(wrap);
+
     });
+
   }
+
   document.getElementById('bng-collection-modal').classList.add('active');
+
 }
+
+
 
 function closeBNGCollectionModal() {
+
   document.getElementById('bng-collection-modal').classList.remove('active');
+
 }
+
+
 
 function openBNGModal(packKey) {
+
   bngState.selectedPack = packKey;
+
   const pack = BNG_PACKS[packKey];
+
   document.getElementById('bng-modal-title').textContent = pack.name;
+
   document.getElementById('bng-modal-desc').innerHTML = pack.desc;
+
   document.getElementById('bng-modal-cost').textContent = "Cost: " + pack.cost + " Credits";
+
   
+
   const colWrap = document.getElementById('bng-modal-collection-wrap');
+
   if(packKey === 'collection') {
+
     colWrap.style.display = 'block';
+
     const sel = document.getElementById('bng-modal-collection-select');
+
     
+
     const noFusionsLevelUps = CARD_POOL_RAW.filter(c => c.rarity !== 'fusion' && !c.isLevelUp && c.rarity !== 'hero');
+
     const collCounts = {};
+
     noFusionsLevelUps.forEach(c => {
+
       if(c.collection) collCounts[c.collection] = (collCounts[c.collection] || 0) + 1;
+
     });
+
     const validColls = Object.keys(collCounts).filter(col => collCounts[col] >= 4).sort();
+
     
+
     sel.innerHTML = validColls.map(c => `<option value="${c}">${c}</option>`).join('');
+
   } else {
+
     colWrap.style.display = 'none';
+
   }
+
   
+
   const buyBtn = document.getElementById('bng-modal-buy-btn');
+
   buyBtn.disabled = bngState.credits < pack.cost;
+
   
+
   document.getElementById('bng-modal').classList.add('active');
+
 }
+
+
 
 function closeBNGModal() {
+
   document.getElementById('bng-modal').classList.remove('active');
+
 }
+
+
 
 function cloneCardBNG(card, isShiny = false) {
+
   return {
+
     ...card,
+
     id: card.id + "-bng-" + rng().toString(36).substring(2,7),
+
     shiny: isShiny
+
   };
+
 }
+
+
 
 function buyBNGPack() {
+
   const packKey = bngState.selectedPack;
+
   const pack = BNG_PACKS[packKey];
+
   if(bngState.credits < pack.cost) return;
+
   
+
   bngState.credits -= pack.cost;
+
   updateBNGShopUI();
+
   closeBNGModal();
+
   
+
   let pulled = [];
+
   const noFusionsLevelUps = CARD_POOL_RAW.filter(c => c.rarity !== 'fusion' && !c.isLevelUp && c.rarity !== 'hero');
+
   const fusionsOnly = CARD_POOL_RAW.filter(c => c.rarity === 'fusion' && !c.isLevelUp);
+
   const legendaries = noFusionsLevelUps.filter(c => c.rarity === 'legendary');
+
   const epicsOrBelow = noFusionsLevelUps.filter(c => c.rarity !== 'legendary');
+
   
+
   const randEl = (arr) => arr[Math.floor(rng() * arr.length)];
+
   
+
   if (packKey === 'anarchy') {
+
     for(let i=0; i<3; i++) pulled.push(cloneCardBNG(randEl(noFusionsLevelUps)));
+
   } 
+
   else if (packKey === 'collection') {
+
     const selCol = document.getElementById('bng-modal-collection-select').value;
+
     const colCards = noFusionsLevelUps.filter(c => c.collection === selCol);
+
     
+
     let colPool = [...colCards];
+
     let pulledCodes = new Set();
+
     for(let i=0; i<2 && colPool.length > 0; i++) {
+
       const idx = Math.floor(rng() * colPool.length);
+
       const card = colPool.splice(idx, 1)[0];
+
       pulledCodes.add(card.code);
+
       pulled.push(cloneCardBNG(card));
+
     }
+
     
+
     const theme = colCards[0]?.theme;
+
     let themeCards = noFusionsLevelUps.filter(c => c.theme === theme && !pulledCodes.has(c.code));
+
     if(themeCards.length < 2) {
+
       themeCards = noFusionsLevelUps.filter(c => !pulledCodes.has(c.code));
+
     }
+
     for(let i=0; i<2 && themeCards.length > 0; i++) {
+
       const idx = Math.floor(rng() * themeCards.length);
+
       const card = themeCards.splice(idx, 1)[0];
+
       pulledCodes.add(card.code);
+
       pulled.push(cloneCardBNG(card));
+
     }
+
   }
+
   else if (packKey === 'starstruck') {
+
     pulled.push(cloneCardBNG(randEl(legendaries.length ? legendaries : noFusionsLevelUps)));
+
     pulled.push(cloneCardBNG(randEl(epicsOrBelow)));
+
     pulled.push(cloneCardBNG(randEl(epicsOrBelow)));
+
   }
+
   else if (packKey === 'fuse') {
+
     pulled.push(cloneCardBNG(randEl(fusionsOnly.length ? fusionsOnly : CARD_POOL_RAW)));
+
   }
+
   else if (packKey === 'amplified') {
+
     for(let i=0; i<4; i++) pulled.push(cloneCardBNG(randEl(noFusionsLevelUps)));
+
     if(rng() < 0.25) pulled.push(cloneCardBNG(randEl(noFusionsLevelUps), true));
+
   }
+
   else if (packKey === 'season') {
+
     let pool = CARD_POOL_RAW.filter(c => c.rarity !== 'hero');
+
     let avail = [...pool];
+
     let chosenCodes = new Set();
+
     
+
     const colls = [...new Set(avail.map(c => c.collection).filter(Boolean))];
+
     const randCol = randEl(colls);
+
     let colCards = avail.filter(c => c.collection === randCol);
+
     
+
     while(pulled.length < 12 && colCards.length > 0) {
+
       const idx = Math.floor(rng() * colCards.length);
+
       const card = colCards.splice(idx, 1)[0];
+
       chosenCodes.add(card.code);
+
       pulled.push(cloneCardBNG(card, true));
+
     }
+
     
+
     let remainingPool = avail.filter(c => !chosenCodes.has(c.code));
+
     while(pulled.length < 12 && remainingPool.length > 0) {
+
       const idx = Math.floor(rng() * remainingPool.length);
+
       const card = remainingPool.splice(idx, 1)[0];
+
       chosenCodes.add(card.code);
+
       pulled.push(cloneCardBNG(card, true));
+
     }
+
   }
+
+
 
   bngState.purchasedCards.push(...pulled);
+
   bngOpenPackAnim(pack.emoji, pulled);
+
 }
+
+
 
 function bngOpenPackAnim(emoji, pulled) {
+
   const stage = document.getElementById('pack-stage');
+
   stage.style.setProperty('--pack-emoji', `"${emoji}"`);
+
   
+
   document.getElementById('pack-status').style.display = 'none';
+
   document.getElementById("reveal-grid").innerHTML = "";
+
   document.getElementById("reveal-controls").style.display = "none";
+
   document.getElementById("pack-next-wrap").style.display = "none";
+
   document.getElementById("pack-deck").style.display = "flex";
+
   
+
   resetPackVisual();
+
   
+
   stage.onclick = () => {
+
     if(stage.classList.contains("ripping")) return;
+
     stage.classList.add("ripping"); 
+
     document.getElementById("pack-burst").classList.add("go");
 
+
+
     const tier = bestRarityInPack(pulled);
+
     if(tier==="shiny" || tier==="legendary" || tier==="fusion" || tier==="epic"){
+
       const flash = document.getElementById("screen-flash");
+
       flash.className = "screen-flash go " + (tier==="epic" || tier==="fusion" ? "purple" : "gold");
+
       fireParticles(tier); setTimeout(()=>{ flash.className = "screen-flash"; }, 550);
+
     }
+
     setTimeout(()=>{
+
       document.getElementById("pack-deck").style.display = "none";
+
       document.getElementById("reveal-controls").style.display = "block";
+
       
+
       const grid = document.getElementById("reveal-grid"); grid.innerHTML = "";
+
       pulled.forEach((c,i)=>{
+
         const wrapper = document.createElement('div'); wrapper.innerHTML = buildCardHTML(c).trim();
+
         const el = wrapper.firstChild; el.style.animationDelay = (i*0.09)+"s"; el.onclick = () => openInspect(c, false); grid.appendChild(el);
+
       });
 
+
+
       document.getElementById("pack-next-wrap").style.display = "block";
+
       document.getElementById("pack-next-btn").textContent = "Back to Shop";
+
       document.getElementById("pack-next-btn").onclick = () => {
+
         document.getElementById("pack-next-btn").onclick = nextPackOrBuild;
+
         show('screen-bng-shop');
+
       };
+
     }, 480);
+
   };
 
+
+
   show('screen-packs');
+
 }
+
+
 
 function finishBNGShop() {
+
   if (bngState.purchasedCards.length < 11) {
+
     if(!confirm("You have fewer than 11 cards. You won't be able to finish a full 12-card deck. Proceed anyway?")) {
+
       return;
+
     }
+
   }
+
   
+
   state.config = { deckSize: 12 };
+
   
+
   let shuffled = [...HERO_POOL_RAW].sort(()=>rng()-0.5);
+
   state.heroOptions = shuffled.slice(0,3);
+
+  const grid = document.getElementById("hero-grid");
+
+  grid.innerHTML = "";
+
   
+
+  state.heroOptions.forEach(h=>{
+
+    const div = document.createElement("div"); div.className = "hero-card"; div.style.setProperty("--hero-color", h.color || "var(--gold)");
+
+    div.innerHTML = buildCardHTML(h) + `<div class="ring"></div>`;
+
+    div.onclick = ()=>{ document.querySelectorAll(".hero-card").forEach(c=>c.classList.remove("selected")); div.classList.add("selected"); state.hero = h; document.getElementById("hero-confirm").disabled = false; };
+
+    div.oncontextmenu = (e)=>{ e.preventDefault(); openInspect(h, false); };
+
+    grid.appendChild(div);
+
+  });
+
+  
+
   state.draftMode = 'bng';
-  startPacks(); // For BNG, this automatically skips packs and builds the final pool
+
+  show("screen-hero");
+
 }
 
+
+
 /* =========================================================
+
    ANARCHY PACKS (Hub)
+
    ========================================================= */
+
 const ANARCHY_ODDS = [{rarity:"legendary", chance:0.035},{rarity:"epic", chance:0.125},{rarity:"rare", chance:0.60},{rarity:"common", chance:0.97}];
+
 let anarchyState = { coinsSpent: 0, packsOpened: 0, collection: {} };
+
 function anarchyRollRarity(){ for(const tier of ANARCHY_ODDS){ if(Math.random() < tier.chance) return tier.rarity; } return "common"; }
+
 function anarchyPullCard(){
+
   const rarity = anarchyRollRarity(); const pool = CARD_POOL_RAW.filter(c => c.rarity === rarity);
+
   const source = pool.length ? pool : CARD_POOL_RAW; return source[Math.floor(Math.random()*source.length)];
+
 }
+
 function anarchyPullPack(){ return [anarchyPullCard(), anarchyPullCard(), anarchyPullCard()]; }
+
 function anarchyAddToCollection(card){ const entry = anarchyState.collection[card.id]; if(entry){ entry.count++; } else{ anarchyState.collection[card.id] = {card, count:1}; } }
+
 function openAnarchyHub(){ document.getElementById("anarchy-reveal-grid").innerHTML = ""; updateAnarchyStats(); show("screen-anarchy"); }
+
 function updateAnarchyStats(){
+
   const uniqueCount = Object.keys(anarchyState.collection).length;
+
   document.getElementById("anarchy-stats").innerHTML = `
+
     <div class="stat"><div class="val">${anarchyState.packsOpened}</div><div class="lbl">Packs Opened</div></div>
+
     <div class="stat coins"><div class="val">${anarchyState.coinsSpent.toLocaleString()}</div><div class="lbl">Coins Spent</div></div>
+
     <div class="stat"><div class="val">${uniqueCount}</div><div class="lbl">Unique Cards</div></div>`;
+
 }
+
 function anarchyFireParticles(tier){
+
   const field = document.getElementById("anarchy-particle-field"); if(!field) return;
+
   const anchor = document.getElementById("anarchy-open1-btn"); if(!anchor) return;
+
   const rect = anchor.getBoundingClientRect(); const count = tier==="legendary" ? 22 : tier==="epic" ? 14 : 0; if(count===0) return;
+
   const colorMap = {legendary:"#f0a83a", epic:"#c355f0"};
+
   for(let i=0;i<count;i++){
+
     const p = document.createElement("div"); p.className = "particle go"; const angle = Math.random()*Math.PI*2; const dist = 60 + Math.random()*120;
+
     p.style.setProperty("--px", (Math.cos(angle)*dist)+"px"); p.style.setProperty("--py", (Math.sin(angle)*dist)+"px");
+
     p.style.left = (rect.left + rect.width/2) + "px"; p.style.top = (rect.top + rect.height/2) + "px";
+
     p.style.position = "fixed"; p.style.background = colorMap[tier]; field.appendChild(p); setTimeout(()=>p.remove(), 850);
+
   }
+
 }
+
 function anarchyOpen(numPacks){
+
   const cost = numPacks * 10000; const openBtns = [document.getElementById("anarchy-open1-btn"), document.getElementById("anarchy-open10-btn")];
+
   openBtns.forEach(b=>b.disabled = true); let allPulled = [];
+
   for(let i=0;i<numPacks;i++){ const pulled = anarchyPullPack(); pulled.forEach(c => anarchyAddToCollection(c)); allPulled = allPulled.concat(pulled); }
+
   anarchyState.packsOpened += numPacks; anarchyState.coinsSpent += cost;
+
   const bestTier = allPulled.reduce((best,c)=>{ return RARITY_ORDER[c.rarity] < RARITY_ORDER[best] ? c.rarity : best; }, "common");
+
   if(bestTier==="legendary" || bestTier==="epic"){
+
     const flash = document.getElementById("anarchy-screen-flash"); flash.className = "screen-flash go " + (bestTier==="epic" ? "purple" : "gold");
+
     anarchyFireParticles(bestTier); setTimeout(()=>{ flash.className = "screen-flash"; }, 550);
+
   }
+
   const grid = document.getElementById("anarchy-reveal-grid"); grid.innerHTML = ""; const ordered = sortByRarity(allPulled);
+
   ordered.forEach((c,i)=>{
+
     const wrapper = document.createElement('div'); wrapper.innerHTML = buildCardHTML(c).trim();
+
     const el = wrapper.firstChild; el.style.animationDelay = (i*0.05)+"s"; el.onclick = () => openInspect(c, false); grid.appendChild(el);
+
   });
+
   updateAnarchyStats(); openBtns.forEach(b=>b.disabled = false); grid.scrollIntoView({behavior:"smooth", block:"nearest"});
+
 }
+
 function showAnarchyCollection(){
+
   const entries = Object.values(anarchyState.collection); const ordered = entries.sort((a,b)=> RARITY_ORDER[a.card.rarity]-RARITY_ORDER[b.card.rarity]);
+
   const grid = document.getElementById("anarchy-collection-grid"); grid.innerHTML = "";
+
   if(ordered.length===0){ grid.innerHTML = `<p style="color:var(--muted); grid-column:1/-1;">No cards yet - open some Anarchy Packs first.</p>`; }
+
   ordered.forEach(({card,count})=>{
+
     const wrap = document.createElement("div"); wrap.className = "pool-card"; wrap.innerHTML = `<div class="dupe-badge">x${count}</div>` + buildCardHTML(card);
+
     wrap.onclick = () => openInspect(card, false); grid.appendChild(wrap);
+
   });
+
   document.getElementById("anarchy-collection-counter").textContent = `${ordered.length} unique`;
+
   const totalCards = entries.reduce((sum,e)=>sum+e.count,0);
+
   document.getElementById("anarchy-collection-stats").innerHTML = `
+
     <div class="stat"><div class="val">${anarchyState.packsOpened}</div><div class="lbl">Packs Opened</div></div>
+
     <div class="stat coins"><div class="val">${anarchyState.coinsSpent.toLocaleString()}</div><div class="lbl">Coins Spent</div></div>
+
     <div class="stat"><div class="val">${totalCards}</div><div class="lbl">Total Cards</div></div>`;
+
   show("screen-anarchy-collection");
+
 }
+
 </script>
+
 </body>
-</html>
+
+</html> 
+
