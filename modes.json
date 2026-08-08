@@ -19,5 +19,12 @@
     "description": "Create your own rules or paste a code from a friend!",
     "buttonClass": "btn pink",
     "hook": "openCustomDraftMenu"
+  },
+  {
+    "id": "arena_draft",
+    "title": "Arena Draft",
+    "description": "Draft a hero, then pick 1 of 4 cards until your deck is full.",
+    "buttonClass": "btn secondary",
+    "hook": "openArenaDraftMenu"
   }
 ]
