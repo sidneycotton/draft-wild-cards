@@ -242,7 +242,7 @@
     box-shadow:inset 0 0 40px rgba(0,0,0,0.35);
   }
   .pack-face::before{
-    content:"😈";
+    content: var(--pack-emoji, "😈");
     font-size:64px;
     filter:drop-shadow(0 3px 4px rgba(0,0,0,.5));
   }
@@ -286,6 +286,15 @@
   }
 
   .reveal-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:16px; margin:24px 0 40px; }
+  
+  /* BNG SHOP STYLES */
+  .shop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 30px auto; max-width: 1000px; }
+  .shop-item { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 24px; text-align: center; cursor: pointer; transition: transform .2s, border-color .2s; }
+  .shop-item:hover { transform: translateY(-4px); border-color: var(--gold); }
+  .shop-item .emoji { font-size: 54px; margin-bottom: 12px; }
+  .shop-item .name { font-family: 'Anton', sans-serif; font-size: 24px; color: var(--gold); letter-spacing: 1px; margin-bottom: 6px; }
+  .shop-item .desc { font-size: 15px; color: var(--muted); line-height: 1.5; margin-bottom: 18px; height: 65px; display: flex; align-items: center; justify-content: center; }
+  .shop-item .cost { font-weight: 700; color: var(--green); font-size: 18px; font-family: 'Anton', sans-serif; letter-spacing: 1px;}
   
   /* CARD UI UPDATES */
   .card{
@@ -392,7 +401,7 @@
   }
   .pool-card.picked .pick-badge{opacity:1;}
   
-  /* MODALS (Inspect & Tutorial) */
+  /* MODALS (Inspect & Tutorial & BNG Shop) */
   .modal {
     position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px);
   }
@@ -479,6 +488,7 @@
     <h2 class="center" style="font-size:34px; margin-bottom: 30px;">Select Draft Type</h2>
     <div style="display:flex; flex-direction:column; gap:20px; justify-content:center; max-width: 400px; margin: 0 auto;">
       <button class="btn" onclick="show('screen-sidney-draft')">Sidney 6-Pack</button>
+      <button class="btn gold" onclick="startBNGDraft()">BNG's Credits Draft</button>
       <button class="btn pink" onclick="setupCustomDraftUI(); show('screen-custom-draft')">Custom Draft</button>
     </div>
     <div class="back-btn-wrap">
@@ -497,12 +507,70 @@
       </div>
 
       <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
-        <button class="btn gold" onclick="openTutorial()">How to Play</button>
+        <button class="btn gold" onclick="openTutorial('sidney')">How to Play</button>
         <button class="btn" onclick="startHeroPick('sidney')">Start Draft</button>
       </div>
     </div>
     <div class="back-btn-wrap">
       <button class="btn secondary" style="font-size: 16px; padding: 8px 20px;" onclick="show('screen-draft-select')">Back</button>
+    </div>
+  </section>
+
+  <!-- BNG SHOP SCREEN -->
+  <section id="screen-bng-shop" class="screen">
+    <div class="build-header">
+      <h2 style="font-size:34px;">BNG's Credits Draft</h2>
+      <div class="counter" style="color:var(--gold);">Credits: <span id="bng-credits-display">1000</span></div>
+    </div>
+    <p style="color:var(--muted); text-align:center; margin-bottom: 20px;">Use your credits to buy packs and build your draft pool. When you are out of credits (or satisfied), click Done.</p>
+    <div class="center" style="margin-bottom: 20px;">
+        <button class="btn secondary" style="font-size: 14px; padding: 6px 16px;" onclick="openTutorial('bng')">How to Play</button>
+    </div>
+    
+    <div class="shop-grid">
+      <div class="shop-item" onclick="openBNGModal('anarchy')">
+        <div class="emoji">😈</div>
+        <div class="name">Anarchy Pack</div>
+        <div class="desc">3 Random cards<br><small>(No Fusions/Level Ups)</small></div>
+        <div class="cost">50 Credits</div>
+      </div>
+      <div class="shop-item" onclick="openBNGModal('collection')">
+        <div class="emoji">📦</div>
+        <div class="name">Collection Pack</div>
+        <div class="desc">Choose a collection. Get 2 from it, 2 from its album.</div>
+        <div class="cost">100 Credits</div>
+      </div>
+      <div class="shop-item" onclick="openBNGModal('starstruck')">
+        <div class="emoji">⭐</div>
+        <div class="name">Starstruck</div>
+        <div class="desc">1 Guaranteed Legendary + 2 Random Epic or below.</div>
+        <div class="cost">150 Credits</div>
+      </div>
+      <div class="shop-item" onclick="openBNGModal('fuse')">
+        <div class="emoji">🧨</div>
+        <div class="name">Light the Fuse</div>
+        <div class="desc">1 Guaranteed Fusion card.</div>
+        <div class="cost">300 Credits</div>
+      </div>
+      <div class="shop-item" onclick="openBNGModal('amplified')">
+        <div class="emoji">⚡</div>
+        <div class="name">Amplified</div>
+        <div class="desc">4 Cards + 25% chance of a bonus random Shiny.</div>
+        <div class="cost">175 Credits</div>
+      </div>
+      <div class="shop-item" onclick="openBNGModal('season')">
+        <div class="emoji">🎟️</div>
+        <div class="name">Season Pass</div>
+        <div class="desc">Who knows what could be on it?</div>
+        <div class="cost">1000 Credits</div>
+      </div>
+    </div>
+    
+    <div class="center" style="margin-top: 30px;">
+       <button class="btn pink" onclick="finishBNGShop()">Done Purchasing</button>
+    </div>
+    <div class="back-btn-wrap">
+      <button class="btn secondary" style="font-size: 16px; padding: 8px 20px;" onclick="show('screen-draft-select')">Abandon Draft</button>
     </div>
   </section>
 
@@ -711,9 +779,9 @@
 <div id="tutorial-modal" class="modal" onclick="closeTutorial(event)">
   <div class="modal-content wide" onclick="event.stopPropagation()">
     <button class="close-modal-btn" onclick="closeTutorial(event)" aria-label="Close modal">✕</button>
-    <h3 style="font-family:'Anton',sans-serif; font-size:32px; color:var(--gold); text-transform:uppercase;">How to Play</h3>
+    <h3 id="tutorial-title" style="font-family:'Anton',sans-serif; font-size:32px; color:var(--gold); text-transform:uppercase;">How to Play</h3>
     
-    <div class="tutorial-steps">
+    <div class="tutorial-steps" id="tutorial-content-sidney">
       <div class="tutorial-step">
         <div class="num">1</div>
         <div class="text">
@@ -750,8 +818,58 @@
         </div>
       </div>
     </div>
+
+    <!-- BNG specific tutorial wrapper -->
+    <div class="tutorial-steps" id="tutorial-content-bng" style="display:none;">
+      <div class="tutorial-step">
+        <div class="num">1</div>
+        <div class="text">
+          <h4>Start with 1000 Credits</h4>
+          <p>You have a budget to purchase any combination of packs you desire from the shop.</p>
+        </div>
+      </div>
+      <div class="tutorial-step">
+        <div class="num">2</div>
+        <div class="text">
+          <h4>Drafting Packs</h4>
+          <p>Each pack has a distinct price and unique set of drops. Manage your credits wisely to build the best pool possible.</p>
+        </div>
+      </div>
+      <div class="tutorial-step">
+        <div class="num">3</div>
+        <div class="text">
+          <h4>Finish Purchasing</h4>
+          <p>When you have run out of credits, or are happy with the pool you've accumulated, click Done.</p>
+        </div>
+      </div>
+      <div class="tutorial-step">
+        <div class="num">4</div>
+        <div class="text">
+          <h4>Choose Your Hero & Build</h4>
+          <p>After finalizing your pool, you will select 1 of 3 random Heroes and proceed directly to deckbuilding.</p>
+        </div>
+      </div>
+    </div>
     
     <button class="btn" onclick="closeTutorial(event)">Got it!</button>
+  </div>
+</div>
+
+<!-- BNG SHOP PURCHASE MODAL -->
+<div id="bng-modal" class="modal" onclick="closeBNGModal()">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <button class="close-modal-btn" onclick="closeBNGModal()">✕</button>
+    <h3 id="bng-modal-title" style="font-family:'Anton',sans-serif; font-size:28px; color:var(--gold); text-transform:uppercase;">Pack</h3>
+    <p id="bng-modal-desc" style="color:var(--text); font-size:16px; margin: 10px 0; line-height: 1.5; font-family:'Barlow', sans-serif;"></p>
+    
+    <div id="bng-modal-collection-wrap" style="display:none; width:100%; margin: 10px 0; text-align: left;">
+       <label style="display:block; color:var(--gold); margin-bottom:6px; font-size:15px; font-weight:bold; font-family:'Anton', sans-serif; letter-spacing:1px;">Select Collection:</label>
+       <select id="bng-modal-collection-select" class="filter-select" style="width:100%;"></select>
+    </div>
+    
+    <div id="bng-modal-cost" style="font-family:'Anton',sans-serif; font-size:22px; color:var(--green); margin: 15px 0;">Cost</div>
+    
+    <button class="btn" id="bng-modal-buy-btn" onclick="buyBNGPack()">Buy Pack</button>
   </div>
 </div>
 
@@ -948,13 +1066,23 @@ function openInspect(c, deckBuilderMode) {
 function closeInspect(e) { document.getElementById("inspect-modal").classList.remove("active"); inspectTargetCard = null; }
 function handleInspectAction() { if (inspectTargetCard) togglePick(inspectTargetCard); }
 
-function openTutorial() { document.getElementById("tutorial-modal").classList.add("active"); }
+function openTutorial(mode = 'sidney') { 
+  document.getElementById("tutorial-modal").classList.add("active");
+  if (mode === 'bng') {
+    document.getElementById("tutorial-content-sidney").style.display = "none";
+    document.getElementById("tutorial-content-bng").style.display = "block";
+  } else {
+    document.getElementById("tutorial-content-sidney").style.display = "block";
+    document.getElementById("tutorial-content-bng").style.display = "none";
+  }
+}
 function closeTutorial(e) { document.getElementById("tutorial-modal").classList.remove("active"); }
 
 /* =========================================================
    DRAFT LOGIC & STATE
    ========================================================= */
 let state = {
+  draftMode: 'sidney',
   config: null, activePool: [], hero:null, heroOptions:[],
   packs:[], currentPack:0, pulledIds: new Set(), poolAll:[], picked:[],
   themeFilter: "all", collectionFilter: "all", triggerFilter: "all",
@@ -1058,23 +1186,26 @@ function generatePoolBasedOnConfig(config) {
 }
 
 function startHeroPick(mode){
+  state.draftMode = mode;
   let seedInput = "";
   if(mode === 'sidney') {
     seedInput = document.getElementById("draft-seed-input-sidney").value.trim().toUpperCase();
     state.config = SIDNEY_CONFIG;
-  } else {
+  } else if (mode === 'custom') {
     seedInput = document.getElementById("draft-seed-input-custom").value.trim().toUpperCase();
     state.config = getCustomConfig();
   }
   
   state.seed = seedInput || Math.random().toString(36).substring(2, 8).toUpperCase();
   if(mode==='sidney') document.getElementById("draft-seed-input-sidney").value = state.seed;
-  else document.getElementById("draft-seed-input-custom").value = state.seed;
+  else if(mode==='custom') document.getElementById("draft-seed-input-custom").value = state.seed;
   
   const seedGen = xmur3(state.seed);
   rng = sfc32(seedGen(), seedGen(), seedGen(), seedGen());
 
-  state.activePool = generatePoolBasedOnConfig(state.config);
+  if (mode !== 'bng') {
+    state.activePool = generatePoolBasedOnConfig(state.config);
+  }
 
   let shuffled = [...HERO_POOL_RAW].sort(()=>rng()-0.5);
   state.heroOptions = shuffled.slice(0,3);
@@ -1148,6 +1279,17 @@ function pullPack(){
 }
 
 function startPacks(){
+  if (state.draftMode === 'bng') {
+    state.packs = [bngState.purchasedCards];
+    buildPool();
+    show('screen-build');
+    return;
+  }
+
+  document.getElementById('pack-status').style.display = 'block';
+  document.getElementById('pack-stage').onclick = openPack;
+  document.getElementById('pack-stage').style.setProperty('--pack-emoji', '"😈"');
+
   state.currentPack = 0; state.packs = [];
   document.getElementById("reveal-grid").innerHTML = "";
   document.getElementById("pack-next-wrap").style.display = "none";
@@ -1196,6 +1338,7 @@ function openPack(){
     renderReveal(pulled);
     document.getElementById("pack-next-wrap").style.display = "block";
     document.getElementById("pack-next-btn").textContent = state.currentPack < state.config.packs - 1 ? "Next Pack" : "Go to Deckbuilder";
+    document.getElementById("pack-next-btn").onclick = nextPackOrBuild;
   }, 480);
 }
 
@@ -1224,13 +1367,20 @@ function cycleSortPacks() {
       btn.classList.add('active');
       btn.textContent = "Rarity " + (state.sortRarity.packs === 1 ? '↓' : '↑');
    }
-   renderReveal(state.packs[state.currentPack]);
+   
+   let pulled;
+   if (state.draftMode === 'bng') {
+       pulled = bngState.purchasedCards.slice(-document.getElementById("reveal-grid").children.length);
+   } else {
+       pulled = state.packs[state.currentPack];
+   }
+   renderReveal(pulled);
 }
+
 function nextPackOrBuild() {
   state.currentPack++;
   
   if (state.currentPack < state.config.packs) {
-    // Reset UI for the next pack
     document.getElementById("reveal-grid").innerHTML = "";
     document.getElementById("reveal-controls").style.display = "none";
     document.getElementById("pack-next-wrap").style.display = "none";
@@ -1239,11 +1389,11 @@ function nextPackOrBuild() {
     resetPackVisual();
     updatePackStatus();
   } else {
-    // All packs opened, go to deckbuilder
     buildPool();
     show("screen-build");
   }
 }
+
 function buildPool(){
   state.poolAll = state.packs.flat(); state.picked = [];
   state.themeFilter = "all"; state.collectionFilter = "all"; state.triggerFilter = "all";
@@ -1408,8 +1558,208 @@ function copyList() {
   }).catch(err => { alert("Could not copy to clipboard."); });
 }
 
+
 /* =========================================================
-   ANARCHY PACKS
+   BNG'S CREDITS DRAFT
+   ========================================================= */
+const BNG_PACKS = {
+  'anarchy': { name: 'Anarchy Pack', emoji: '😈', cost: 50, desc: '3 Random cards (No Fusions/Level Ups)' },
+  'collection': { name: 'Collection Pack', emoji: '📦', cost: 100, desc: 'Choose a collection. Get 2 from it, 2 from its album.' },
+  'starstruck': { name: 'Starstruck', emoji: '⭐', cost: 150, desc: '1 Guaranteed Legendary + 2 Random Epic or below.' },
+  'fuse': { name: 'Light the Fuse', emoji: '🧨', cost: 300, desc: '1 Guaranteed Fusion card.' },
+  'amplified': { name: 'Amplified', emoji: '⚡', cost: 175, desc: '4 Cards + 25% chance of a bonus random Shiny.' },
+  'season': { name: 'Season Pass', emoji: '🎟️', cost: 1000, desc: 'Who knows what could be on it?' }
+};
+
+let bngState = {
+  credits: 1000,
+  purchasedCards: [],
+  selectedPack: null
+};
+
+function startBNGDraft() {
+  state.draftMode = 'bng';
+  bngState.credits = 1000;
+  bngState.purchasedCards = [];
+  updateBNGShopUI();
+  show('screen-bng-shop');
+}
+
+function updateBNGShopUI() {
+  document.getElementById('bng-credits-display').textContent = bngState.credits;
+}
+
+function openBNGModal(packKey) {
+  bngState.selectedPack = packKey;
+  const pack = BNG_PACKS[packKey];
+  document.getElementById('bng-modal-title').textContent = pack.name;
+  document.getElementById('bng-modal-desc').innerHTML = pack.desc;
+  document.getElementById('bng-modal-cost').textContent = "Cost: " + pack.cost + " Credits";
+  
+  const colWrap = document.getElementById('bng-modal-collection-wrap');
+  if(packKey === 'collection') {
+    colWrap.style.display = 'block';
+    const sel = document.getElementById('bng-modal-collection-select');
+    if(sel.options.length === 0) {
+      const colls = [...new Set(CARD_POOL_RAW.map(c=>c.collection).filter(Boolean))].sort();
+      sel.innerHTML = colls.map(c => `<option value="${c}">${c}</option>`).join('');
+    }
+  } else {
+    colWrap.style.display = 'none';
+  }
+  
+  const buyBtn = document.getElementById('bng-modal-buy-btn');
+  buyBtn.disabled = bngState.credits < pack.cost;
+  
+  document.getElementById('bng-modal').classList.add('active');
+}
+
+function closeBNGModal() {
+  document.getElementById('bng-modal').classList.remove('active');
+}
+
+function cloneCardBNG(card, isShiny = false) {
+  return {
+    ...card,
+    id: card.id + "-bng-" + Math.random().toString(36).substring(2,7),
+    shiny: isShiny
+  };
+}
+
+function buyBNGPack() {
+  const packKey = bngState.selectedPack;
+  const pack = BNG_PACKS[packKey];
+  if(bngState.credits < pack.cost) return;
+  
+  bngState.credits -= pack.cost;
+  updateBNGShopUI();
+  closeBNGModal();
+  
+  let pulled = [];
+  const noFusionsLevelUps = CARD_POOL_RAW.filter(c => c.rarity !== 'fusion' && !c.isLevelUp && c.rarity !== 'hero');
+  const fusionsOnly = CARD_POOL_RAW.filter(c => c.rarity === 'fusion' && !c.isLevelUp);
+  const legendaries = noFusionsLevelUps.filter(c => c.rarity === 'legendary');
+  const epicsOrBelow = noFusionsLevelUps.filter(c => c.rarity !== 'legendary');
+  
+  const randEl = (arr) => arr[Math.floor(Math.random() * arr.length)];
+  
+  if (packKey === 'anarchy') {
+    for(let i=0; i<3; i++) pulled.push(cloneCardBNG(randEl(noFusionsLevelUps)));
+  } 
+  else if (packKey === 'collection') {
+    const selCol = document.getElementById('bng-modal-collection-select').value;
+    const colCards = noFusionsLevelUps.filter(c => c.collection === selCol);
+    const fallbackCol = colCards.length > 0 ? colCards : noFusionsLevelUps;
+    
+    pulled.push(cloneCardBNG(randEl(fallbackCol)));
+    pulled.push(cloneCardBNG(randEl(fallbackCol)));
+    
+    const theme = fallbackCol[0].theme;
+    const themeCards = noFusionsLevelUps.filter(c => c.theme === theme);
+    const fallbackTheme = themeCards.length > 0 ? themeCards : noFusionsLevelUps;
+    
+    pulled.push(cloneCardBNG(randEl(fallbackTheme)));
+    pulled.push(cloneCardBNG(randEl(fallbackTheme)));
+  }
+  else if (packKey === 'starstruck') {
+    pulled.push(cloneCardBNG(randEl(legendaries.length ? legendaries : noFusionsLevelUps)));
+    pulled.push(cloneCardBNG(randEl(epicsOrBelow)));
+    pulled.push(cloneCardBNG(randEl(epicsOrBelow)));
+  }
+  else if (packKey === 'fuse') {
+    pulled.push(cloneCardBNG(randEl(fusionsOnly.length ? fusionsOnly : CARD_POOL_RAW)));
+  }
+  else if (packKey === 'amplified') {
+    for(let i=0; i<4; i++) pulled.push(cloneCardBNG(randEl(noFusionsLevelUps)));
+    if(Math.random() < 0.25) pulled.push(cloneCardBNG(randEl(noFusionsLevelUps), true));
+  }
+  else if (packKey === 'season') {
+    const colls = [...new Set(CARD_POOL_RAW.map(c=>c.collection).filter(Boolean))];
+    const randCol = randEl(colls);
+    const colCards = CARD_POOL_RAW.filter(c => c.collection === randCol && c.rarity !== 'hero');
+    const fallback = colCards.length > 0 ? colCards : CARD_POOL_RAW.filter(c=>c.rarity!=='hero');
+    for(let i=0; i<12; i++) {
+      pulled.push(cloneCardBNG(randEl(fallback), true));
+    }
+  }
+
+  bngState.purchasedCards.push(...pulled);
+  bngOpenPackAnim(pack.emoji, pulled);
+}
+
+function bngOpenPackAnim(emoji, pulled) {
+  const stage = document.getElementById('pack-stage');
+  stage.style.setProperty('--pack-emoji', `"${emoji}"`);
+  
+  document.getElementById('pack-status').style.display = 'none';
+  document.getElementById("reveal-grid").innerHTML = "";
+  document.getElementById("reveal-controls").style.display = "none";
+  document.getElementById("pack-next-wrap").style.display = "none";
+  document.getElementById("pack-deck").style.display = "flex";
+  
+  resetPackVisual();
+  
+  stage.onclick = () => {
+    if(stage.classList.contains("ripping")) return;
+    stage.classList.add("ripping"); 
+    document.getElementById("pack-burst").classList.add("go");
+
+    const tier = bestRarityInPack(pulled);
+    if(tier==="shiny" || tier==="legendary" || tier==="fusion" || tier==="epic"){
+      const flash = document.getElementById("screen-flash");
+      flash.className = "screen-flash go " + (tier==="epic" || tier==="fusion" ? "purple" : "gold");
+      fireParticles(tier); setTimeout(()=>{ flash.className = "screen-flash"; }, 550);
+    }
+    setTimeout(()=>{
+      document.getElementById("pack-deck").style.display = "none";
+      document.getElementById("reveal-controls").style.display = "block";
+      
+      const grid = document.getElementById("reveal-grid"); grid.innerHTML = "";
+      pulled.forEach((c,i)=>{
+        const wrapper = document.createElement('div'); wrapper.innerHTML = buildCardHTML(c).trim();
+        const el = wrapper.firstChild; el.style.animationDelay = (i*0.09)+"s"; el.onclick = () => openInspect(c, false); grid.appendChild(el);
+      });
+
+      document.getElementById("pack-next-wrap").style.display = "block";
+      document.getElementById("pack-next-btn").textContent = "Back to Shop";
+      document.getElementById("pack-next-btn").onclick = () => {
+        document.getElementById("pack-next-btn").onclick = nextPackOrBuild;
+        show('screen-bng-shop');
+      };
+    }, 480);
+  };
+
+  show('screen-packs');
+}
+
+function finishBNGShop() {
+  if (bngState.purchasedCards.length < 11) {
+    if(!confirm("You have fewer than 11 cards. You won't be able to finish a full 12-card deck. Proceed anyway?")) {
+      return;
+    }
+  }
+  
+  state.config = { deckSize: 12 };
+  
+  let shuffled = [...HERO_POOL_RAW].sort(()=>Math.random()-0.5);
+  state.heroOptions = shuffled.slice(0,3);
+  const grid = document.getElementById("hero-grid");
+  grid.innerHTML = "";
+  
+  state.heroOptions.forEach(h=>{
+    const div = document.createElement("div"); div.className = "hero-card"; div.style.setProperty("--hero-color", h.color || "var(--gold)");
+    div.innerHTML = buildCardHTML(h) + `<div class="ring"></div>`;
+    div.onclick = ()=>{ document.querySelectorAll(".hero-card").forEach(c=>c.classList.remove("selected")); div.classList.add("selected"); state.hero = h; document.getElementById("hero-confirm").disabled = false; };
+    div.oncontextmenu = (e)=>{ e.preventDefault(); openInspect(h, false); };
+    grid.appendChild(div);
+  });
+  
+  state.draftMode = 'bng';
+  show("screen-hero");
+}
+
+/* =========================================================
+   ANARCHY PACKS (Hub)
    ========================================================= */
 const ANARCHY_ODDS = [{rarity:"legendary", chance:0.035},{rarity:"epic", chance:0.125},{rarity:"rare", chance:0.60},{rarity:"common", chance:0.97}];
 let anarchyState = { coinsSpent: 0, packsOpened: 0, collection: {} };
