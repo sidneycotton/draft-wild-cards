@@ -411,7 +411,7 @@
   }
   .pool-card.picked .pick-badge{opacity:1;}
   
-  /* MODALS (Inspect & Tutorial & BNG Shop) */
+  /* MODALS (Inspect & Tutorial & Generic Pack Modal) */
   .modal {
     position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px);
   }
@@ -488,7 +488,7 @@
     <div class="intro-body">
       <div style="display:flex; flex-direction:column; gap:20px; justify-content:center; max-width: 400px; margin: 40px auto;">
         <button class="btn" id="main-draft-btn" onclick="show('screen-draft-select')" disabled>Start Draft</button>
-        <button class="btn secondary" id="main-anarchy-btn" onclick="openAnarchyHub()" disabled>Open Packs</button>
+        <button class="btn secondary" id="main-anarchy-btn" onclick="openShardsHub()" disabled>Open Packs</button>
       </div>
     </div>
   </section>
@@ -675,42 +675,37 @@
     </div>
   </section>
 
-  <!-- ANARCHY PACKS HUB -->
-  <section id="screen-anarchy" class="screen">
-    <h2 class="center" style="font-size:34px; background:linear-gradient(90deg, var(--pink), var(--gold)); -webkit-background-clip:text; background-clip:text; color:transparent;">Anarchy Packs</h2>
-    <p class="center" style="color:var(--muted); margin-top:6px;">3 cards per pack &middot; duplicates allowed &middot; 10,000 coins per pack</p>
-    <div class="anarchy-stats" id="anarchy-stats"></div>
-    <div class="odds-table" style="max-width:420px; margin:24px auto;">
-      <div><span>Common</span><span>97.0%</span></div>
-      <div><span>Rare</span><span>60.0%</span></div>
-      <div><span>Epic</span><span>12.5%</span></div>
-      <div><span>Legendary</span><span>3.5%</span></div>
+  <!-- SHARDS PACKS HUB -->
+  <section id="screen-shards" class="screen">
+    <h2 class="center" style="font-size:34px; background:linear-gradient(90deg, var(--pink), var(--gold)); -webkit-background-clip:text; background-clip:text; color:transparent;">Shards Shop</h2>
+    <p class="center" style="color:var(--muted); margin-top:6px;">Purchase packs using your collected shards.</p>
+    <div class="anarchy-stats" id="shards-stats"></div>
+    
+    <div id="dynamic-shards-shop" class="shop-grid" style="margin-top: 30px;">
+        <!-- Populated dynamically via JSON -->
     </div>
-    <div class="center" style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin:28px 0;">
-      <button class="btn" id="anarchy-open1-btn" onclick="anarchyOpen(1)">Open 1 Pack (10,000)</button>
-      <button class="btn pink" id="anarchy-open10-btn" onclick="anarchyOpen(10)">Open 10 Packs (100,000)</button>
-    </div>
-    <div class="center" style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
-      <button class="btn secondary" onclick="showAnarchyCollection()">View Collection</button>
+
+    <div class="center" style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top: 28px;">
+      <button class="btn secondary" onclick="showShardsCollection()">View Collection</button>
     </div>
     <div class="back-btn-wrap">
       <button class="btn secondary" style="font-size: 16px; padding: 8px 20px;" onclick="show('screen-main')">Back</button>
     </div>
-    <div class="screen-flash" id="anarchy-screen-flash"></div>
-    <div id="anarchy-particle-field"></div>
-    <div class="reveal-grid" id="anarchy-reveal-grid" style="margin-top:32px;"></div>
+    <div class="screen-flash" id="shards-screen-flash"></div>
+    <div id="shards-particle-field"></div>
+    <div class="reveal-grid" id="shards-reveal-grid" style="margin-top:32px;"></div>
   </section>
 
-  <!-- ANARCHY COLLECTION -->
-  <section id="screen-anarchy-collection" class="screen">
+  <!-- SHARDS COLLECTION -->
+  <section id="screen-shards-collection" class="screen">
     <div class="build-header">
       <h2 style="font-size:28px;">Your Collection</h2>
-      <div class="counter" id="anarchy-collection-counter">0 unique</div>
+      <div class="counter" id="shards-collection-counter">0 unique</div>
     </div>
-    <div class="anarchy-stats" id="anarchy-collection-stats"></div>
-    <div class="pool-grid" id="anarchy-collection-grid" style="margin-top:24px;"></div>
+    <div class="anarchy-stats" id="shards-collection-stats"></div>
+    <div class="pool-grid" id="shards-collection-grid" style="margin-top:24px;"></div>
     <div class="back-btn-wrap">
-      <button class="btn secondary" style="font-size: 16px; padding: 8px 20px;" onclick="show('screen-anarchy')">Back to Packs</button>
+      <button class="btn secondary" style="font-size: 16px; padding: 8px 20px;" onclick="show('screen-shards')">Back to Packs</button>
     </div>
   </section>
 
@@ -885,7 +880,7 @@
   </div>
 </div>
 
-<!-- BNG SHOP PURCHASE MODAL -->
+<!-- BNG/SHARDS SHOP PURCHASE MODAL -->
 <div id="bng-modal" class="modal" onclick="closeBNGModal()">
   <div class="modal-content" onclick="event.stopPropagation()">
     <button class="close-modal-btn" onclick="closeBNGModal()">✕</button>
@@ -899,7 +894,7 @@
     
     <div id="bng-modal-cost" style="font-family:'Anton',sans-serif; font-size:22px; color:var(--green); margin: 15px 0;">Cost</div>
     
-    <button class="btn" id="bng-modal-buy-btn" onclick="buyBNGPack()">Buy Pack</button>
+    <button class="btn" id="bng-modal-buy-btn">Buy Pack</button>
   </div>
 </div>
 
@@ -930,9 +925,11 @@
 
 <script>
 /* =========================================================
-   PRNG UTILITIES
+   PRNG UTILITIES & GLOBALS
    ========================================================= */
 let rng = Math.random;
+let PACK_DEFS = null; // Container for JSON pack rules
+
 function xmur3(str) {
     for(var i = 0, h = 1779033703 ^ str.length; i < str.length; i++) {
         h = Math.imul(h ^ str.charCodeAt(i), 3432918353); h = h << 13 | h >>> 19;
@@ -982,10 +979,22 @@ async function loadCardData() {
     if (!res.ok) throw new Error("Could not fetch CSV");
     const text = await res.text();
     parseCSV(text);
+    
+    // FETCH JSON PACKS
+    try {
+        const packRes = await fetch("packs.json");
+        if(packRes.ok) {
+            PACK_DEFS = await packRes.json();
+            renderShardsShopUI();
+        } else {
+            console.warn("packs.json not found, dynamic shop unavailable.");
+        }
+    } catch(e) { console.warn("packs.json fetch failed.", e); }
+
     if(btn1) { btn1.disabled = false; }
     if(btn2) { btn2.disabled = false; }
   } catch(e) {
-    console.error("Error Loading CSV:", e);
+    console.error("Error Loading Data:", e);
     if(btn1) btn1.textContent = "Error Loading Data";
   }
 }
@@ -1065,6 +1074,7 @@ function parseCSV(text) {
    UI HELPERS & MODAL 
    ========================================================= */
 function buildCardHTML(c) {
+  const tagHtml = c.customTag ? `<div class="shiny-tag">${c.customTag.toUpperCase()}</div>` : (c.shiny ? '<div class="shiny-tag">BONUS SHINY CARD</div>' : '');
   return `
     <div class="card r-${c.rarity}${c.shiny?' shiny':''}">
       <div class="stats-bar">
@@ -1076,7 +1086,7 @@ function buildCardHTML(c) {
         <div class="name">${c.name}</div>
         <div class="theme">${c.themeLabel}</div>
         <div class="rarity">${c.rarity}</div>
-        ${c.shiny ? '<div class="shiny-tag">BONUS SHINY CARD</div>' : ''}
+        ${tagHtml}
         <div class="ability-text">${c.ability}</div>
       </div>
     </div>`;
@@ -1770,6 +1780,7 @@ function openBNGModal(packKey) {
   
   const buyBtn = document.getElementById('bng-modal-buy-btn');
   buyBtn.disabled = bngState.credits < pack.cost;
+  buyBtn.onclick = () => buyBNGPack();
   
   document.getElementById('bng-modal').classList.add('active');
 }
@@ -1872,40 +1883,26 @@ function buyBNGPack() {
     const fallback = CARD_POOL_RAW.filter(c => c.rarity !== 'hero');
     const standardPool = CARD_POOL_RAW.filter(c => c.rarity !== 'hero' && c.rarity !== 'fusion' && !c.isLevelUp);
     
-    // Ensure we have a Banana card available in case one does not exist
     let bananaCards = CARD_POOL_RAW.filter(c => c.name.toLowerCase().includes('banana'));
     if (bananaCards.length === 0) {
       const mockBanana = {
-        name: 'Banana', code: 'bng_banana', collection: 'BNG',
-        theme: 'nature', themeLabel: 'Nature',
-        rarity: 'common', energy: 1, power: 1, abilityTitle: 'Potassium',
-        ability: '▶ PLAY: Slip.', isLevelUp: false
+        name: 'Banana', code: 'bng_banana', collection: 'BNG', theme: 'nature', themeLabel: 'Nature',
+        rarity: 'common', energy: 1, power: 1, abilityTitle: 'Potassium', ability: '▶ PLAY: Slip.', isLevelUp: false
       };
       mockBanana.image = placeholderImg(mockBanana.code, rarityColor['common'], THEMES['nature'].accent);
       mockBanana.id = "c999_bng_banana";
       bananaCards = [mockBanana];
     }
 
-    // 12 Base Cards
     for (let i = 0; i < 12; i++) {
       pulled.push(cloneCardBNG(randEl(fallback)));
     }
     
-    // Extra conditional slots
-    if (rng() * 100 < 50) {
-      pulled.push(cloneCardBNG(randEl(bananaCards)));
-    }
-    if (rng() * 100 < 25) {
-      pulled.push(cloneCardBNG(randEl(legendaries.length ? legendaries : fallback)));
-    }
-    if (rng() * 100 < 15) {
-      pulled.push(cloneCardBNG(randEl(fusionsOnly.length ? fusionsOnly : fallback)));
-    }
-    if (rng() * 100 < 10) {
-      pulled.push(cloneCardBNG(randEl(levelUps.length ? levelUps : fallback)));
-    }
+    if (rng() * 100 < 50) pulled.push(cloneCardBNG(randEl(bananaCards)));
+    if (rng() * 100 < 25) pulled.push(cloneCardBNG(randEl(legendaries.length ? legendaries : fallback)));
+    if (rng() * 100 < 15) pulled.push(cloneCardBNG(randEl(fusionsOnly.length ? fusionsOnly : fallback)));
+    if (rng() * 100 < 10) pulled.push(cloneCardBNG(randEl(levelUps.length ? levelUps : fallback)));
     
-    // 100% chance for a Shiny (extra slot)
     pulled.push(cloneCardBNG(randEl(fallback), true));
   }
 
@@ -1985,69 +1982,204 @@ function finishBNGShop() {
 }
 
 /* =========================================================
-   ANARCHY PACKS (Hub)
+   GENERIC JSON SHARDS PACKS (Replacing old Anarchy logic)
    ========================================================= */
-const ANARCHY_ODDS = [{rarity:"legendary", chance:0.035},{rarity:"epic", chance:0.125},{rarity:"rare", chance:0.60},{rarity:"common", chance:0.97}];
-let anarchyState = { coinsSpent: 0, packsOpened: 0, collection: {} };
-function anarchyRollRarity(){ for(const tier of ANARCHY_ODDS){ if(Math.random() < tier.chance) return tier.rarity; } return "common"; }
-function anarchyPullCard(){
-  const rarity = anarchyRollRarity(); const pool = CARD_POOL_RAW.filter(c => c.rarity === rarity);
-  const source = pool.length ? pool : CARD_POOL_RAW; return source[Math.floor(Math.random()*source.length)];
+let shardsState = { shardsSpent: 0, packsOpened: 0, collection: {} };
+let selectedShardsPack = null;
+
+function renderShardsShopUI() {
+    const container = document.getElementById("dynamic-shards-shop");
+    if(!container || !PACK_DEFS) return;
+    container.innerHTML = "";
+    
+    Object.keys(PACK_DEFS).forEach(key => {
+        const p = PACK_DEFS[key];
+        const item = document.createElement("div");
+        item.className = "shop-item";
+        item.onclick = () => openShardsModal(key);
+        item.innerHTML = `
+            <div class="emoji">${p.emoji || '📦'}</div>
+            <div class="name">${p.name}</div>
+            <div class="desc">${p.desc}</div>
+            <div class="cost">${p.cost} ${p.currency === 'shards' ? 'Shards' : 'Credits'}</div>
+        `;
+        container.appendChild(item);
+    });
 }
-function anarchyPullPack(){ return [anarchyPullCard(), anarchyPullCard(), anarchyPullCard()]; }
-function anarchyAddToCollection(card){ const entry = anarchyState.collection[card.id]; if(entry){ entry.count++; } else{ anarchyState.collection[card.id] = {card, count:1}; } }
-function openAnarchyHub(){ document.getElementById("anarchy-reveal-grid").innerHTML = ""; updateAnarchyStats(); show("screen-anarchy"); }
-function updateAnarchyStats(){
-  const uniqueCount = Object.keys(anarchyState.collection).length;
-  document.getElementById("anarchy-stats").innerHTML = `
-    <div class="stat"><div class="val">${anarchyState.packsOpened}</div><div class="lbl">Packs Opened</div></div>
-    <div class="stat coins"><div class="val">${anarchyState.coinsSpent.toLocaleString()}</div><div class="lbl">Coins Spent</div></div>
+
+function openShardsHub() { 
+    document.getElementById("shards-reveal-grid").innerHTML = ""; 
+    updateShardsStats(); 
+    show("screen-shards"); 
+}
+
+function updateShardsStats() {
+  const uniqueCount = Object.keys(shardsState.collection).length;
+  document.getElementById("shards-stats").innerHTML = `
+    <div class="stat"><div class="val">${shardsState.packsOpened}</div><div class="lbl">Packs Opened</div></div>
+    <div class="stat coins"><div class="val">${shardsState.shardsSpent.toLocaleString()}</div><div class="lbl">Shards Spent</div></div>
     <div class="stat"><div class="val">${uniqueCount}</div><div class="lbl">Unique Cards</div></div>`;
 }
-function anarchyFireParticles(tier){
-  const field = document.getElementById("anarchy-particle-field"); if(!field) return;
-  const anchor = document.getElementById("anarchy-open1-btn"); if(!anchor) return;
-  const rect = anchor.getBoundingClientRect(); const count = tier==="legendary" ? 22 : tier==="epic" ? 14 : 0; if(count===0) return;
+
+function openShardsModal(packKey) {
+  selectedShardsPack = packKey;
+  const pack = PACK_DEFS[packKey];
+  document.getElementById('bng-modal-title').textContent = pack.name;
+  document.getElementById('bng-modal-desc').innerHTML = pack.desc;
+  document.getElementById('bng-modal-cost').textContent = "Cost: " + pack.cost + " " + (pack.currency || 'Shards');
+  
+  const colWrap = document.getElementById('bng-modal-collection-wrap');
+  if(pack.rules && pack.rules.requiresSelection === 'collection') {
+    colWrap.style.display = 'block';
+    const sel = document.getElementById('bng-modal-collection-select');
+    const colls = [...new Set(CARD_POOL_RAW.map(c => c.collection))].filter(Boolean).sort();
+    sel.innerHTML = colls.map(c => `<option value="${c}">${c}</option>`).join('');
+  } else {
+    colWrap.style.display = 'none';
+  }
+  
+  const buyBtn = document.getElementById('bng-modal-buy-btn');
+  buyBtn.disabled = false;
+  buyBtn.onclick = () => purchaseShardsPack();
+  
+  document.getElementById('bng-modal').classList.add('active');
+}
+
+function purchaseShardsPack() {
+    const packId = selectedShardsPack;
+    const pack = PACK_DEFS[packId];
+    
+    let collectionChoice = null;
+    if(pack.rules && pack.rules.requiresSelection === 'collection') {
+        collectionChoice = document.getElementById('bng-modal-collection-select').value;
+    }
+    
+    closeBNGModal();
+    const pulled = generateFromJSON(packId, collectionChoice);
+    
+    shardsState.packsOpened += 1; 
+    shardsState.shardsSpent += pack.cost;
+    pulled.forEach(c => shardsAddToCollection(c));
+    
+    const bestTier = pulled.reduce((best,c)=>{ return RARITY_ORDER[c.rarity] < RARITY_ORDER[best] ? c.rarity : best; }, "common");
+    if(bestTier==="legendary" || bestTier==="epic"){
+        const flash = document.getElementById("shards-screen-flash"); flash.className = "screen-flash go " + (bestTier==="epic" ? "purple" : "gold");
+        shardsFireParticles(bestTier); setTimeout(()=>{ flash.className = "screen-flash"; }, 550);
+    }
+    
+    const grid = document.getElementById("shards-reveal-grid"); grid.innerHTML = ""; 
+    const ordered = sortByRarity(pulled);
+    ordered.forEach((c,i)=>{
+        const wrapper = document.createElement('div'); wrapper.innerHTML = buildCardHTML(c).trim();
+        const el = wrapper.firstChild; el.style.animationDelay = (i*0.05)+"s"; el.onclick = () => openInspect(c, false); grid.appendChild(el);
+    });
+    
+    updateShardsStats(); 
+    grid.scrollIntoView({behavior:"smooth", block:"nearest"});
+}
+
+function generateFromJSON(packId, collectionChoice) {
+    const pack = PACK_DEFS[packId];
+    let pulled = [];
+    
+    const rollOdds = (oddsObj) => {
+        let total = Object.values(oddsObj).reduce((a, b) => a + b, 0);
+        let r = Math.random() * total;
+        for (let [rarity, weight] of Object.entries(oddsObj)) {
+            if (r < weight) return rarity;
+            r -= weight;
+        }
+        return "common";
+    };
+
+    pack.rules.slots.forEach(slot => {
+        if (slot.type === 'random') {
+            for (let i = 0; i < slot.count; i++) {
+                const r = rollOdds(slot.odds);
+                let pool = CARD_POOL_RAW.filter(c => c.rarity === r && c.rarity !== 'hero');
+                if (!pack.rules.allowFusions) pool = pool.filter(c => c.rarity !== 'fusion');
+                if (!pack.rules.allowLevelUps) pool = pool.filter(c => !c.isLevelUp);
+                if (pool.length === 0) pool = CARD_POOL_RAW.filter(c => c.rarity !== 'hero');
+                pulled.push(cloneCardBNG(pool[Math.floor(Math.random() * pool.length)]));
+            }
+        } 
+        else if (slot.type === 'pool') {
+            if (slot.guaranteed || (Math.random() * 100 < slot.chance)) {
+                let pool = CARD_POOL_RAW.filter(c => slot.pool.includes(c.name));
+                if (pool.length > 0) pulled.push(cloneCardBNG(pool[Math.floor(Math.random() * pool.length)]));
+            }
+        } 
+        else if (slot.type === 'rarity_guarantee') {
+            for (let i = 0; i < slot.count; i++) {
+                let pool = CARD_POOL_RAW.filter(c => c.rarity !== 'hero' && RARITY_ORDER[c.rarity] <= RARITY_ORDER[slot.minRarity]);
+                if (pool.length > 0) pulled.push(cloneCardBNG(pool[Math.floor(Math.random() * pool.length)]));
+            }
+        } 
+        else if (slot.type === 'special_tag') {
+            if (!slot.guaranteed && (Math.random() * 100 < slot.chance)) {
+                let pool = CARD_POOL_RAW.filter(c => c.rarity === slot.rarity);
+                if (pool.length > 0) {
+                    let card = cloneCardBNG(pool[Math.floor(Math.random() * pool.length)]);
+                    card.shiny = true;
+                    card.customTag = slot.tag;
+                    pulled.push(card);
+                }
+            }
+        } 
+        else if (slot.type === 'selected_collection') {
+            for (let i = 0; i < slot.count; i++) {
+                const r = rollOdds(slot.odds);
+                let pool = CARD_POOL_RAW.filter(c => c.rarity === r && c.collection === collectionChoice);
+                if (pool.length === 0) pool = CARD_POOL_RAW.filter(c => c.collection === collectionChoice);
+                if (pool.length > 0) pulled.push(cloneCardBNG(pool[Math.floor(Math.random() * pool.length)]));
+            }
+        } 
+        else if (slot.type === 'selected_album') {
+            const sample = CARD_POOL_RAW.find(c => c.collection === collectionChoice);
+            const album = sample ? sample.theme : "";
+            for (let i = 0; i < slot.count; i++) {
+                const r = rollOdds(slot.odds);
+                let pool = CARD_POOL_RAW.filter(c => c.rarity === r && c.theme === album);
+                if (pool.length === 0) pool = CARD_POOL_RAW.filter(c => c.theme === album);
+                if (pool.length > 0) pulled.push(cloneCardBNG(pool[Math.floor(Math.random() * pool.length)]));
+            }
+        }
+    });
+    return pulled;
+}
+
+function shardsAddToCollection(card){ 
+    const entry = shardsState.collection[card.id]; 
+    if(entry){ entry.count++; } else{ shardsState.collection[card.id] = {card, count:1}; } 
+}
+
+function shardsFireParticles(tier){
+  const field = document.getElementById("shards-particle-field"); if(!field) return;
+  const count = tier==="legendary" ? 22 : tier==="epic" ? 14 : 0; if(count===0) return;
   const colorMap = {legendary:"#f0a83a", epic:"#c355f0"};
   for(let i=0;i<count;i++){
     const p = document.createElement("div"); p.className = "particle go"; const angle = Math.random()*Math.PI*2; const dist = 60 + Math.random()*120;
     p.style.setProperty("--px", (Math.cos(angle)*dist)+"px"); p.style.setProperty("--py", (Math.sin(angle)*dist)+"px");
-    p.style.left = (rect.left + rect.width/2) + "px"; p.style.top = (rect.top + rect.height/2) + "px";
+    p.style.left = (window.innerWidth/2) + "px"; p.style.top = "300px";
     p.style.position = "fixed"; p.style.background = colorMap[tier]; field.appendChild(p); setTimeout(()=>p.remove(), 850);
   }
 }
-function anarchyOpen(numPacks){
-  const cost = numPacks * 10000; const openBtns = [document.getElementById("anarchy-open1-btn"), document.getElementById("anarchy-open10-btn")];
-  openBtns.forEach(b=>b.disabled = true); let allPulled = [];
-  for(let i=0;i<numPacks;i++){ const pulled = anarchyPullPack(); pulled.forEach(c => anarchyAddToCollection(c)); allPulled = allPulled.concat(pulled); }
-  anarchyState.packsOpened += numPacks; anarchyState.coinsSpent += cost;
-  const bestTier = allPulled.reduce((best,c)=>{ return RARITY_ORDER[c.rarity] < RARITY_ORDER[best] ? c.rarity : best; }, "common");
-  if(bestTier==="legendary" || bestTier==="epic"){
-    const flash = document.getElementById("anarchy-screen-flash"); flash.className = "screen-flash go " + (bestTier==="epic" ? "purple" : "gold");
-    anarchyFireParticles(bestTier); setTimeout(()=>{ flash.className = "screen-flash"; }, 550);
-  }
-  const grid = document.getElementById("anarchy-reveal-grid"); grid.innerHTML = ""; const ordered = sortByRarity(allPulled);
-  ordered.forEach((c,i)=>{
-    const wrapper = document.createElement('div'); wrapper.innerHTML = buildCardHTML(c).trim();
-    const el = wrapper.firstChild; el.style.animationDelay = (i*0.05)+"s"; el.onclick = () => openInspect(c, false); grid.appendChild(el);
-  });
-  updateAnarchyStats(); openBtns.forEach(b=>b.disabled = false); grid.scrollIntoView({behavior:"smooth", block:"nearest"});
-}
-function showAnarchyCollection(){
-  const entries = Object.values(anarchyState.collection); const ordered = entries.sort((a,b)=> RARITY_ORDER[a.card.rarity]-RARITY_ORDER[b.card.rarity]);
-  const grid = document.getElementById("anarchy-collection-grid"); grid.innerHTML = "";
-  if(ordered.length===0){ grid.innerHTML = `<p style="color:var(--muted); grid-column:1/-1;">No cards yet - open some Anarchy Packs first.</p>`; }
+
+function showShardsCollection(){
+  const entries = Object.values(shardsState.collection); const ordered = entries.sort((a,b)=> RARITY_ORDER[a.card.rarity]-RARITY_ORDER[b.card.rarity]);
+  const grid = document.getElementById("shards-collection-grid"); grid.innerHTML = "";
+  if(ordered.length===0){ grid.innerHTML = `<p style="color:var(--muted); grid-column:1/-1;">No cards yet. Open some packs first.</p>`; }
   ordered.forEach(({card,count})=>{
     const wrap = document.createElement("div"); wrap.className = "pool-card"; wrap.innerHTML = `<div class="dupe-badge">x${count}</div>` + buildCardHTML(card);
     wrap.onclick = () => openInspect(card, false); grid.appendChild(wrap);
   });
-  document.getElementById("anarchy-collection-counter").textContent = `${ordered.length} unique`;
+  document.getElementById("shards-collection-counter").textContent = `${ordered.length} unique`;
   const totalCards = entries.reduce((sum,e)=>sum+e.count,0);
-  document.getElementById("anarchy-collection-stats").innerHTML = `
-    <div class="stat"><div class="val">${anarchyState.packsOpened}</div><div class="lbl">Packs Opened</div></div>
-    <div class="stat coins"><div class="val">${anarchyState.coinsSpent.toLocaleString()}</div><div class="lbl">Coins Spent</div></div>
+  document.getElementById("shards-collection-stats").innerHTML = `
+    <div class="stat"><div class="val">${shardsState.packsOpened}</div><div class="lbl">Packs Opened</div></div>
+    <div class="stat coins"><div class="val">${shardsState.shardsSpent.toLocaleString()}</div><div class="lbl">Shards Spent</div></div>
     <div class="stat"><div class="val">${totalCards}</div><div class="lbl">Total Cards</div></div>`;
-  show("screen-anarchy-collection");
+  show("screen-shards-collection");
 }
 </script>
 </body>
