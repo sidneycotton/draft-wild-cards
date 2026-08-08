@@ -20,7 +20,7 @@
       ],
       "allowFusions": false,
       "allowLevelUps": false,
-      "allowShinies": false
+      "allowShinies": true
     }
   },
   "manic_mash_ups": {
@@ -66,9 +66,9 @@
           ]
         }
       ],
-      "allowFusions": true,
-      "allowLevelUps": true,
-      "allowShinies": false
+      "allowFusions": false,
+      "allowLevelUps": false,
+      "allowShinies": true
     }
   },
   "great_minds": {
@@ -114,9 +114,9 @@
           ]
         }
       ],
-      "allowFusions": true,
-      "allowLevelUps": true,
-      "allowShinies": false
+      "allowFusions": false,
+      "allowLevelUps": false,
+      "allowShinies": true
     }
   },
   "starstruck": {
@@ -150,9 +150,9 @@
           "tag": "New Card"
         }
       ],
-      "allowFusions": true,
-      "allowLevelUps": true,
-      "allowShinies": false
+      "allowFusions": false,
+      "allowLevelUps": false,
+      "allowShinies": true
     }
   },
   "punk_out": {
@@ -186,9 +186,9 @@
           "tag": "New Card"
         }
       ],
-      "allowFusions": true,
-      "allowLevelUps": true,
-      "allowShinies": false
+      "allowFusions": false,
+      "allowLevelUps": false,
+      "allowShinies": true
     }
   },
   "collection_pack": {
@@ -221,9 +221,9 @@
           }
         }
       ],
-      "allowFusions": true,
-      "allowLevelUps": true,
-      "allowShinies": false
+      "allowFusions": false,
+      "allowLevelUps": false,
+      "allowShinies": true
     }
   }
 }
