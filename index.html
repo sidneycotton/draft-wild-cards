@@ -116,7 +116,7 @@
   .center{text-align:center;}
 
   .back-btn-wrap {
-    margin-top: 32px; display: flex; justify-content: center;
+    margin-top: 32px; display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; align-items: center;
   }
 
   /* INTRO */
@@ -708,16 +708,14 @@
     <div class="center" style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top: 28px;">
       <button class="btn secondary" onclick="showShardsCollection()">View Collection</button>
     </div>
-    <div class="back-btn-wrap">
+    <div class="back-btn-wrap" style="align-items: center;">
       <button class="btn secondary" style="font-size: 16px; padding: 8px 20px;" onclick="show('screen-main')">Back</button>
+      <button class="btn" id="shards-buy-again-btn" style="display:none;">Buy Again</button>
     </div>
     <div class="screen-flash" id="shards-screen-flash"></div>
     <div id="shards-particle-field"></div>
     
     <div class="reveal-grid" id="shards-reveal-grid" style="margin-top:32px;"></div>
-    <div class="center" id="shards-action-wrap" style="display:none; margin-top: 20px; margin-bottom: 20px;">
-        <button class="btn" id="shards-buy-again-btn">Buy Again</button>
-    </div>
   </section>
 
   <!-- SHARDS COLLECTION -->
@@ -791,11 +789,13 @@
     <div class="center" id="reveal-controls" style="display:none; margin-bottom:6px;">
       <button class="btn secondary sort-btn" id="sort-toggle-packs" onclick="cycleSortPacks()">Sort by Rarity</button>
     </div>
-    <div class="reveal-grid" id="reveal-grid"></div>
-    <div class="center" id="pack-next-wrap" style="display:none; gap:14px; justify-content:center; flex-wrap:wrap;">
+    
+    <div class="center" id="pack-next-wrap" style="display:none; gap:14px; justify-content:center; flex-wrap:wrap; margin-bottom: 20px;">
       <button class="btn secondary" id="pack-buy-again-btn" style="display:none;">Buy Again</button>
       <button class="btn" onclick="nextPackOrBuild()" id="pack-next-btn">Next Pack</button>
     </div>
+    
+    <div class="reveal-grid" id="reveal-grid"></div>
   </section>
 
   <!-- DECKBUILD SCREEN -->
@@ -991,6 +991,13 @@ function playSound(type) {
   sound.volume = sfx[type].volume;
   sound.play().catch(e => {}); 
 }
+
+// Attach a global event listener to add sound to all buttons
+document.addEventListener('click', function(e) {
+  if (e.target.closest('button') || e.target.closest('.btn')) {
+    playSound('click');
+  }
+});
 
 function renderEnergyCurve(containerId) {
   const container = document.getElementById(containerId);
@@ -2271,7 +2278,7 @@ function renderShardsShopUI() {
 
 function openShardsHub() { 
     document.getElementById("shards-reveal-grid").innerHTML = ""; 
-    document.getElementById("shards-action-wrap").style.display = "none";
+    document.getElementById("shards-buy-again-btn").style.display = "none";
     updateShardsStats(); 
     show("screen-shards"); 
 }
@@ -2337,7 +2344,7 @@ function purchaseShardsPack() {
         const el = wrapper.firstChild; el.style.animationDelay = (i*0.05)+"s"; el.onclick = () => openInspect(c, false); grid.appendChild(el);
     });
     
-    document.getElementById("shards-action-wrap").style.display = "flex";
+    document.getElementById("shards-buy-again-btn").style.display = "inline-flex";
     document.getElementById("shards-buy-again-btn").onclick = () => purchaseShardsPack();
     
     updateShardsStats(); 
