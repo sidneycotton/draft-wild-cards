@@ -2284,8 +2284,12 @@ function generateFromJSON(packId, collectionChoice) {
             for (let i = 0; i < slot.count; i++) {
                 const r = rollOdds(slot.odds);
                 let pool = CARD_POOL_RAW.filter(c => c.rarity === r && c.rarity !== 'hero');
-                if (!pack.rules.allowFusions) pool = pool.filter(c => c.rarity !== 'fusion');
-                if (!pack.rules.allowLevelUps) pool = pool.filter(c => !c.isLevelUp);
+                if (pack.rules && pack.rules.allowFusions === false) {
+                pool = pool.filter(c => c.rarity !== 'fusion');
+                }
+                if (pack.rules && pack.rules.allowLevelUps === false) {
+                    pool = pool.filter(c => !c.isLevelUp);
+                }
                 if (pool.length === 0) pool = CARD_POOL_RAW.filter(c => c.rarity !== 'hero');
                 pulled.push(cloneCardBNG(pool[Math.floor(Math.random() * pool.length)]));
             }
