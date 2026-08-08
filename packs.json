@@ -1,9 +1,9 @@
 {
-  "anarchy": {
+"anarchy": {
     "name": "Anarchy Pack",
     "emoji": "😈",
-    "cost": 50,
-    "currency": "shards",
+    "cost": 10000,
+    "currency": "Credits",
     "desc": "3 Random cards. Pure chaos.",
     "rules": {
       "slots": [
