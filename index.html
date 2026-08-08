@@ -167,7 +167,7 @@
   /* HERO PICK */
   .hero-grid{display:flex; gap:20px; justify-content:center; flex-wrap:wrap; margin:32px 0;}
   .hero-card {
-    width:200px;
+    width:180px;
     position:relative;
     border-radius:14px;
     cursor:pointer;
@@ -667,7 +667,7 @@
 
     <div class="center" style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:20px;">
       <button class="btn secondary" onclick="exportCustomRules()">Copy Rule Code</button>
-      <button class="btn pink" onclick="startHeroPick('custom')">Start Custom Draft</button>
+      <button class="btn pink" onclick="startCustomDraft()">Start Custom Draft</button>
     </div>
     
     <div class="back-btn-wrap">
@@ -693,7 +693,11 @@
     </div>
     <div class="screen-flash" id="shards-screen-flash"></div>
     <div id="shards-particle-field"></div>
+    
     <div class="reveal-grid" id="shards-reveal-grid" style="margin-top:32px;"></div>
+    <div class="center" id="shards-action-wrap" style="display:none; margin-top: 20px; margin-bottom: 20px;">
+        <button class="btn" id="shards-buy-again-btn">Buy Again</button>
+    </div>
   </section>
 
   <!-- SHARDS COLLECTION -->
@@ -709,25 +713,8 @@
     </div>
   </section>
 
-  <!-- HERO PICK SCREEN -->
-  <section id="screen-hero" class="screen">
-    <h2 class="center" style="font-size:30px;">Choose Your Hero</h2>
-    <p class="center" style="color:var(--muted); margin-top:6px;">This card goes straight into your deck afterward. Left click to select, Right click to inspect.</p>
-    <div class="hero-grid" id="hero-grid"></div>
-    <div class="center">
-      <button class="btn" id="hero-confirm" disabled onclick="startPacks()">Confirm Hero</button>
-    </div>
-  </section>
-
   <!-- PACK OPENING SCREEN -->
   <section id="screen-packs" class="screen">
-    <div class="hero-chip" id="hero-chip">
-      <img id="hero-chip-img" src="" alt="">
-      <div>
-        <div class="hc-label">Your Hero</div>
-        <div class="hc-name" id="hero-chip-name"></div>
-      </div>
-    </div>
     <div class="pack-status" id="pack-status">Pack 1 of 6</div>
     <div class="pack-deck" id="pack-deck">
       <div class="pack-stage" id="pack-stage" onclick="openPack()">
@@ -745,7 +732,8 @@
       <button class="btn secondary sort-btn" id="sort-toggle-packs" onclick="cycleSortPacks()">Sort by Rarity</button>
     </div>
     <div class="reveal-grid" id="reveal-grid"></div>
-    <div class="center" id="pack-next-wrap" style="display:none;">
+    <div class="center" id="pack-next-wrap" style="display:none; gap:14px; justify-content:center; flex-wrap:wrap;">
+      <button class="btn secondary" id="pack-buy-again-btn" style="display:none;">Buy Again</button>
       <button class="btn" onclick="nextPackOrBuild()" id="pack-next-btn">Next Pack</button>
     </div>
   </section>
@@ -756,11 +744,12 @@
       <h2 style="font-size:28px;">Build Your Deck</h2>
       <div class="counter" id="pick-counter">0 / 12</div>
     </div>
-    <p id="build-subtitle" style="color:var(--muted); font-size:14px;">Your hero is already locked into the deck. Pick cards from the pool below.<br><b>Left Click</b> to inspect, <b>Right Click</b> to quick-add/remove.</p>
+    <p id="build-subtitle" style="color:var(--muted); font-size:14px;">Choose your hero from the top, then pick cards from the pool below.<br><b>Left Click</b> to inspect, <b>Right Click</b> to quick-add/remove.</p>
     
     <div class="deckbuild-hero-container" style="display:flex; flex-direction:column; align-items:center; margin: 24px 0;">
-      <div style="color:var(--gold); font-family:'Anton',sans-serif; letter-spacing:1px; margin-bottom: 8px;">YOUR HERO</div>
-      <div id="deckbuild-hero-wrap" style="width: 180px; transition: transform .15s ease;"></div>
+      <div style="color:var(--gold); font-family:'Anton',sans-serif; letter-spacing:1px; margin-bottom: 8px;">CHOOSE YOUR HERO</div>
+      <p style="color:var(--muted); font-size:13px; margin-bottom:16px;">Click or Right-Click to select your hero.</p>
+      <div class="hero-grid" id="deckbuild-hero-options" style="margin: 0;"></div>
     </div>
 
     <div class="filters-container" style="display:flex; flex-direction:column; gap:12px; margin: 16px 0;">
@@ -832,7 +821,7 @@
         <div class="num">3</div>
         <div class="text">
           <h4>Build Your Deck</h4>
-          <p>After opening all packs, pick exactly your required amount of cards from your pool to create your final deck strategy. This includes picking exactly one Hero for your lineup.</p>
+          <p>Choose 1 Hero and exactly your required amount of normal cards from the pool to create your final deck strategy.</p>
         </div>
       </div>
       <div class="tutorial-step">
@@ -871,7 +860,7 @@
         <div class="num">4</div>
         <div class="text">
           <h4>Choose Your Hero & Build</h4>
-          <p>After finalizing your pool, you will select 1 of 3 random Heroes and proceed directly to deckbuilding.</p>
+          <p>After finalizing your pool, you will proceed directly to deckbuilding where you select 1 of 3 random Heroes.</p>
         </div>
       </div>
     </div>
@@ -1107,14 +1096,23 @@ function openInspect(c, deckBuilderMode) {
   const btn = document.getElementById("inspect-action-btn");
   if(deckBuilderMode) {
     btn.style.display = "inline-block";
-    const isPicked = state.picked.some(p => p.id === c.id);
-    btn.textContent = isPicked ? "Remove from Deck" : "Add to Deck";
+    const isPicked = c.rarity === 'hero' ? (state.hero && state.hero.id === c.id) : state.picked.some(p => p.id === c.id);
+    btn.textContent = isPicked ? (c.rarity === 'hero' ? "Remove Hero" : "Remove from Deck") : (c.rarity === 'hero' ? "Select Hero" : "Add to Deck");
     btn.className = isPicked ? "btn secondary" : "btn pink";
   } else { btn.style.display = "none"; }
 }
 
 function closeInspect(e) { document.getElementById("inspect-modal").classList.remove("active"); inspectTargetCard = null; }
-function handleInspectAction() { if (inspectTargetCard) togglePick(inspectTargetCard); }
+
+function handleInspectAction() { 
+  if (inspectTargetCard) {
+    if (inspectTargetCard.rarity === 'hero') {
+      toggleHero(inspectTargetCard);
+    } else {
+      togglePick(inspectTargetCard);
+    }
+  } 
+}
 
 function openTutorial(mode = 'sidney') { 
   document.getElementById("tutorial-modal").classList.add("active");
@@ -1237,55 +1235,38 @@ function generatePoolBasedOnConfig(config) {
 
 function startSidneyDraft() {
   state.draftMode = 'sidney';
-  const seedInput = document.getElementById("draft-seed-input-sidney").value.trim().toUpperCase();
   state.config = SIDNEY_CONFIG;
-  
+  const seedInput = document.getElementById("draft-seed-input-sidney").value.trim().toUpperCase();
   state.seed = seedInput || Math.random().toString(36).substring(2, 8).toUpperCase();
   document.getElementById("draft-seed-input-sidney").value = state.seed;
   
   const seedGen = xmur3(state.seed);
   rng = sfc32(seedGen(), seedGen(), seedGen(), seedGen());
-
   state.activePool = generatePoolBasedOnConfig(state.config);
-
-  // Roll 3 heroes, append directly to pool later
+  
   let shuffled = [...HERO_POOL_RAW].sort(()=>rng()-0.5);
   state.heroOptions = shuffled.slice(0,3);
+  state.hero = null;
   
   startPacks();
 }
 
-function startHeroPick(mode){
-  state.draftMode = mode;
-  let seedInput = "";
-  if (mode === 'custom') {
-    seedInput = document.getElementById("draft-seed-input-custom").value.trim().toUpperCase();
-    state.config = getCustomConfig();
-  }
-  
+function startCustomDraft() {
+  state.draftMode = 'custom';
+  state.config = getCustomConfig();
+  const seedInput = document.getElementById("draft-seed-input-custom").value.trim().toUpperCase();
   state.seed = seedInput || Math.random().toString(36).substring(2, 8).toUpperCase();
-  if(mode==='custom') document.getElementById("draft-seed-input-custom").value = state.seed;
+  document.getElementById("draft-seed-input-custom").value = state.seed;
   
   const seedGen = xmur3(state.seed);
   rng = sfc32(seedGen(), seedGen(), seedGen(), seedGen());
-
-  if (mode !== 'bng') {
-    state.activePool = generatePoolBasedOnConfig(state.config);
-  }
-
+  state.activePool = generatePoolBasedOnConfig(state.config);
+  
   let shuffled = [...HERO_POOL_RAW].sort(()=>rng()-0.5);
   state.heroOptions = shuffled.slice(0,3);
-  const grid = document.getElementById("hero-grid");
-  grid.innerHTML = "";
+  state.hero = null;
   
-  state.heroOptions.forEach(h=>{
-    const div = document.createElement("div"); div.className = "hero-card"; div.style.setProperty("--hero-color", h.color || "var(--gold)");
-    div.innerHTML = buildCardHTML(h) + `<div class="ring"></div>`;
-    div.onclick = ()=>{ document.querySelectorAll(".hero-card").forEach(c=>c.classList.remove("selected")); div.classList.add("selected"); state.hero = h; document.getElementById("hero-confirm").disabled = false; };
-    div.oncontextmenu = (e)=>{ e.preventDefault(); openInspect(h, false); };
-    grid.appendChild(div);
-  });
-  show("screen-hero");
+  startPacks();
 }
 
 /* PULL LOGIC */
@@ -1360,14 +1341,7 @@ function startPacks(){
   document.getElementById("reveal-grid").innerHTML = "";
   document.getElementById("pack-next-wrap").style.display = "none";
   document.getElementById("pack-deck").style.display = "flex";
-  
-  if (state.draftMode === 'sidney') {
-      document.getElementById("hero-chip").style.display = 'none';
-  } else {
-      document.getElementById("hero-chip").style.display = 'flex';
-      document.getElementById("hero-chip-img").src = state.hero.image;
-      document.getElementById("hero-chip-name").textContent = state.hero.name;
-  }
+  document.getElementById("pack-buy-again-btn").style.display = "none";
   
   resetPackVisual(); updatePackStatus(); show("screen-packs");
 }
@@ -1409,7 +1383,7 @@ function openPack(){
     document.getElementById("pack-deck").style.display = "none";
     document.getElementById("reveal-controls").style.display = "block";
     renderReveal(pulled);
-    document.getElementById("pack-next-wrap").style.display = "block";
+    document.getElementById("pack-next-wrap").style.display = "flex";
     document.getElementById("pack-next-btn").textContent = state.currentPack < state.config.packs - 1 ? "Next Pack" : "Go to Deckbuilder";
     document.getElementById("pack-next-btn").onclick = nextPackOrBuild;
   }, 480);
@@ -1472,26 +1446,44 @@ function buildPool(){
   state.themeFilter = "all"; state.collectionFilter = "all"; state.triggerFilter = "all";
   state.sortBy = null; state.sortDir = 0;
   
-  const heroWrapContainer = document.querySelector(".deckbuild-hero-container");
-  const buildSubtitle = document.getElementById("build-subtitle");
-
-  if (state.draftMode === 'sidney') {
-      state.poolAll = [...state.poolAll, ...state.heroOptions];
-      heroWrapContainer.style.display = 'none';
-      buildSubtitle.innerHTML = `You must pick exactly 1 Hero and 11 other cards to complete your deck.<br><b>Left Click</b> to inspect, <b>Right Click</b> to quick-add/remove.`;
-  } else {
-      heroWrapContainer.style.display = 'flex';
-      buildSubtitle.innerHTML = `Your hero is already locked into the deck. Pick cards from the pool below.<br><b>Left Click</b> to inspect, <b>Right Click</b> to quick-add/remove.`;
-      
-      const heroWrap = document.getElementById("deckbuild-hero-wrap");
-      heroWrap.innerHTML = buildCardHTML(state.hero);
-      heroWrap.className = "pool-card picked";
-      heroWrap.onclick = () => openInspect(state.hero, false);
-      heroWrap.style.cursor = "pointer";
-  }
-
+  renderDeckbuilderHeroes();
   renderAdvancedFilters();
   renderPool();
+}
+
+function renderDeckbuilderHeroes() {
+  const container = document.getElementById("deckbuild-hero-options");
+  container.innerHTML = "";
+  state.heroOptions.forEach(h => {
+    const wrap = document.createElement("div");
+    wrap.className = "hero-card" + (state.hero && state.hero.id === h.id ? " selected" : "");
+    wrap.style.setProperty("--hero-color", h.color || "var(--gold)");
+    wrap.innerHTML = buildCardHTML(h) + `<div class="ring"></div><div class="pick-badge" style="opacity:${state.hero && state.hero.id === h.id ? '1' : '0'}">✓</div>`;
+    
+    wrap.onclick = () => openInspect(h, true);
+    wrap.oncontextmenu = (e) => {
+      e.preventDefault();
+      toggleHero(h);
+    };
+    container.appendChild(wrap);
+  });
+}
+
+function toggleHero(h) {
+  if (state.hero && state.hero.id === h.id) {
+      state.hero = null; 
+  } else {
+      state.hero = h;
+  }
+  renderDeckbuilderHeroes();
+  updateCounter();
+  
+  if (inspectTargetCard && inspectTargetCard.id === h.id) {
+      const isPicked = state.hero && state.hero.id === h.id;
+      const btn = document.getElementById("inspect-action-btn");
+      btn.textContent = isPicked ? "Remove Hero" : "Select Hero";
+      btn.className = isPicked ? "btn secondary" : "btn pink";
+  }
 }
 
 function renderAdvancedFilters() {
@@ -1605,19 +1597,10 @@ function renderPool(){
 
 function togglePick(c){
   const idx = state.picked.findIndex(p=>p.id===c.id);
-  
   if (idx >= 0) { 
       state.picked.splice(idx, 1); 
   } else { 
-      if (state.draftMode === 'sidney' && c.rarity === 'hero') {
-          const existingHeroIdx = state.picked.findIndex(p => p.rarity === 'hero');
-          if (existingHeroIdx >= 0) {
-              state.picked.splice(existingHeroIdx, 1);
-              state.picked.push(c);
-          } else if (state.picked.length < state.config.deckSize) {
-              state.picked.push(c);
-          }
-      } else if (state.picked.length < state.config.deckSize) {
+      if (state.picked.length < state.config.deckSize) {
           state.picked.push(c);
       }
   }
@@ -1633,12 +1616,7 @@ function updateCounter(){
   const el = document.getElementById("pick-counter"); el.textContent = `${state.picked.length} / ${state.config.deckSize}`;
   el.classList.toggle("full", state.picked.length === state.config.deckSize);
   
-  let canFinish = state.picked.length === state.config.deckSize;
-  if (state.draftMode === 'sidney') {
-      const hasHero = state.picked.some(c => c.rarity === 'hero');
-      if (!hasHero) canFinish = false;
-  }
-  
+  const canFinish = state.picked.length === state.config.deckSize && state.hero !== null;
   document.getElementById("finish-btn").disabled = !canFinish;
 }
 
@@ -1648,11 +1626,6 @@ function showExport(){
   
   let exportedHero = state.hero;
   let exportedPool = state.picked;
-  
-  if (state.draftMode === 'sidney') {
-      exportedHero = state.picked.find(c => c.rarity === 'hero');
-      exportedPool = state.picked.filter(c => c.rarity !== 'hero');
-  }
   
   lines.push(`HERO: ${exportedHero ? exportedHero.name : 'None'}`, "");
   
@@ -1677,10 +1650,6 @@ function copyList() {
   
   let exportedHero = state.hero;
   let exportedPool = state.picked;
-  if (state.draftMode === 'sidney') {
-      exportedHero = state.picked.find(c => c.rarity === 'hero');
-      exportedPool = state.picked.filter(c => c.rarity !== 'hero');
-  }
   
   lines.push(`HERO: ${exportedHero ? exportedHero.name : 'None'}`, "");
   exportedPool.forEach(c => { lines.push(`${c.name} - ${c.themeLabel}${c.shiny ? ' ✦ SHINY' : ''} (${c.rarity})`); });
@@ -1943,10 +1912,23 @@ function bngOpenPackAnim(emoji, pulled) {
         const el = wrapper.firstChild; el.style.animationDelay = (i*0.09)+"s"; el.onclick = () => openInspect(c, false); grid.appendChild(el);
       });
 
-      document.getElementById("pack-next-wrap").style.display = "block";
+      document.getElementById("pack-next-wrap").style.display = "flex";
+      
+      const buyAgainBtn = document.getElementById("pack-buy-again-btn");
+      buyAgainBtn.style.display = "inline-flex";
+      buyAgainBtn.onclick = () => {
+         const pack = BNG_PACKS[bngState.selectedPack];
+         if (bngState.credits >= pack.cost) {
+             buyBNGPack();
+         } else {
+             alert("Not enough credits!");
+         }
+      };
+
       document.getElementById("pack-next-btn").textContent = "Back to Shop";
       document.getElementById("pack-next-btn").onclick = () => {
         document.getElementById("pack-next-btn").onclick = nextPackOrBuild;
+        buyAgainBtn.style.display = "none";
         show('screen-bng-shop');
       };
     }, 480);
@@ -1966,19 +1948,10 @@ function finishBNGShop() {
   
   let shuffled = [...HERO_POOL_RAW].sort(()=>rng()-0.5);
   state.heroOptions = shuffled.slice(0,3);
-  const grid = document.getElementById("hero-grid");
-  grid.innerHTML = "";
-  
-  state.heroOptions.forEach(h=>{
-    const div = document.createElement("div"); div.className = "hero-card"; div.style.setProperty("--hero-color", h.color || "var(--gold)");
-    div.innerHTML = buildCardHTML(h) + `<div class="ring"></div>`;
-    div.onclick = ()=>{ document.querySelectorAll(".hero-card").forEach(c=>c.classList.remove("selected")); div.classList.add("selected"); state.hero = h; document.getElementById("hero-confirm").disabled = false; };
-    div.oncontextmenu = (e)=>{ e.preventDefault(); openInspect(h, false); };
-    grid.appendChild(div);
-  });
+  state.hero = null;
   
   state.draftMode = 'bng';
-  show("screen-hero");
+  startPacks(); 
 }
 
 /* =========================================================
@@ -2009,6 +1982,7 @@ function renderShardsShopUI() {
 
 function openShardsHub() { 
     document.getElementById("shards-reveal-grid").innerHTML = ""; 
+    document.getElementById("shards-action-wrap").style.display = "none";
     updateShardsStats(); 
     show("screen-shards"); 
 }
@@ -2073,6 +2047,9 @@ function purchaseShardsPack() {
         const wrapper = document.createElement('div'); wrapper.innerHTML = buildCardHTML(c).trim();
         const el = wrapper.firstChild; el.style.animationDelay = (i*0.05)+"s"; el.onclick = () => openInspect(c, false); grid.appendChild(el);
     });
+    
+    document.getElementById("shards-action-wrap").style.display = "flex";
+    document.getElementById("shards-buy-again-btn").onclick = () => purchaseShardsPack();
     
     updateShardsStats(); 
     grid.scrollIntoView({behavior:"smooth", block:"nearest"});
