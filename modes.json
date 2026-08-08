@@ -1,0 +1,23 @@
+[
+  {
+    "id": "sidney_standard",
+    "title": "Sidney 6-Pack",
+    "description": "The standard competitive format.",
+    "buttonClass": "btn",
+    "hook": "openSidneyDraftMenu"
+  },
+  {
+    "id": "bng_credits",
+    "title": "BNG's Credits Draft",
+    "description": "Start with a budget of 1000 credits to buy packs from the shop.",
+    "buttonClass": "btn gold",
+    "hook": "openBNGDraftMenu"
+  },
+  {
+    "id": "custom_draft",
+    "title": "Custom Draft",
+    "description": "Create your own rules or paste a code from a friend!",
+    "buttonClass": "btn pink",
+    "hook": "openCustomDraftMenu"
+  }
+]
