@@ -733,6 +733,28 @@
       <button class="btn secondary" style="font-size: 16px; padding: 8px 20px;" onclick="show('screen-draft-select')">Back</button>
     </div>
   </section>
+  <!-- ARENA DRAFT SCREEN -->
+  <section id="screen-arena-draft" class="screen">
+    <div class="build-header">
+      <h2 id="arena-draft-title" style="font-size:34px;">Pick Your Hero</h2>
+      <div class="counter" id="arena-pick-counter">0 / 12</div>
+    </div>
+    <p style="color:var(--muted); font-size:14px; text-align:center; margin-bottom: 24px;"><b>Left Click</b> to draft a card. <b>Right Click</b> to inspect it.</p>
+
+    <!-- The 4 Options -->
+    <div class="pool-grid" id="arena-options-grid" style="justify-content: center; display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 40px; min-height: 250px;">
+    </div>
+
+    <!-- Mini Deck View -->
+    <div class="slots-config-wrap" style="max-width: 800px; margin: 0 auto; text-align: left;">
+      <h4>Your Drafted Deck</h4>
+      <div class="export-strip" id="arena-deck-strip" style="margin-top: 10px; min-height: 100px; border: 1px dashed var(--line); border-radius: 8px;"></div>
+    </div>
+
+    <div class="center" style="margin-top: 30px;">
+      <button class="btn secondary" onclick="if(confirm('Abandon this draft?')) show('screen-draft-select')">Abandon Draft</button>
+    </div>
+  </section>
   <!-- PACK OPENING SCREEN -->
   <section id="screen-packs" class="screen">
     <div class="pack-status" id="pack-status">Pack 1 of 6</div>
@@ -958,8 +980,8 @@ function startArenaDraft() {
   const seedGen = xmur3(state.seed);
   rng = sfc32(seedGen(), seedGen(), seedGen(), seedGen());
   
-  // Exclude fusions and level-ups for standard Arena balancing (optional)
-  state.activePool = CARD_POOL_RAW.filter(c => c.rarity !== 'fusion' && !c.isLevelUp);
+  // Exclude heroes, fusions, and level-ups from the card pool
+  state.activePool = CARD_POOL_RAW.filter(c => c.rarity !== 'fusion' && !c.isLevelUp && c.rarity !== 'hero');
   
   // Pull 4 random heroes
   let shuffledHeroes = [...HERO_POOL_RAW].sort(() => rng() - 0.5);
@@ -967,10 +989,104 @@ function startArenaDraft() {
   state.hero = null;
   state.picked = [];
   
-  // Proceed to the custom Arena drafting screen
-  // (You will need to build the "1 of 4" drafting loop logic next!)
-  console.log("Arena Draft Started. Seed:", state.seed);
+  show('screen-arena-draft');
+  renderArenaPick();
 }
+
+function renderArenaPick() {
+  const grid = document.getElementById("arena-options-grid");
+  const title = document.getElementById("arena-draft-title");
+  const counter = document.getElementById("arena-pick-counter");
+  grid.innerHTML = "";
+
+  // Update counters & mini deck strip
+  counter.textContent = `${state.picked.length} / ${state.config.deckSize}`;
+  renderArenaDeckStrip();
+
+  // Phase 1: Pick Hero
+  if (!state.hero) {
+    title.textContent = "Pick Your Hero";
+    state.heroOptions.forEach(h => {
+      const wrap = document.createElement("div");
+      wrap.className = "hero-card";
+      wrap.style.setProperty("--hero-color", h.color || "var(--gold)");
+      wrap.innerHTML = buildCardHTML(h) + `<div class="ring"></div>`;
+      
+      wrap.onclick = () => pickArenaCard(h, true);
+      wrap.oncontextmenu = (e) => { e.preventDefault(); openInspect(h, false); };
+      grid.appendChild(wrap);
+    });
+    return;
+  }
+
+  // Phase 2: Pick 12 Cards
+  if (state.picked.length < state.config.deckSize) {
+    title.textContent = `Pick Card ${state.picked.length + 1}`;
+
+    const excludeIds = new Set();
+    const currentOptions = [];
+    
+    // Generate 4 random cards. 
+    // Arena Odds: 55% Common, 30% Rare, 10% Epic, 5% Legendary
+    for (let i = 0; i < 4; i++) {
+       let r = rng() * 100;
+       let tier = "common";
+       if (r < 5) tier = "legendary";
+       else if (r < 15) tier = "epic";
+       else if (r < 45) tier = "rare";
+
+       let c = weightedPickFromPool(tier, "common", 100, excludeIds); 
+       excludeIds.add(c.id);
+       currentOptions.push(c);
+    }
+
+    currentOptions.forEach((c, i) => {
+      const wrap = document.createElement('div');
+      wrap.style.width = "180px";
+      wrap.className = "pool-card";
+      wrap.innerHTML = buildCardHTML(c);
+      
+      // Make cards shoot in with a slight delay
+      wrap.firstElementChild.style.animationDelay = (i * 0.08) + "s";
+      
+      wrap.onclick = () => pickArenaCard(c, false);
+      wrap.oncontextmenu = (e) => { e.preventDefault(); openInspect(c, false); };
+      grid.appendChild(wrap);
+    });
+    return;
+  }
+
+  // Phase 3: Finish Draft
+  title.textContent = "Draft Complete!";
+  grid.innerHTML = `<button class="btn pink" onclick="showExport()">Finish & Export Deck</button>`;
+}
+
+function pickArenaCard(card, isHero) {
+   if (isHero) {
+       state.hero = card;
+   } else {
+       state.picked.push(card);
+   }
+   // Immediately re-render the next 4 options
+   renderArenaPick();
+}
+
+function renderArenaDeckStrip() {
+  const strip = document.getElementById("arena-deck-strip");
+  let stripCards = [];
+  
+  if (state.hero) stripCards.push({...state.hero, rarity:"hero", themeLabel:"Hero"});
+  stripCards = stripCards.concat(state.picked);
+
+  strip.innerHTML = "";
+  stripCards.forEach(c => {
+    const el = document.createElement("div");
+    el.className = `mini-card${c.rarity && c.rarity!=='hero' ? ' r-'+c.rarity : ''}${c.shiny?' shiny':''}`;
+    el.innerHTML = `<img src="${c.image}" title="${c.name}"><div class="mini-name">${c.name}</div>`;
+    strip.appendChild(el);
+  });
+}
+  
 function xmur3(str) {
     for(var i = 0, h = 1779033703 ^ str.length; i < str.length; i++) {
         h = Math.imul(h ^ str.charCodeAt(i), 3432918353); h = h << 13 | h >>> 19;
