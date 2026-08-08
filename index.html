@@ -1870,6 +1870,7 @@ function buyBNGPack() {
   else if (packKey === 'bng_special') {
     const levelUps = CARD_POOL_RAW.filter(c => c.isLevelUp);
     const fallback = CARD_POOL_RAW.filter(c => c.rarity !== 'hero');
+    const standardPool = CARD_POOL_RAW.filter(c => c.rarity !== 'hero' && c.rarity !== 'fusion' && !c.isLevelUp);
     
     // Ensure we have a Banana card available in case one does not exist
     let bananaCards = CARD_POOL_RAW.filter(c => c.name.toLowerCase().includes('banana'));
@@ -1885,23 +1886,27 @@ function buyBNGPack() {
       bananaCards = [mockBanana];
     }
 
+    // 12 Base Cards
     for (let i = 0; i < 12; i++) {
-      const roll = rng() * 100;
-      let card;
-      if (roll < 50) {
-        card = randEl(bananaCards);
-      } else if (roll < 75) {
-        card = randEl(legendaries.length ? legendaries : fallback);
-      } else if (roll < 90) {
-        card = randEl(fusionsOnly.length ? fusionsOnly : fallback);
-      } else {
-        card = randEl(levelUps.length ? levelUps : fallback);
-      }
-      pulled.push(cloneCardBNG(card));
+      pulled.push(cloneCardBNG(randEl(fallback)));
     }
     
-    // Exactly one card is guaranteed to be Shiny
-    pulled[Math.floor(rng() * 12)].shiny = true;
+    // Extra conditional slots
+    if (rng() * 100 < 50) {
+      pulled.push(cloneCardBNG(randEl(bananaCards)));
+    }
+    if (rng() * 100 < 25) {
+      pulled.push(cloneCardBNG(randEl(legendaries.length ? legendaries : fallback)));
+    }
+    if (rng() * 100 < 15) {
+      pulled.push(cloneCardBNG(randEl(fusionsOnly.length ? fusionsOnly : fallback)));
+    }
+    if (rng() * 100 < 10) {
+      pulled.push(cloneCardBNG(randEl(levelUps.length ? levelUps : fallback)));
+    }
+    
+    // 100% chance for a Shiny (extra slot)
+    pulled.push(cloneCardBNG(randEl(fallback), true));
   }
 
   bngState.purchasedCards.push(...pulled);
