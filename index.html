@@ -346,7 +346,7 @@
     background:linear-gradient(90deg,var(--gold),var(--silver)); color:#1a1408; padding:2px 7px; border-radius:4px; font-weight:700;
   }
 
-  /* DECKBUILDER */
+  /* DECKBUILDER UI */
   #screen-build .build-header{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px; flex-wrap:wrap; gap:10px;}
   .counter{font-family:'Anton',sans-serif; font-size:26px; color:var(--green);}
   .counter.full{color:var(--pink);}
@@ -365,10 +365,20 @@
     background:var(--panel); border:1px solid var(--line); color:var(--muted);
     padding:6px 14px; border-radius:20px; font-size:13px; cursor:pointer; letter-spacing:.3px;
     font-family:'Barlow',sans-serif; font-weight:600; display:inline-flex; align-items:center; gap:6px;
+    min-width: 90px; justify-content: center;
   }
-  .sort-btn::before{content:"⇅"; font-size:12px;}
   .sort-btn.active{border-color:var(--gold); color:var(--gold); background:rgba(244,197,66,0.1);}
   #reveal-controls .sort-btn{border-radius:20px;}
+
+  .filter-select {
+    background: var(--panel) url('data:image/svg+xml;utf8,<svg fill="%2393a5ac" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>') no-repeat right 6px center;
+    border: 1px solid var(--line); color: var(--muted);
+    padding: 7px 30px 7px 14px; border-radius: 20px; font-size: 13px; cursor: pointer; letter-spacing: .3px;
+    font-family: 'Barlow', sans-serif; font-weight: 600; outline: none; appearance: none; -webkit-appearance: none;
+  }
+  .filter-select:hover { border-color: var(--gold); color: var(--gold); }
+  .filter-select option { background: var(--bg2); color: var(--text); }
+
   .pool-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(140px,1fr)); gap:14px; margin:20px 0 40px; }
   .pool-card{position:relative; transition:transform .15s ease;}
   .pool-card:hover{transform:translateY(-3px);}
@@ -632,7 +642,7 @@
     <div class="screen-flash" id="screen-flash"></div>
     <div id="particle-field"></div>
     <div class="center" id="reveal-controls" style="display:none; margin-bottom:6px;">
-      <button class="btn secondary sort-btn" id="sort-toggle-packs" onclick="toggleSort('packs')">Sort by Rarity</button>
+      <button class="btn secondary sort-btn" id="sort-toggle-packs" onclick="cycleSortPacks()">Sort by Rarity</button>
     </div>
     <div class="reveal-grid" id="reveal-grid"></div>
     <div class="center" id="pack-next-wrap" style="display:none;">
@@ -647,10 +657,36 @@
       <div class="counter" id="pick-counter">0 / 12</div>
     </div>
     <p style="color:var(--muted); font-size:14px;">Your hero is already locked into the deck. Pick cards from the pool below.<br><b>Left Click</b> to inspect, <b>Right Click</b> to quick-add/remove.</p>
-    <div class="theme-filters" id="theme-filters"></div>
-    <div class="center" style="margin-bottom:4px;">
-      <button class="btn secondary sort-btn" id="sort-toggle-pool" onclick="toggleSort('pool')" style="display:none;">Sort by Rarity</button>
+    
+    <div class="deckbuild-hero-container" style="display:flex; flex-direction:column; align-items:center; margin: 24px 0;">
+      <div style="color:var(--gold); font-family:'Anton',sans-serif; letter-spacing:1px; margin-bottom: 8px;">YOUR HERO</div>
+      <div id="deckbuild-hero-wrap" style="width: 180px; transition: transform .15s ease;"></div>
     </div>
+
+    <div class="filters-container" style="display:flex; flex-direction:column; gap:12px; margin: 16px 0;">
+       <div class="theme-filters center" id="theme-filters" style="justify-content:center; margin:0;"></div>
+       
+       <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:center;">
+          <select id="filter-collection" onchange="updateDropdownFilters()" class="filter-select">
+             <option value="all">All Collections</option>
+          </select>
+          <select id="filter-trigger" onchange="updateDropdownFilters()" class="filter-select">
+             <option value="all">All Triggers</option>
+             <option value="play">Play</option>
+             <option value="draw">Draw</option>
+             <option value="return">Return</option>
+             <option value="turnstart">Turn Start</option>
+             <option value="none">No Trigger</option>
+          </select>
+          
+          <div style="width:1px; height:24px; background:var(--line); margin:0 4px;"></div>
+          
+          <button class="btn secondary sort-btn sort-btn-pool" id="sort-btn-rarity" data-default="Rarity" onclick="cycleSortPool('rarity')">Rarity</button>
+          <button class="btn secondary sort-btn sort-btn-pool" id="sort-btn-energy" data-default="Energy" onclick="cycleSortPool('energy')">Energy</button>
+          <button class="btn secondary sort-btn sort-btn-pool" id="sort-btn-power" data-default="Power" onclick="cycleSortPool('power')">Power</button>
+       </div>
+    </div>
+
     <div class="pool-grid" id="pool-grid"></div>
     <div class="center">
       <button class="btn pink" id="finish-btn" disabled onclick="showExport()">Finish Deck</button>
@@ -689,7 +725,7 @@
         <div class="num">2</div>
         <div class="text">
           <h4>Open Packs</h4>
-          <p>Rip open 6 packs! Every card you open gets added to a big pool that you can use to build your deck.</p>
+          <p>Rip open your packs! Every card you open gets added to a big pool that you can use to build your deck.</p>
         </div>
       </div>
       <div class="tutorial-step">
@@ -703,7 +739,7 @@
         <div class="num">4</div>
         <div class="text">
           <h4>Build Your Deck</h4>
-          <p>After opening all packs, pick exactly 12 cards from your pool to create your final deck strategy.</p>
+          <p>After opening all packs, pick exactly your required amount of cards from your pool to create your final deck strategy.</p>
         </div>
       </div>
       <div class="tutorial-step">
@@ -762,7 +798,10 @@ function sfc32(a, b, c, d) {
    ========================================================= */
 const RARITIES = ["common","rare","epic","legendary","fusion"];
 const RARITY_ORDER = {legendary:0, fusion:1, epic:2, rare:3, common:4};
-function sortByRarity(cards){ return [...cards].sort((a,b)=> RARITY_ORDER[a.rarity]-RARITY_ORDER[b.rarity]); }
+
+function sortByRarity(cards, dir = 1){ 
+  return [...cards].sort((a,b)=> (RARITY_ORDER[a.rarity]-RARITY_ORDER[b.rarity]) * dir); 
+}
 
 const rarityColor = {common:"#3a3f52", rare:"#124a63", epic:"#4a2166", legendary:"#7a4a12", fusion:"#6b1a4a"};
 const THEMES = {
@@ -839,8 +878,6 @@ function parseCSV(text) {
     if(EXCLUDED_CARDS.some(ex => name.toLowerCase().includes(ex))) continue;
     const abilityTitle = row[7].trim();
     const abilityParsed = parseAbilityText(row[8].trim());
-    
-    // Check for level-up cards based on text
     const isLevelUp = name.toLowerCase().includes("level up") || abilityParsed.toLowerCase().includes("level up");
 
     const c = {
@@ -918,11 +955,10 @@ function closeTutorial(e) { document.getElementById("tutorial-modal").classList.
    DRAFT LOGIC & STATE
    ========================================================= */
 let state = {
-  config: null,
-  activePool: [], 
-  hero:null, heroOptions:[],
+  config: null, activePool: [], hero:null, heroOptions:[],
   packs:[], currentPack:0, pulledIds: new Set(), poolAll:[], picked:[],
-  themeFilter:"all", sortRarity:{packs:false, pool:false}
+  themeFilter: "all", collectionFilter: "all", triggerFilter: "all",
+  sortBy: null, sortDir: 0, sortRarity: {packs: 0}
 };
 
 const SIDNEY_CONFIG = {
@@ -936,19 +972,11 @@ function show(screenId){
   window.scrollTo({top:0, behavior:"smooth"});
 }
 
-function toggleSort(which){
-  state.sortRarity[which] = !state.sortRarity[which];
-  document.getElementById(which==="packs" ? "sort-toggle-packs" : "sort-toggle-pool").classList.toggle("active", state.sortRarity[which]);
-  if(which==="packs"){ renderReveal(state.packs[state.currentPack]); } else { renderPool(); }
-}
-
 /* CUSTOM DRAFT BUILDER */
 function setupCustomDraftUI() { updateSlotsUI(); }
 function updateSlotsUI() {
   const cardsPerPack = parseInt(document.getElementById("custom-cards-pack").value) || 5;
   const container = document.getElementById("custom-slots-container");
-  
-  // Maintain existing selections if possible
   const existingSelects = Array.from(container.querySelectorAll("select")).map(s => s.value);
   container.innerHTML = "";
   
@@ -1065,8 +1093,7 @@ function startHeroPick(mode){
 
 /* PULL LOGIC */
 function weightedPickFromPool(tierA, tierB, pctA, excludeIds){
-  const useTierA = rng()*100 < pctA;
-  const tier = useTierA ? tierA : tierB;
+  const useTierA = rng()*100 < pctA; const tier = useTierA ? tierA : tierB;
   const pickFrom = (t) => state.activePool.filter(c => c.rarity===t && !state.pulledIds.has(c.id) && !excludeIds.has(c.id));
   let available = pickFrom(tier);
   if(available.length===0){ available = pickFrom(tier===tierA ? tierB : tierA); }
@@ -1108,8 +1135,7 @@ function pullPack(){
       case "g_fus": c = guaranteedPickFromPool("fusion", excludeIds); break;
       case "rnd": default: c = randomPickFromPool(excludeIds); break;
     }
-    excludeIds.add(c.id);
-    return c;
+    excludeIds.add(c.id); return c;
   });
   pulled.forEach(c => state.pulledIds.add(c.id));
 
@@ -1128,8 +1154,7 @@ function startPacks(){
   document.getElementById("pack-deck").style.display = "flex";
   document.getElementById("hero-chip-img").src = state.hero.image;
   document.getElementById("hero-chip-name").textContent = state.hero.name;
-  resetPackVisual(); updatePackStatus();
-  show("screen-packs");
+  resetPackVisual(); updatePackStatus(); show("screen-packs");
 }
 
 function resetPackVisual(){ document.getElementById("pack-stage").classList.remove("ripping"); document.getElementById("pack-burst").classList.remove("go"); }
@@ -1176,36 +1201,80 @@ function openPack(){
 
 function renderReveal(pulled){
   const grid = document.getElementById("reveal-grid"); grid.innerHTML = "";
-  const ordered = state.sortRarity.packs ? sortByRarity(pulled) : pulled;
+  let ordered = [...pulled];
+  if(state.sortRarity.packs !== 0) {
+      ordered = sortByRarity(pulled, state.sortRarity.packs);
+  }
   ordered.forEach((c,i)=>{
     const wrapper = document.createElement('div'); wrapper.innerHTML = buildCardHTML(c).trim();
     const el = wrapper.firstChild; el.style.animationDelay = (i*0.09)+"s"; el.onclick = () => openInspect(c, false); grid.appendChild(el);
   });
 }
 
-function nextPackOrBuild(){
-  state.currentPack++;
-  if(state.currentPack < state.config.packs){
-    document.getElementById("reveal-grid").innerHTML = ""; document.getElementById("reveal-controls").style.display = "none";
-    document.getElementById("pack-next-wrap").style.display = "none"; document.getElementById("pack-deck").style.display = "flex";
-    resetPackVisual(); updatePackStatus();
-  } else { buildPool(); show("screen-build"); }
+function cycleSortPacks() {
+   if (state.sortRarity.packs === 0) state.sortRarity.packs = 1;
+   else if (state.sortRarity.packs === 1) state.sortRarity.packs = -1;
+   else state.sortRarity.packs = 0;
+   
+   const btn = document.getElementById("sort-toggle-packs");
+   if (state.sortRarity.packs === 0) {
+      btn.classList.remove('active');
+      btn.textContent = "Sort by Rarity";
+   } else {
+      btn.classList.add('active');
+      btn.textContent = "Rarity " + (state.sortRarity.packs === 1 ? '↓' : '↑');
+   }
+   renderReveal(state.packs[state.currentPack]);
 }
 
 function buildPool(){
   state.poolAll = state.packs.flat(); state.picked = [];
-  document.getElementById("sort-toggle-pool").style.display = "inline-flex";
-  renderThemeFilters(); renderPool();
+  state.themeFilter = "all"; state.collectionFilter = "all"; state.triggerFilter = "all";
+  state.sortBy = null; state.sortDir = 0;
+  
+  const heroWrap = document.getElementById("deckbuild-hero-wrap");
+  heroWrap.innerHTML = buildCardHTML(state.hero) + `<div class="pick-badge">✓</div>`;
+  heroWrap.className = "pool-card picked";
+  heroWrap.onclick = () => openInspect(state.hero, false);
+  heroWrap.style.cursor = "pointer";
+
+  renderAdvancedFilters();
+  renderPool();
+}
+
+function renderAdvancedFilters() {
+   renderThemeFilters();
+   
+   const collections = [...new Set(state.poolAll.map(c => c.collection))].filter(Boolean).sort();
+   const collSelect = document.getElementById("filter-collection");
+   collSelect.innerHTML = `<option value="all">All Collections</option>` + 
+      collections.map(c => `<option value="${c}">${c}</option>`).join('');
+   collSelect.value = state.collectionFilter;
+
+   document.getElementById("filter-trigger").value = state.triggerFilter;
+   
+   document.querySelectorAll('.sort-btn-pool').forEach(btn => {
+      btn.classList.remove('active');
+      btn.textContent = btn.getAttribute('data-default');
+   });
+}
+
+function updateDropdownFilters() {
+   state.collectionFilter = document.getElementById("filter-collection").value;
+   state.triggerFilter = document.getElementById("filter-trigger").value;
+   renderPool();
 }
 
 function renderThemeFilters(){
   const wrap = document.getElementById("theme-filters"); const themesPresent = [...new Set(state.poolAll.map(c=>c.theme))];
-  const sortBtn = document.getElementById("sort-toggle-pool"); wrap.innerHTML = ""; wrap.appendChild(sortBtn);
+  wrap.innerHTML = "";
   const pickedCount = (t) => state.picked.filter(c=>c.theme===t).length;
+  
   const allBtn = document.createElement("button");
   allBtn.innerHTML = `All ${state.picked.length ? `<span class="theme-count-badge">${state.picked.length}</span>` : ""}`;
   allBtn.className = state.themeFilter==="all" ? "active" : "";
   allBtn.onclick = ()=>{ state.themeFilter="all"; renderThemeFilters(); renderPool(); }; wrap.appendChild(allBtn);
+  
   themesPresent.forEach(t=>{
     const label = THEMES[t] ? THEMES[t].label : t; const n = pickedCount(t); const b = document.createElement("button");
     b.innerHTML = `${label} ${n ? `<span class="theme-count-badge">${n}</span>` : ""}`;
@@ -1213,15 +1282,68 @@ function renderThemeFilters(){
   });
 }
 
+function cycleSortPool(field) {
+   if (state.sortBy !== field) {
+      state.sortBy = field;
+      state.sortDir = 1; 
+   } else {
+      if (state.sortDir === 1) state.sortDir = -1;
+      else if (state.sortDir === -1) state.sortDir = 0;
+      else state.sortDir = 1;
+   }
+   
+   document.querySelectorAll('.sort-btn-pool').forEach(btn => {
+      btn.classList.remove('active');
+      btn.textContent = btn.getAttribute('data-default');
+   });
+   
+   if (state.sortDir !== 0) {
+      const activeBtn = document.getElementById(`sort-btn-${field}`);
+      activeBtn.classList.add('active');
+      activeBtn.textContent = activeBtn.getAttribute('data-default') + (state.sortDir === 1 ? ' ↓' : ' ↑');
+   }
+   renderPool();
+}
+
 function renderPool(){
   const grid = document.getElementById("pool-grid"); grid.innerHTML = "";
-  const ordered = state.sortRarity.pool ? sortByRarity(state.poolAll) : state.poolAll;
-  ordered.forEach(c=>{
+  
+  let displayCards = [...state.poolAll];
+  
+  if (state.sortDir !== 0) {
+    displayCards.sort((a,b) => {
+       if (state.sortBy === 'rarity') {
+          return (RARITY_ORDER[a.rarity] - RARITY_ORDER[b.rarity]) * state.sortDir;
+       } else if (state.sortBy === 'energy') {
+          return (b.energy - a.energy) * state.sortDir;
+       } else if (state.sortBy === 'power') {
+          return (b.power - a.power) * state.sortDir;
+       }
+       return 0;
+    });
+  }
+
+  displayCards.forEach(c=>{
     const wrap = document.createElement("div"); wrap.className = "pool-card";
-    if(state.themeFilter!=="all" && c.theme!==state.themeFilter) wrap.classList.add("hidden");
+    
+    let isHidden = false;
+    if(state.themeFilter !== "all" && c.theme !== state.themeFilter) isHidden = true;
+    if(state.collectionFilter !== "all" && c.collection !== state.collectionFilter) isHidden = true;
+    if(state.triggerFilter !== "all") {
+       const ab = c.ability || "";
+       if(state.triggerFilter === 'play' && !ab.includes("▶ PLAY:")) isHidden = true;
+       if(state.triggerFilter === 'draw' && !ab.includes("✦ DRAW:")) isHidden = true;
+       if(state.triggerFilter === 'return' && !ab.includes("↩ RETURN:")) isHidden = true;
+       if(state.triggerFilter === 'turnstart' && !ab.includes("⏳ TURN START:")) isHidden = true;
+       if(state.triggerFilter === 'none' && (ab.includes("▶ PLAY:") || ab.includes("✦ DRAW:") || ab.includes("↩ RETURN:") || ab.includes("⏳ TURN START:"))) isHidden = true;
+    }
+    
+    if(isHidden) wrap.classList.add("hidden");
+    
     const isPicked = state.picked.some(p=>p.id===c.id);
     if(isPicked) wrap.classList.add("picked");
     if(!isPicked && state.picked.length >= state.config.deckSize) wrap.classList.add("disabled");
+    
     wrap.innerHTML = buildCardHTML(c) + `<div class="pick-badge">✓</div>`;
     wrap.onclick = (e) => { openInspect(c, true); }; wrap.oncontextmenu = (e) => { e.preventDefault(); togglePick(c); };
     grid.appendChild(wrap);
