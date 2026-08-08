@@ -1226,7 +1226,24 @@ function cycleSortPacks() {
    }
    renderReveal(state.packs[state.currentPack]);
 }
-
+function nextPackOrBuild() {
+  state.currentPack++;
+  
+  if (state.currentPack < state.config.packs) {
+    // Reset UI for the next pack
+    document.getElementById("reveal-grid").innerHTML = "";
+    document.getElementById("reveal-controls").style.display = "none";
+    document.getElementById("pack-next-wrap").style.display = "none";
+    document.getElementById("pack-deck").style.display = "flex";
+    
+    resetPackVisual();
+    updatePackStatus();
+  } else {
+    // All packs opened, go to deckbuilder
+    buildPool();
+    show("screen-build");
+  }
+}
 function buildPool(){
   state.poolAll = state.packs.flat(); state.picked = [];
   state.themeFilter = "all"; state.collectionFilter = "all"; state.triggerFilter = "all";
