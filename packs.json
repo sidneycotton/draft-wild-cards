@@ -1,0 +1,229 @@
+{
+  "anarchy": {
+    "name": "Anarchy Pack",
+    "emoji": "😈",
+    "cost": 50,
+    "currency": "shards",
+    "desc": "3 Random cards. Pure chaos.",
+    "rules": {
+      "slots": [
+        {
+          "type": "random",
+          "count": 3,
+          "odds": {
+            "common": 97.0,
+            "rare": 60.0,
+            "epic": 12.5,
+            "legendary": 3.5
+          }
+        }
+      ],
+      "allowFusions": false,
+      "allowLevelUps": false,
+      "allowShinies": false
+    }
+  },
+  "manic_mash_ups": {
+    "name": "Manic Mash Ups",
+    "emoji": "🎭",
+    "cost": 30,
+    "currency": "shards",
+    "desc": "1 Guaranteed Mash Up, 2 Random cards, and a 25% chance for a bonus item.",
+    "rules": {
+      "slots": [
+        {
+          "type": "pool",
+          "guaranteed": true,
+          "pool": [
+            "Pinocchio", 
+            "Clouds", 
+            "Ninja", 
+            "Bull Shark", 
+            "Friday the 13th", 
+            "The Moon"
+          ]
+        },
+        {
+          "type": "random",
+          "count": 2,
+          "odds": {
+            "common": 96.5,
+            "rare": 58.5,
+            "epic": 13.0,
+            "legendary": 23.0
+          }
+        },
+        {
+          "type": "pool",
+          "guaranteed": false,
+          "chance": 25.0,
+          "pool": [
+            "Grim Reaper", 
+            "Wooly Mammoth", 
+            "Chainsaw", 
+            "Goldfish", 
+            "Electric Guitar"
+          ]
+        }
+      ],
+      "allowFusions": true,
+      "allowLevelUps": true,
+      "allowShinies": false
+    }
+  },
+  "great_minds": {
+    "name": "Great Minds",
+    "emoji": "🧠",
+    "cost": 30,
+    "currency": "shards",
+    "desc": "1 Guaranteed from the Great Minds pool, 2 Random cards, 25% chance for a bonus historical figure.",
+    "rules": {
+      "slots": [
+        {
+          "type": "pool",
+          "guaranteed": true,
+          "pool": [
+            "Bratwurst", 
+            "Tarzan of the Apes", 
+            "Mummies", 
+            "Bananas", 
+            "Snowflakes", 
+            "Hades"
+          ]
+        },
+        {
+          "type": "random",
+          "count": 2,
+          "odds": {
+            "common": 96.5,
+            "rare": 58.5,
+            "epic": 13.0,
+            "legendary": 23.0
+          }
+        },
+        {
+          "type": "pool",
+          "guaranteed": false,
+          "chance": 25.0,
+          "pool": [
+            "Abraham Lincoln", 
+            "Wright Brothers", 
+            "Grand Piano", 
+            "Harry Houdini", 
+            "Doc Holliday"
+          ]
+        }
+      ],
+      "allowFusions": true,
+      "allowLevelUps": true,
+      "allowShinies": false
+    }
+  },
+  "starstruck": {
+    "name": "Starstruck",
+    "emoji": "⭐",
+    "cost": 50,
+    "currency": "shards",
+    "desc": "2 Random cards, 1 Guaranteed Rare+, and a 5% chance for a Legendary 'New Card'.",
+    "rules": {
+      "slots": [
+        {
+          "type": "random",
+          "count": 2,
+          "odds": {
+            "common": 90.5,
+            "rare": 89.5,
+            "epic": 27.0,
+            "legendary": 9.0
+          }
+        },
+        {
+          "type": "rarity_guarantee",
+          "count": 1,
+          "minRarity": "rare"
+        },
+        {
+          "type": "special_tag",
+          "guaranteed": false,
+          "chance": 5.0,
+          "rarity": "legendary",
+          "tag": "New Card"
+        }
+      ],
+      "allowFusions": true,
+      "allowLevelUps": true,
+      "allowShinies": false
+    }
+  },
+  "punk_out": {
+    "name": "Punk Out",
+    "emoji": "🎸",
+    "cost": 75,
+    "currency": "shards",
+    "desc": "1 Random card, 2 Guaranteed Rare+, and a 25% chance for a Rare 'New Card'.",
+    "rules": {
+      "slots": [
+        {
+          "type": "random",
+          "count": 1,
+          "odds": {
+            "common": 68.5,
+            "rare": 100.0,
+            "epic": 15.0,
+            "legendary": 4.5
+          }
+        },
+        {
+          "type": "rarity_guarantee",
+          "count": 2,
+          "minRarity": "rare"
+        },
+        {
+          "type": "special_tag",
+          "guaranteed": false,
+          "chance": 25.0,
+          "rarity": "rare",
+          "tag": "New Card"
+        }
+      ],
+      "allowFusions": true,
+      "allowLevelUps": true,
+      "allowShinies": false
+    }
+  },
+  "collection_pack": {
+    "name": "Collection Pack",
+    "emoji": "📦",
+    "cost": 50,
+    "currency": "shards",
+    "desc": "Select a collection from the drop-down list. Receive 2 cards from that collection and 2 cards from its parent album.",
+    "rules": {
+      "requiresSelection": "collection",
+      "slots": [
+        {
+          "type": "selected_collection",
+          "count": 2,
+          "odds": {
+            "common": 99.0,
+            "rare": 71.0,
+            "epic": 17.0,
+            "legendary": 5.0
+          }
+        },
+        {
+          "type": "selected_album",
+          "count": 2,
+          "odds": {
+            "common": 99.0,
+            "rare": 71.0,
+            "epic": 17.0,
+            "legendary": 5.0
+          }
+        }
+      ],
+      "allowFusions": true,
+      "allowLevelUps": true,
+      "allowShinies": false
+    }
+  }
+}
