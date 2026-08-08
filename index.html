@@ -298,11 +298,19 @@
   .shop-item .desc { font-size: 15px; color: var(--muted); line-height: 1.5; margin-bottom: 18px; height: 65px; display: flex; align-items: center; justify-content: center; }
   .shop-item .cost { font-weight: 700; color: var(--green); font-size: 18px; font-family: 'Anton', sans-serif; letter-spacing: 1px;}
   
+  /* BNG MODAL COLLECTION GRID */
+  #bng-purchased-grid {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 14px;
+  }
+  #bng-purchased-grid .pool-card {
+    width: 140px; flex: 0 0 140px;
+  }
+
   /* CARD UI UPDATES */
   .card{
     background:#0a1018; border-radius:12px; overflow:hidden; border:2px solid var(--line);
     animation:cardShoot .5s cubic-bezier(.2,.8,.3,1.15) backwards;
-    display: flex; flex-direction: column; position:relative; cursor: pointer;
+    display: flex; flex-direction: column; position:relative; cursor: pointer; width: 100%;
   }
   .card.shiny{ border-image:linear-gradient(135deg, var(--gold), var(--silver), var(--gold)) 1; box-shadow:0 0 24px rgba(244,197,66,0.4); }
   @keyframes cardShoot{ from{opacity:0; transform:scale(.4) translateY(60px) rotate(-8deg);} 60%{opacity:1;} to{opacity:1; transform:scale(1) translateY(0) rotate(0deg);} }
@@ -490,7 +498,7 @@
     <h2 class="center" style="font-size:34px; margin-bottom: 30px;">Select Draft Type</h2>
     <div style="display:flex; flex-direction:column; gap:20px; justify-content:center; max-width: 400px; margin: 0 auto;">
       <button class="btn" onclick="show('screen-sidney-draft')">Sidney 6-Pack</button>
-      <button class="btn gold" onclick="startBNGDraft()">BNG's Credits Draft</button>
+      <button class="btn gold" onclick="show('screen-bng-intro')">BNG's Credits Draft</button>
       <button class="btn pink" onclick="setupCustomDraftUI(); show('screen-custom-draft')">Custom Draft</button>
     </div>
     <div class="back-btn-wrap">
@@ -510,7 +518,27 @@
 
       <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
         <button class="btn gold" onclick="openTutorial('sidney')">How to Play</button>
-        <button class="btn" onclick="startHeroPick('sidney')">Start Draft</button>
+        <button class="btn" onclick="startSidneyDraft()">Start Draft</button>
+      </div>
+    </div>
+    <div class="back-btn-wrap">
+      <button class="btn secondary" style="font-size: 16px; padding: 8px 20px;" onclick="show('screen-draft-select')">Back</button>
+    </div>
+  </section>
+
+  <!-- BNG INTRO SCREEN -->
+  <section id="screen-bng-intro" class="screen">
+    <div class="intro-body">
+      <h2 style="font-size:34px; margin-bottom: 8px; color:var(--gold);">BNG's Credits Draft</h2>
+      <p>Start with a budget of 1000 credits to buy packs from the shop.</p>
+      
+      <div style="margin: 24px 0;">
+        <input type="text" id="draft-seed-input-bng" placeholder="Enter Draft Seed (Optional)" style="padding: 12px 14px; border-radius: 6px; border: 1px solid var(--line); background: var(--bg2); color: var(--text); font-family: 'Barlow', sans-serif; font-size: 16px; width: 100%; max-width: 280px; text-align: center; text-transform: uppercase;">
+      </div>
+
+      <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
+        <button class="btn gold" onclick="openTutorial('bng')">How to Play</button>
+        <button class="btn" onclick="startBNGDraft()">Go to Shop</button>
       </div>
     </div>
     <div class="back-btn-wrap">
@@ -727,7 +755,7 @@
       <h2 style="font-size:28px;">Build Your Deck</h2>
       <div class="counter" id="pick-counter">0 / 12</div>
     </div>
-    <p style="color:var(--muted); font-size:14px;">Your hero is already locked into the deck. Pick cards from the pool below.<br><b>Left Click</b> to inspect, <b>Right Click</b> to quick-add/remove.</p>
+    <p id="build-subtitle" style="color:var(--muted); font-size:14px;">Your hero is already locked into the deck. Pick cards from the pool below.<br><b>Left Click</b> to inspect, <b>Right Click</b> to quick-add/remove.</p>
     
     <div class="deckbuild-hero-container" style="display:flex; flex-direction:column; align-items:center; margin: 24px 0;">
       <div style="color:var(--gold); font-family:'Anton',sans-serif; letter-spacing:1px; margin-bottom: 8px;">YOUR HERO</div>
@@ -788,33 +816,26 @@
       <div class="tutorial-step">
         <div class="num">1</div>
         <div class="text">
-          <h4>Draft Your Hero</h4>
-          <p>Choose one of 3 random Heroes to lead your deck. This card is guaranteed in your final lineup!</p>
-        </div>
-      </div>
-      <div class="tutorial-step">
-        <div class="num">2</div>
-        <div class="text">
           <h4>Open Packs</h4>
           <p>Rip open your packs! Every card you open gets added to a big pool that you can use to build your deck.</p>
         </div>
       </div>
       <div class="tutorial-step">
-        <div class="num">3</div>
+        <div class="num">2</div>
         <div class="text">
           <h4>Wild Shinies</h4>
           <p>Packs may contain an extra shiny card. It can be of <b>ANY</b> rarity. Muahahaha, totally wild! 😈</p>
         </div>
       </div>
       <div class="tutorial-step">
-        <div class="num">4</div>
+        <div class="num">3</div>
         <div class="text">
           <h4>Build Your Deck</h4>
-          <p>After opening all packs, pick exactly your required amount of cards from your pool to create your final deck strategy.</p>
+          <p>After opening all packs, pick exactly your required amount of cards from your pool to create your final deck strategy. This includes picking exactly one Hero for your lineup.</p>
         </div>
       </div>
       <div class="tutorial-step">
-        <div class="num">5</div>
+        <div class="num">4</div>
         <div class="text">
           <h4>Battle!</h4>
           <p>To play, you need to have someone else also draft a deck and match up with them in a custom game inside Wild Cards.</p>
@@ -881,7 +902,7 @@
   <div class="modal-content wide" onclick="event.stopPropagation()">
     <button class="close-modal-btn" onclick="closeBNGCollectionModal()">✕</button>
     <h3 style="font-family:'Anton',sans-serif; font-size:28px; color:var(--gold); text-transform:uppercase;">Purchased Cards (<span id="bng-purchased-count">0</span>)</h3>
-    <div class="pool-grid" id="bng-purchased-grid" style="width:100%; max-height:60vh; overflow-y:auto; margin-top:15px;"></div>
+    <div id="bng-purchased-grid" style="width:100%; max-height:60vh; overflow-y:auto; margin-top:15px;"></div>
     <button class="btn secondary" onclick="closeBNGCollectionModal()">Close</button>
   </div>
 </div>
@@ -1198,20 +1219,36 @@ function generatePoolBasedOnConfig(config) {
   return pool;
 }
 
+function startSidneyDraft() {
+  state.draftMode = 'sidney';
+  const seedInput = document.getElementById("draft-seed-input-sidney").value.trim().toUpperCase();
+  state.config = SIDNEY_CONFIG;
+  
+  state.seed = seedInput || Math.random().toString(36).substring(2, 8).toUpperCase();
+  document.getElementById("draft-seed-input-sidney").value = state.seed;
+  
+  const seedGen = xmur3(state.seed);
+  rng = sfc32(seedGen(), seedGen(), seedGen(), seedGen());
+
+  state.activePool = generatePoolBasedOnConfig(state.config);
+
+  // Roll 3 heroes, append directly to pool later
+  let shuffled = [...HERO_POOL_RAW].sort(()=>rng()-0.5);
+  state.heroOptions = shuffled.slice(0,3);
+  
+  startPacks();
+}
+
 function startHeroPick(mode){
   state.draftMode = mode;
   let seedInput = "";
-  if(mode === 'sidney') {
-    seedInput = document.getElementById("draft-seed-input-sidney").value.trim().toUpperCase();
-    state.config = SIDNEY_CONFIG;
-  } else if (mode === 'custom') {
+  if (mode === 'custom') {
     seedInput = document.getElementById("draft-seed-input-custom").value.trim().toUpperCase();
     state.config = getCustomConfig();
   }
   
   state.seed = seedInput || Math.random().toString(36).substring(2, 8).toUpperCase();
-  if(mode==='sidney') document.getElementById("draft-seed-input-sidney").value = state.seed;
-  else if(mode==='custom') document.getElementById("draft-seed-input-custom").value = state.seed;
+  if(mode==='custom') document.getElementById("draft-seed-input-custom").value = state.seed;
   
   const seedGen = xmur3(state.seed);
   rng = sfc32(seedGen(), seedGen(), seedGen(), seedGen());
@@ -1307,8 +1344,15 @@ function startPacks(){
   document.getElementById("reveal-grid").innerHTML = "";
   document.getElementById("pack-next-wrap").style.display = "none";
   document.getElementById("pack-deck").style.display = "flex";
-  document.getElementById("hero-chip-img").src = state.hero.image;
-  document.getElementById("hero-chip-name").textContent = state.hero.name;
+  
+  if (state.draftMode === 'sidney') {
+      document.getElementById("hero-chip").style.display = 'none';
+  } else {
+      document.getElementById("hero-chip").style.display = 'flex';
+      document.getElementById("hero-chip-img").src = state.hero.image;
+      document.getElementById("hero-chip-name").textContent = state.hero.name;
+  }
+  
   resetPackVisual(); updatePackStatus(); show("screen-packs");
 }
 
@@ -1412,11 +1456,23 @@ function buildPool(){
   state.themeFilter = "all"; state.collectionFilter = "all"; state.triggerFilter = "all";
   state.sortBy = null; state.sortDir = 0;
   
-  const heroWrap = document.getElementById("deckbuild-hero-wrap");
-  heroWrap.innerHTML = buildCardHTML(state.hero);
-  heroWrap.className = "pool-card picked";
-  heroWrap.onclick = () => openInspect(state.hero, false);
-  heroWrap.style.cursor = "pointer";
+  const heroWrapContainer = document.querySelector(".deckbuild-hero-container");
+  const buildSubtitle = document.getElementById("build-subtitle");
+
+  if (state.draftMode === 'sidney') {
+      state.poolAll = [...state.poolAll, ...state.heroOptions];
+      heroWrapContainer.style.display = 'none';
+      buildSubtitle.innerHTML = `You must pick exactly 1 Hero and 11 other cards to complete your deck.<br><b>Left Click</b> to inspect, <b>Right Click</b> to quick-add/remove.`;
+  } else {
+      heroWrapContainer.style.display = 'flex';
+      buildSubtitle.innerHTML = `Your hero is already locked into the deck. Pick cards from the pool below.<br><b>Left Click</b> to inspect, <b>Right Click</b> to quick-add/remove.`;
+      
+      const heroWrap = document.getElementById("deckbuild-hero-wrap");
+      heroWrap.innerHTML = buildCardHTML(state.hero);
+      heroWrap.className = "pool-card picked";
+      heroWrap.onclick = () => openInspect(state.hero, false);
+      heroWrap.style.cursor = "pointer";
+  }
 
   renderAdvancedFilters();
   renderPool();
@@ -1533,7 +1589,23 @@ function renderPool(){
 
 function togglePick(c){
   const idx = state.picked.findIndex(p=>p.id===c.id);
-  if(idx>=0){ state.picked.splice(idx,1); } else if(state.picked.length < state.config.deckSize){ state.picked.push(c); }
+  
+  if (idx >= 0) { 
+      state.picked.splice(idx, 1); 
+  } else { 
+      if (state.draftMode === 'sidney' && c.rarity === 'hero') {
+          const existingHeroIdx = state.picked.findIndex(p => p.rarity === 'hero');
+          if (existingHeroIdx >= 0) {
+              state.picked.splice(existingHeroIdx, 1);
+              state.picked.push(c);
+          } else if (state.picked.length < state.config.deckSize) {
+              state.picked.push(c);
+          }
+      } else if (state.picked.length < state.config.deckSize) {
+          state.picked.push(c);
+      }
+  }
+  
   renderThemeFilters(); renderPool();
   if(inspectTargetCard && inspectTargetCard.id === c.id) {
      const isPicked = state.picked.some(p => p.id === c.id); const btn = document.getElementById("inspect-action-btn");
@@ -1544,16 +1616,39 @@ function togglePick(c){
 function updateCounter(){
   const el = document.getElementById("pick-counter"); el.textContent = `${state.picked.length} / ${state.config.deckSize}`;
   el.classList.toggle("full", state.picked.length === state.config.deckSize);
-  document.getElementById("finish-btn").disabled = state.picked.length !== state.config.deckSize;
+  
+  let canFinish = state.picked.length === state.config.deckSize;
+  if (state.draftMode === 'sidney') {
+      const hasHero = state.picked.some(c => c.rarity === 'hero');
+      if (!hasHero) canFinish = false;
+  }
+  
+  document.getElementById("finish-btn").disabled = !canFinish;
 }
 
 function showExport(){
   const box = document.getElementById("export-box");
-  let lines = [`SEED: ${state.seed}`, `HERO: ${state.hero.name}`, ""];
-  state.picked.forEach(c=>{ lines.push(`${c.name} - ${c.themeLabel}${c.shiny?' ✦ SHINY':''}  <span class="rarity-tag">(${c.rarity})</span>`); });
+  let lines = [`SEED: ${state.seed}`];
+  
+  let exportedHero = state.hero;
+  let exportedPool = state.picked;
+  
+  if (state.draftMode === 'sidney') {
+      exportedHero = state.picked.find(c => c.rarity === 'hero');
+      exportedPool = state.picked.filter(c => c.rarity !== 'hero');
+  }
+  
+  lines.push(`HERO: ${exportedHero ? exportedHero.name : 'None'}`, "");
+  
+  exportedPool.forEach(c=>{ lines.push(`${c.name} - ${c.themeLabel}${c.shiny?' ✦ SHINY':''}  <span class="rarity-tag">(${c.rarity})</span>`); });
   box.innerHTML = lines.join("\n");
+  
   const strip = document.getElementById("export-strip");
-  const stripCards = [{...state.hero, rarity:"hero", themeLabel:"Hero"}, ...state.picked]; strip.innerHTML = "";
+  let stripCards = [];
+  if (exportedHero) stripCards.push({...exportedHero, rarity:"hero", themeLabel:"Hero"});
+  stripCards = stripCards.concat(exportedPool);
+  
+  strip.innerHTML = "";
   stripCards.forEach(c=>{
     const el = document.createElement("div"); el.className = `mini-card${c.rarity && c.rarity!=='hero' ? ' r-'+c.rarity : ''}${c.shiny?' shiny':''}`;
     el.innerHTML = `<img src="${c.image}" title="${c.name}"><div class="mini-name">${c.name}</div>`; strip.appendChild(el);
@@ -1562,8 +1657,18 @@ function showExport(){
 }
 
 function copyList() {
-  let lines = [`SEED: ${state.seed}`, `HERO: ${state.hero.name}`, ""];
-  state.picked.forEach(c => { lines.push(`${c.name} - ${c.themeLabel}${c.shiny ? ' ✦ SHINY' : ''} (${c.rarity})`); });
+  let lines = [`SEED: ${state.seed}`];
+  
+  let exportedHero = state.hero;
+  let exportedPool = state.picked;
+  if (state.draftMode === 'sidney') {
+      exportedHero = state.picked.find(c => c.rarity === 'hero');
+      exportedPool = state.picked.filter(c => c.rarity !== 'hero');
+  }
+  
+  lines.push(`HERO: ${exportedHero ? exportedHero.name : 'None'}`, "");
+  exportedPool.forEach(c => { lines.push(`${c.name} - ${c.themeLabel}${c.shiny ? ' ✦ SHINY' : ''} (${c.rarity})`); });
+  
   const textToCopy = lines.join("\n");
   navigator.clipboard.writeText(textToCopy).then(() => {
     const copyBtn = document.getElementById("copy-btn"); const originalText = copyBtn.textContent; copyBtn.textContent = "Copied!";
@@ -1594,6 +1699,14 @@ function startBNGDraft() {
   state.draftMode = 'bng';
   bngState.credits = 1000;
   bngState.purchasedCards = [];
+  
+  const seedInput = document.getElementById("draft-seed-input-bng").value.trim().toUpperCase();
+  state.seed = seedInput || Math.random().toString(36).substring(2, 8).toUpperCase();
+  document.getElementById("draft-seed-input-bng").value = state.seed;
+  
+  const seedGen = xmur3(state.seed);
+  rng = sfc32(seedGen(), seedGen(), seedGen(), seedGen());
+
   updateBNGShopUI();
   show('screen-bng-shop');
 }
@@ -1607,7 +1720,7 @@ function openBNGCollectionModal() {
   const grid = document.getElementById('bng-purchased-grid');
   grid.innerHTML = '';
   if (bngState.purchasedCards.length === 0) {
-    grid.innerHTML = `<p style="color:var(--muted); grid-column:1/-1; text-align:center;">No cards purchased yet.</p>`;
+    grid.innerHTML = `<p style="color:var(--muted); width:100%; text-align:center;">No cards purchased yet.</p>`;
   } else {
     bngState.purchasedCards.forEach(c => {
       const wrap = document.createElement('div');
@@ -1636,7 +1749,6 @@ function openBNGModal(packKey) {
     colWrap.style.display = 'block';
     const sel = document.getElementById('bng-modal-collection-select');
     
-    // Filter collections to only those with AT LEAST 4 cards in their pool
     const noFusionsLevelUps = CARD_POOL_RAW.filter(c => c.rarity !== 'fusion' && !c.isLevelUp && c.rarity !== 'hero');
     const collCounts = {};
     noFusionsLevelUps.forEach(c => {
@@ -1662,7 +1774,7 @@ function closeBNGModal() {
 function cloneCardBNG(card, isShiny = false) {
   return {
     ...card,
-    id: card.id + "-bng-" + Math.random().toString(36).substring(2,7),
+    id: card.id + "-bng-" + rng().toString(36).substring(2,7),
     shiny: isShiny
   };
 }
@@ -1682,7 +1794,7 @@ function buyBNGPack() {
   const legendaries = noFusionsLevelUps.filter(c => c.rarity === 'legendary');
   const epicsOrBelow = noFusionsLevelUps.filter(c => c.rarity !== 'legendary');
   
-  const randEl = (arr) => arr[Math.floor(Math.random() * arr.length)];
+  const randEl = (arr) => arr[Math.floor(rng() * arr.length)];
   
   if (packKey === 'anarchy') {
     for(let i=0; i<3; i++) pulled.push(cloneCardBNG(randEl(noFusionsLevelUps)));
@@ -1691,24 +1803,22 @@ function buyBNGPack() {
     const selCol = document.getElementById('bng-modal-collection-select').value;
     const colCards = noFusionsLevelUps.filter(c => c.collection === selCol);
     
-    // Pick 2 DISTINCT cards from selected collection
     let colPool = [...colCards];
     let pulledCodes = new Set();
     for(let i=0; i<2 && colPool.length > 0; i++) {
-      const idx = Math.floor(Math.random() * colPool.length);
+      const idx = Math.floor(rng() * colPool.length);
       const card = colPool.splice(idx, 1)[0];
       pulledCodes.add(card.code);
       pulled.push(cloneCardBNG(card));
     }
     
-    // Pick 2 DISTINCT cards from theme/album (excluding cards already pulled in this pack)
     const theme = colCards[0]?.theme;
     let themeCards = noFusionsLevelUps.filter(c => c.theme === theme && !pulledCodes.has(c.code));
     if(themeCards.length < 2) {
       themeCards = noFusionsLevelUps.filter(c => !pulledCodes.has(c.code));
     }
     for(let i=0; i<2 && themeCards.length > 0; i++) {
-      const idx = Math.floor(Math.random() * themeCards.length);
+      const idx = Math.floor(rng() * themeCards.length);
       const card = themeCards.splice(idx, 1)[0];
       pulledCodes.add(card.code);
       pulled.push(cloneCardBNG(card));
@@ -1724,30 +1834,27 @@ function buyBNGPack() {
   }
   else if (packKey === 'amplified') {
     for(let i=0; i<4; i++) pulled.push(cloneCardBNG(randEl(noFusionsLevelUps)));
-    if(Math.random() < 0.25) pulled.push(cloneCardBNG(randEl(noFusionsLevelUps), true));
+    if(rng() < 0.25) pulled.push(cloneCardBNG(randEl(noFusionsLevelUps), true));
   }
   else if (packKey === 'season') {
-    // 12 random cards with strictly NO duplicates
     let pool = CARD_POOL_RAW.filter(c => c.rarity !== 'hero');
     let avail = [...pool];
     let chosenCodes = new Set();
     
-    // Optionally try from a random collection first
     const colls = [...new Set(avail.map(c => c.collection).filter(Boolean))];
     const randCol = randEl(colls);
     let colCards = avail.filter(c => c.collection === randCol);
     
     while(pulled.length < 12 && colCards.length > 0) {
-      const idx = Math.floor(Math.random() * colCards.length);
+      const idx = Math.floor(rng() * colCards.length);
       const card = colCards.splice(idx, 1)[0];
       chosenCodes.add(card.code);
       pulled.push(cloneCardBNG(card, true));
     }
     
-    // Fill remaining up to 12 from rest of pool without duplicates
     let remainingPool = avail.filter(c => !chosenCodes.has(c.code));
     while(pulled.length < 12 && remainingPool.length > 0) {
-      const idx = Math.floor(Math.random() * remainingPool.length);
+      const idx = Math.floor(rng() * remainingPool.length);
       const card = remainingPool.splice(idx, 1)[0];
       chosenCodes.add(card.code);
       pulled.push(cloneCardBNG(card, true));
@@ -1812,7 +1919,7 @@ function finishBNGShop() {
   
   state.config = { deckSize: 12 };
   
-  let shuffled = [...HERO_POOL_RAW].sort(()=>Math.random()-0.5);
+  let shuffled = [...HERO_POOL_RAW].sort(()=>rng()-0.5);
   state.heroOptions = shuffled.slice(0,3);
   const grid = document.getElementById("hero-grid");
   grid.innerHTML = "";
