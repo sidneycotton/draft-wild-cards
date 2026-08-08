@@ -493,14 +493,14 @@
     </div>
   </section>
 
-  <!-- DRAFT SELECTION SCREEN -->
+  <!-- DRAFT SELECTION SCREEN (Dynamically Populated) -->
   <section id="screen-draft-select" class="screen">
     <h2 class="center" style="font-size:34px; margin-bottom: 30px;">Select Draft Type</h2>
-    <div style="display:flex; flex-direction:column; gap:20px; justify-content:center; max-width: 400px; margin: 0 auto;">
-      <button class="btn" onclick="show('screen-sidney-draft')">Sidney 6-Pack</button>
-      <button class="btn gold" onclick="show('screen-bng-intro')">BNG's Credits Draft</button>
-      <button class="btn pink" onclick="setupCustomDraftUI(); show('screen-custom-draft')">Custom Draft</button>
+    
+    <div id="dynamic-draft-menu" style="display:flex; flex-direction:column; gap:20px; justify-content:center; max-width: 400px; margin: 0 auto;">
+      <!-- Buttons injected here via JS from modes.json -->
     </div>
+
     <div class="back-btn-wrap">
       <button class="btn secondary" style="font-size: 16px; padding: 8px 20px;" onclick="show('screen-main')">Back</button>
     </div>
@@ -917,7 +917,12 @@
    PRNG UTILITIES & GLOBALS
    ========================================================= */
 let rng = Math.random;
-let PACK_DEFS = null; // Container for JSON pack rules
+let PACK_DEFS = null; 
+let MODES_DEFS = [
+  { "id": "sidney_standard", "title": "Sidney 6-Pack", "buttonClass": "btn", "hook": "openSidneyDraftMenu" },
+  { "id": "bng_credits", "title": "BNG's Credits Draft", "buttonClass": "btn gold", "hook": "openBNGDraftMenu" },
+  { "id": "custom_draft", "title": "Custom Draft", "buttonClass": "btn pink", "hook": "openCustomDraftMenu" }
+];
 
 function xmur3(str) {
     for(var i = 0, h = 1779033703 ^ str.length; i < str.length; i++) {
@@ -963,6 +968,7 @@ window.addEventListener('DOMContentLoaded', loadCardData);
 async function loadCardData() {
   const btn1 = document.getElementById("main-draft-btn");
   const btn2 = document.getElementById("main-anarchy-btn");
+  
   try {
     const res = await fetch("WC Card Data (07082026).csv");
     if (!res.ok) throw new Error("Could not fetch CSV");
@@ -979,6 +985,18 @@ async function loadCardData() {
             console.warn("packs.json not found, dynamic shop unavailable.");
         }
     } catch(e) { console.warn("packs.json fetch failed.", e); }
+
+    // FETCH JSON MODES REGISTRY
+    try {
+        const modesRes = await fetch("modes.json");
+        if(modesRes.ok) {
+            MODES_DEFS = await modesRes.json();
+        } else {
+            console.warn("modes.json not found, using default menu hooks.");
+        }
+    } catch(e) { console.warn("modes.json fetch failed.", e); }
+
+    renderDraftMenu();
 
     if(btn1) { btn1.disabled = false; }
     if(btn2) { btn2.disabled = false; }
@@ -1058,6 +1076,34 @@ function parseCSV(text) {
   CARD_POOL_RAW = cards;
   HERO_POOL_RAW = heroes;
 }
+
+/* =========================================================
+   UI REGISTRY GENERATOR
+   ========================================================= */
+function renderDraftMenu() {
+    const container = document.getElementById("dynamic-draft-menu");
+    if(!container) return;
+    container.innerHTML = "";
+    
+    MODES_DEFS.forEach(mode => {
+        const btn = document.createElement("button");
+        btn.className = mode.buttonClass || "btn";
+        btn.textContent = mode.title;
+        btn.onclick = () => {
+            if (typeof window[mode.hook] === "function") {
+                window[mode.hook]();
+            } else {
+                console.error("Hook function not found:", mode.hook);
+            }
+        };
+        container.appendChild(btn);
+    });
+}
+
+function openSidneyDraftMenu() { show('screen-sidney-draft'); }
+function openBNGDraftMenu() { show('screen-bng-intro'); }
+function openCustomDraftMenu() { setupCustomDraftUI(); show('screen-custom-draft'); }
+
 
 /* =========================================================
    UI HELPERS & MODAL 
