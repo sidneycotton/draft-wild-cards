@@ -715,7 +715,24 @@
       <button class="btn secondary" style="font-size: 16px; padding: 8px 20px;" onclick="show('screen-shards')">Back to Packs</button>
     </div>
   </section>
+<!-- ARENA INTRO SCREEN -->
+  <section id="screen-arena-intro" class="screen">
+    <div class="intro-body">
+      <h2 style="font-size:34px; margin-bottom: 8px;">Arena Draft</h2>
+      <p>Pick a Hero from 4 options, then draft your deck card by card.</p>
+      
+      <div style="margin: 24px 0;">
+        <input type="text" id="draft-seed-input-arena" placeholder="Enter Draft Seed (Optional)" style="padding: 12px 14px; border-radius: 6px; border: 1px solid var(--line); background: var(--bg2); color: var(--text); font-family: 'Barlow', sans-serif; font-size: 16px; width: 100%; max-width: 280px; text-align: center; text-transform: uppercase;">
+      </div>
 
+      <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
+        <button class="btn" onclick="startArenaDraft()">Start Arena</button>
+      </div>
+    </div>
+    <div class="back-btn-wrap">
+      <button class="btn secondary" style="font-size: 16px; padding: 8px 20px;" onclick="show('screen-draft-select')">Back</button>
+    </div>
+  </section>
   <!-- PACK OPENING SCREEN -->
   <section id="screen-packs" class="screen">
     <div class="pack-status" id="pack-status">Pack 1 of 6</div>
@@ -926,7 +943,34 @@ let MODES_DEFS = [
   { "id": "bng_credits", "title": "BNG's Credits Draft", "buttonClass": "btn gold", "hook": "openBNGDraftMenu" },
   { "id": "custom_draft", "title": "Custom Draft", "buttonClass": "btn pink", "hook": "openCustomDraftMenu" }
 ];
+function openArenaDraftMenu() { 
+    show('screen-arena-intro'); 
+}
 
+function startArenaDraft() {
+  state.draftMode = 'arena';
+  state.config = { deckSize: 12 };
+  
+  const seedInput = document.getElementById("draft-seed-input-arena").value.trim().toUpperCase();
+  state.seed = seedInput || Math.random().toString(36).substring(2, 8).toUpperCase();
+  document.getElementById("draft-seed-input-arena").value = state.seed;
+  
+  const seedGen = xmur3(state.seed);
+  rng = sfc32(seedGen(), seedGen(), seedGen(), seedGen());
+  
+  // Exclude fusions and level-ups for standard Arena balancing (optional)
+  state.activePool = CARD_POOL_RAW.filter(c => c.rarity !== 'fusion' && !c.isLevelUp);
+  
+  // Pull 4 random heroes
+  let shuffledHeroes = [...HERO_POOL_RAW].sort(() => rng() - 0.5);
+  state.heroOptions = shuffledHeroes.slice(0, 4);
+  state.hero = null;
+  state.picked = [];
+  
+  // Proceed to the custom Arena drafting screen
+  // (You will need to build the "1 of 4" drafting loop logic next!)
+  console.log("Arena Draft Started. Seed:", state.seed);
+}
 function xmur3(str) {
     for(var i = 0, h = 1779033703 ^ str.length; i < str.length; i++) {
         h = Math.imul(h ^ str.charCodeAt(i), 3432918353); h = h << 13 | h >>> 19;
