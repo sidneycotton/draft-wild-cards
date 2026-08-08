@@ -2253,7 +2253,7 @@ function finishBNGShop() {
 /* =========================================================
    GENERIC JSON SHARDS PACKS (Replacing old Anarchy logic)
    ========================================================= */
-let shardsState = { shardsSpent: 0, packsOpened: 0, collection: {} };
+let shardsState = { shardsSpent: 0, creditsSpent: 0, packsOpened: 0, collection: {} };
 let selectedShardsPack = null;
 
 function renderShardsShopUI() {
@@ -2324,11 +2324,18 @@ function purchaseShardsPack() {
         collectionChoice = document.getElementById('bng-modal-collection-select').value;
     }
     
-    closeBNGModal();
+   closeBNGModal();
     const pulled = generateFromJSON(packId, collectionChoice);
     
     shardsState.packsOpened += 1; 
-    shardsState.shardsSpent += pack.cost;
+    
+    // Check which currency to deduct/track
+    if (pack.currency && pack.currency.toLowerCase() === 'credits') {
+        shardsState.creditsSpent += pack.cost;
+    } else {
+        shardsState.shardsSpent += pack.cost;
+    }
+    
     pulled.forEach(c => shardsAddToCollection(c));
     
     const bestTier = pulled.reduce((best,c)=>{ return RARITY_ORDER[c.rarity] < RARITY_ORDER[best] ? c.rarity : best; }, "common");
@@ -2347,8 +2354,18 @@ function purchaseShardsPack() {
     document.getElementById("shards-buy-again-btn").style.display = "inline-flex";
     document.getElementById("shards-buy-again-btn").onclick = () => purchaseShardsPack();
     
+    // THIS CLOSES THE purchaseShardsPack FUNCTION PROPERLY
     updateShardsStats(); 
     grid.scrollIntoView({behavior:"smooth", block:"nearest"});
+}
+
+function updateShardsStats() {
+  const uniqueCount = Object.keys(shardsState.collection).length;
+  document.getElementById("shards-stats").innerHTML = `
+    <div class="stat"><div class="val">${shardsState.packsOpened}</div><div class="lbl">Packs Opened</div></div>
+    <div class="stat coins"><div class="val">${shardsState.shardsSpent.toLocaleString()}</div><div class="lbl">Shards Spent</div></div>
+    <div class="stat" style="border-color: var(--green);"><div class="val" style="color: var(--green);">${shardsState.creditsSpent.toLocaleString()}</div><div class="lbl">Credits Spent</div></div>
+    <div class="stat"><div class="val">${uniqueCount}</div><div class="lbl">Unique Cards</div></div>`;
 }
 
 function generateFromJSON(packId, collectionChoice) {
@@ -2452,9 +2469,12 @@ function showShardsCollection(){
   });
   document.getElementById("shards-collection-counter").textContent = `${ordered.length} unique`;
   const totalCards = entries.reduce((sum,e)=>sum+e.count,0);
+  
+  // THIS IS THE UPDATED STATS BLOCK FOR THE COLLECTION MENU
   document.getElementById("shards-collection-stats").innerHTML = `
-    <div class="stat"><div class="val">${shardsState.packsOpened}</div><div class="lbl">Packs Opened</div></div>
+    <div class="stat"><div class="val">${shardsState.packsOpened}</div><ddocument.getElementById("shards-buy-again-btn").onclick = () => purchaseShardsPack();iv class="lbl">Packs Opened</div></div>
     <div class="stat coins"><div class="val">${shardsState.shardsSpent.toLocaleString()}</div><div class="lbl">Shards Spent</div></div>
+    <div class="stat" style="border-color: var(--green);"><div class="val" style="color: var(--green);">${shardsState.creditsSpent.toLocaleString()}</div><div class="lbl">Credits Spent</div></div>
     <div class="stat"><div class="val">${totalCards}</div><div class="lbl">Total Cards</div></div>`;
   show("screen-shards-collection");
 }
