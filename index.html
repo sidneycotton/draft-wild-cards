@@ -507,8 +507,9 @@
   <section id="screen-main" class="screen active">
     <div class="intro-body">
       <div style="display:flex; flex-direction:column; gap:20px; justify-content:center; max-width: 400px; margin: 40px auto;">
-        <button class="btn" id="main-draft-btn" onclick="show('screen-draft-select')" disabled>Start Draft</button>
-        <button class="btn secondary" id="main-anarchy-btn" onclick="openShardsHub()" disabled>Open Packs</button>
+      <button class="btn" id="main-draft-btn" onclick="show('screen-draft-select')" disabled>Start Draft</button>
+      <button class="btn secondary" id="main-anarchy-btn" onclick="openShardsHub()" disabled>Open Packs</button>
+      <button class="btn pink" id="main-lfg-btn" onclick="show('screen-lfg'); renderLfgList();">Looking for a Match</button>
       </div>
     </div>
   </section>
@@ -730,6 +731,46 @@
       <button class="btn secondary" style="font-size: 16px; padding: 8px 20px;" onclick="show('screen-shards')">Back to Packs</button>
     </div>
   </section>
+  <!-- LFG SCREEN -->
+<section id="screen-lfg" class="screen">
+  <h2 class="center" style="font-size:34px; background:linear-gradient(90deg, var(--pink), var(--teal)); -webkit-background-clip:text; background-clip:text; color:transparent;">Looking for a Match</h2>
+  <p class="center" style="color:var(--muted); margin-top:6px;">Drop your Discord tag below. Your post stays live for 48 hours.</p>
+
+  <div class="config-grid" style="max-width:520px;">
+    <div class="config-row">
+      <label>Discord Username</label>
+      <input type="text" id="lfg-ign-input" maxlength="37" placeholder="e.g. sidney or sidney#1234">
+      <div id="lfg-ign-error" style="color:var(--pink); font-size:12px; display:none;"></div>
+    </div>
+
+    <div class="config-row">
+      <label>Preferred Mode</label>
+      <select id="lfg-mode-select" class="filter-select" style="width:100%;">
+        <option value="any">Any Mode</option>
+        <option value="sidney">Sidney 6-Pack</option>
+        <option value="bng">BNG Credits Draft</option>
+        <option value="arena">Arena Draft</option>
+        <option value="custom">Custom Draft</option>
+      </select>
+    </div>
+
+    <div class="config-row" style="grid-column:1/-1;">
+      <label>Pick a Message</label>
+      <div class="slots-grid" id="lfg-message-options" style="margin-top:6px;"></div>
+    </div>
+  </div>
+
+  <div class="center" style="margin:20px 0;">
+    <button class="btn" id="lfg-publish-btn" onclick="publishLfgPost()">Publish (48h)</button>
+  </div>
+
+  <h3 class="center" style="font-size:20px; color:var(--gold); margin-top:30px;">Currently Looking</h3>
+  <div id="lfg-list" class="pool-grid" style="grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); margin-top:16px;"></div>
+
+  <div class="back-btn-wrap">
+    <button class="btn secondary" style="font-size: 16px; padding: 8px 20px;" onclick="show('screen-main')">Back</button>
+  </div>
+</section>
 <!-- ARENA INTRO SCREEN -->
   <section id="screen-arena-intro" class="screen">
     <div class="intro-body">
@@ -971,7 +1012,32 @@
     <button class="btn pink" id="inspect-action-btn" style="display:none;" onclick="handleInspectAction()">Add to Deck</button>
   </div>
 </div>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+  import {
+    getFirestore, collection, addDoc, query, where,
+    orderBy, onSnapshot, serverTimestamp, Timestamp
+  } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
+  const firebaseConfig = {
+    apiKey: "AIzaSyDIBSEW6lNatTEu_49Q7ORN_Ikw9Z1qK0I",
+    authDomain: "wild-cards-draft-lfg.firebaseapp.com",
+    projectId: "wild-cards-draft-lfg",
+    storageBucket: "wild-cards-draft-lfg.firebasestorage.app",
+    messagingSenderId: "57645638666",
+    appId: "1:57645638666:web:7e0096aa03dd2772552bf3"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  window.__lfgDB = {
+    db, collection, addDoc, query, where,
+    orderBy, onSnapshot, serverTimestamp, Timestamp
+  };
+
+  window.dispatchEvent(new Event("lfg-firebase-ready"));
+</script>
 <script>
   /* =========================================================
    AUDIO & ENERGY CURVE SETUP
@@ -2478,6 +2544,158 @@ function showShardsCollection(){
     <div class="stat"><div class="val">${totalCards}</div><div class="lbl">Total Cards</div></div>`;
   show("screen-shards-collection");
 }
+ /* =========================================================
+   LOOKING FOR A MATCH (LFG)
+   ========================================================= */
+const LFG_MESSAGES = [
+  "Ready to rock you!",
+  "Hold on to your hats!",
+  "Let's get Wild!",
+  "DM me!",
+  "Find me on the main server!",
+  "Bring your best deck!",
+  "First to blink loses!",
+  "Shuffle up, let's go!",
+  "May the best pack win!",
+  "Come get some!"
+];
+
+const DISCORD_NAME_REGEX = /^[a-zA-Z0-9_.]{2,32}(#[0-9]{4})?$/;
+
+// Base64-encoded blocklist, decoded at runtime so the raw words
+// don't sit in plain text in the page source.
+const LFG_BLOCKLIST_ENCODED = "ZnVjaywgc2hpdCwgYml0Y2gsIGN1bnQsIG5pZ2dlciwgbmlnZ2EsIGZhZ2dvdCwgcmV0YXJkLCB3aG9yZSwgc2x1dA==";
+const LFG_BLOCKLIST = atob(LFG_BLOCKLIST_ENCODED).split(", ");
+
+let lfgSelectedMessage = null;
+let lfgUnsubscribe = null;
+
+function renderLfgMessageOptions() {
+  const wrap = document.getElementById("lfg-message-options");
+  wrap.innerHTML = "";
+  LFG_MESSAGES.forEach(msg => {
+    const item = document.createElement("div");
+    item.className = "slot-item";
+    item.style.cssText = "background:var(--bg2); border:1px solid var(--line); border-radius:20px; padding:6px 14px; cursor:pointer;";
+    item.textContent = msg;
+    item.onclick = () => {
+      lfgSelectedMessage = msg;
+      document.querySelectorAll("#lfg-message-options .slot-item").forEach(el => {
+        el.style.borderColor = "var(--line)";
+        el.style.color = "var(--muted)";
+      });
+      item.style.borderColor = "var(--pink)";
+      item.style.color = "var(--pink)";
+    };
+    wrap.appendChild(item);
+  });
+}
+renderLfgMessageOptions();
+
+function validateDiscordName(name) {
+  if (!name) return "Enter your Discord username.";
+  if (!DISCORD_NAME_REGEX.test(name)) {
+    return "Doesn't look like a valid Discord username (2-32 letters/numbers/._ , optional #1234).";
+  }
+  const lower = name.toLowerCase();
+  if (LFG_BLOCKLIST.some(word => lower.includes(word))) {
+    return "That name isn't allowed here.";
+  }
+  return null;
+}
+
+async function publishLfgPost() {
+  if (!window.__lfgDB) { alert("Still connecting to the LFG board, try again in a second."); return; }
+  const { db, collection, addDoc, serverTimestamp, Timestamp } = window.__lfgDB;
+
+  const ignInput = document.getElementById("lfg-ign-input");
+  const errorBox = document.getElementById("lfg-ign-error");
+  const ign = ignInput.value.trim();
+
+  const error = validateDiscordName(ign);
+  if (error) {
+    errorBox.textContent = error;
+    errorBox.style.display = "block";
+    return;
+  }
+  errorBox.style.display = "none";
+
+  if (!lfgSelectedMessage) { alert("Pick a message first!"); return; }
+
+  const mode = document.getElementById("lfg-mode-select").value;
+  const btn = document.getElementById("lfg-publish-btn");
+  btn.disabled = true;
+  btn.textContent = "Publishing...";
+
+  const now = new Date();
+  const expires = new Date(now.getTime() + 48 * 60 * 60 * 1000);
+
+  try {
+    await addDoc(collection(db, "lfg_posts"), {
+      discordIgn: ign,
+      mode,
+      message: lfgSelectedMessage,
+      createdAt: serverTimestamp(),
+      expiresAt: Timestamp.fromDate(expires)
+    });
+    ignInput.value = "";
+    lfgSelectedMessage = null;
+    document.querySelectorAll("#lfg-message-options .slot-item").forEach(el => {
+      el.style.borderColor = "var(--line)";
+      el.style.color = "var(--muted)";
+    });
+  } catch (e) {
+    alert("Couldn't publish — try again.");
+    console.error(e);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Publish (48h)";
+  }
+}
+
+const LFG_MODE_LABELS = { any: "Any Mode", sidney: "Sidney 6-Pack", bng: "BNG Credits", arena: "Arena", custom: "Custom" };
+
+function renderLfgList() {
+  if (!window.__lfgDB) {
+    window.addEventListener("lfg-firebase-ready", renderLfgList, { once: true });
+    return;
+  }
+  const { db, collection, query, where, orderBy, onSnapshot, Timestamp } = window.__lfgDB;
+
+  if (lfgUnsubscribe) return;
+
+  const q = query(
+    collection(db, "lfg_posts"),
+    where("expiresAt", ">", Timestamp.fromDate(new Date())),
+    orderBy("expiresAt")
+  );
+
+  lfgUnsubscribe = onSnapshot(q, (snap) => {
+    const list = document.getElementById("lfg-list");
+    list.innerHTML = "";
+    if (snap.empty) {
+      list.innerHTML = `<p style="color:var(--muted); grid-column:1/-1;">No one's looking right now — be the first!</p>`;
+      return;
+    }
+    snap.forEach(docSnap => {
+      const d = docSnap.data();
+      const card = document.createElement("div");
+      card.style.cssText = "background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:14px;";
+      card.innerHTML = `
+        <div style="font-family:'Anton',sans-serif; color:var(--gold); font-size:18px; word-break:break-word;">${escapeHTML(d.discordIgn)}</div>
+        <div style="color:var(--teal); font-size:11px; text-transform:uppercase; letter-spacing:1px; margin-top:2px;">${LFG_MODE_LABELS[d.mode] || d.mode}</div>
+        <div style="color:var(--text); font-size:14px; margin-top:8px;">${escapeHTML(d.message)}</div>
+      `;
+      list.appendChild(card);
+    });
+  });
+}
+
+function escapeHTML(str) {
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
+} 
 </script>
 </body>
 </html>
